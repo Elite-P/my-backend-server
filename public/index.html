@@ -1,1274 +1,475 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SK82ND SkateShop — Skateboards, parts & accessories. Ván trượt mới, 2hand và phụ kiện skateboarding.">
+<title>SK82ND SkateShop — Find Your Line</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
 
-  <meta name="theme-color" content="#0A0A0A">
-  <meta name="description"
-    content="Sk82nd - Skateboard, skate culture and streetwear.">
+:root {
+  --ink: #080D16;
+  --paper: #FFFFFF;
+  --muted: #64748B;
+  --line: #DBE3EC;
+  --lime: #38BDF8;
+  --red: #0284C7;
+  --white: #FFFFFF;
 
-  <title>SK82ND — Skate Your Own Way</title>
+  --display: 'Barlow Condensed', Impact, sans-serif;
+  --body: 'DM Sans', Arial, sans-serif;
+}
 
-  <script src="https://cdn.tailwindcss.com"></script>
+/* SK82ND white / electric blue / black */
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            dark: "#0A0A0A",
-            chrome: "#38BDF8",
-            silver: "#A1A1AA"
-          },
-          fontFamily: {
-            display: ["Arial", "sans-serif"]
-          }
-        }
-      }
-    }
-  </script>
+body {
+  background: #FFFFFF;
+  color: #080D16;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+header {
+  background: rgba(255,255,255,.95);
+}
 
-    html {
-      scroll-behavior: smooth;
-    }
+.hero {
+  background: #080D16;
+}
 
-    body {
-      background: #0A0A0A;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
+.announce {
+  background: #38BDF8;
+  color: #080D16;
+}
 
-    .chrome-text {
-      background: linear-gradient(
-        120deg,
-        #ffffff 0%,
-        #38BDF8 25%,
-        #dbeafe 50%,
-        #0284c7 75%,
-        #ffffff 100%
-      );
-      background-size: 200% auto;
-      color: transparent;
-      background-clip: text;
-      -webkit-background-clip: text;
-      animation: chrome 5s linear infinite;
-    }
+.logo span {
+  color: #38BDF8;
+}
 
-    @keyframes chrome {
-      to { background-position: 200% center; }
-    }
+.navlinks a:hover {
+  color: #0284C7;
+}
 
-    .hero-bg {
-      background:
-        radial-gradient(
-          ellipse at 75% 40%,
-          rgba(14,165,233,.16),
-          transparent 55%
-        ),
-        linear-gradient(135deg,#080808,#15191e,#080808);
-    }
+.product-visual {
+  background: #EDF7FC;
+}
 
-    .metal-border {
-      border: 1px solid rgba(56,189,248,.25);
-    }
+.filter.active {
+  background: #080D16;
+  color: #FFFFFF;
+}
 
-    .product-card {
-      background: #111315;
-      border: 1px solid #25282c;
-      transition: .3s ease;
-    }
+.cta, .checkout {
+  background: #38BDF8;
+  color: #080D16;
+}
 
-    .product-card:hover {
-      transform: translateY(-6px);
-      border-color: #38BDF8;
-      box-shadow: 0 10px 35px rgba(56,189,248,.12);
-    }
+.product-photo {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  object-fit: contain;
+  padding: 10px;
+  z-index: 1;
+}
 
-    .product-image {
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      background: #181818;
-    }
+.product-visual.has-image:before,
+.product-visual.has-image:after {
+  display: none;
+}
 
-    .btn-primary {
-      background: linear-gradient(110deg,#0284c7,#38BDF8);
-      color: #050505;
-      font-weight: 900;
-      transition: .2s;
-    }
+.product-badge {
+  z-index: 2;
+}
 
-    .btn-primary:hover {
-      filter: brightness(1.15);
-      transform: translateY(-2px);
-    }
+.quick {
+  z-index: 3;
+}
 
-    .section-line {
-      height: 1px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        #38BDF8,
-        transparent
-      );
-    }
+.gift-line {
+  margin-top: 9px;
+  padding-top: 8px;
+  border-top: 1px solid #DBE3EC;
+  color: #0284C7;
+  font-size: 11px;
+  font-weight: 700;
+}
 
-    .modal {
-      display: none;
-    }
+.stock {
+  color: #64748B;
+}
 
-    .modal.active {
-      display: flex;
-    }
-
-    input, textarea {
-      background: #17191c;
-      border: 1px solid #34383e;
-      color: white;
-      outline: none;
-    }
-
-    input:focus, textarea:focus {
-      border-color: #38BDF8;
-    }
-
-    .category-btn.active {
-      background: #38BDF8;
-      color: #050505;
-    }
-
-    .toast {
-      transform: translateY(100px);
-      opacity: 0;
-      transition: .3s;
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  </style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body)}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}
+.announce{background:var(--lime);padding:9px 18px;text-align:center;font-size:10px;letter-spacing:1.4px;font-weight:800;text-transform:uppercase}
+header{position:sticky;top:0;z-index:20;background:rgba(242,241,235,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{height:76px;max-width:1400px;margin:auto;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;gap:25px}
+.logo{font:900 34px/.8 var(--display);letter-spacing:-1.4px}.logo span{color:var(--red)}.logo small{display:block;font:700 8px var(--body);letter-spacing:2.3px;margin-top:7px}
+.navlinks{display:flex;gap:27px;align-items:center;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:800}.navlinks a:hover{color:#758e00}
+.navright{display:flex;align-items:center;gap:18px;font-size:11px;font-weight:800;text-transform:uppercase}.cartbtn{border:1px solid var(--ink);background:transparent;padding:10px 14px;font-weight:800;font-size:10px;letter-spacing:1px}.cartbtn:hover{background:var(--ink);color:white}
+.hero{background:var(--ink);color:white;min-height:610px;position:relative;overflow:hidden;display:grid;grid-template-columns:1fr 1fr}
+.hero-copy{padding:95px 0 85px max(5vw,calc((100vw - 1300px)/2));position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center}
+.eyebrow{font-size:10px;letter-spacing:3px;font-weight:800;color:var(--lime);text-transform:uppercase;display:flex;align-items:center;gap:10px}.eyebrow:before{content:'';width:25px;height:2px;background:var(--lime)}
+h1{font:900 clamp(66px,9vw,132px)/.82 var(--display);letter-spacing:-3px;text-transform:uppercase;margin:27px 0 22px;max-width:700px}h1 em{font-style:normal;color:var(--lime);display:block}
+.hero-copy p{max-width:380px;color:#b9bbb2;font-size:13px;line-height:1.8;margin:0 0 30px}
+.cta{display:inline-flex;align-items:center;gap:24px;background:var(--lime);color:var(--ink);padding:16px 20px;font-size:10px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase;width:max-content;transition:.2s}.cta:hover{transform:translateY(-3px);box-shadow:5px 5px 0 white}.cta b{font-size:18px}
+.hero-art{position:relative;min-height:610px;background:linear-gradient(135deg,#272a22,#12140f 65%);overflow:hidden}
+.hero-art:before{content:'SKATE';position:absolute;font:900 23vw/.8 var(--display);color:rgba(255,255,255,.035);right:-30px;top:60px;writing-mode:vertical-rl;letter-spacing:-15px}
+.hero-photo{position:absolute;inset:0;background:linear-gradient(90deg,rgba(17,18,15,.4),rgba(17,18,15,.04)),url('https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&w=1400&q=85') center/cover;opacity:.8;mix-blend-mode:screen}
+.deck-hero{position:absolute;width:150px;height:490px;left:48%;top:52%;transform:translate(-50%,-50%) rotate(24deg);border:8px solid #171814;border-radius:75px;background:linear-gradient(145deg,#d6ff3e,#8fae19 48%,#e5edb9);box-shadow:30px 35px 50px #0009;display:flex;align-items:center;justify-content:center}
+.deck-hero:before{content:'82';font:900 130px/.8 var(--display);color:#151710;transform:rotate(90deg);letter-spacing:-12px}.deck-hero:after{content:'SKATEBOARDING';position:absolute;font:800 10px var(--body);letter-spacing:3px;transform:rotate(90deg);bottom:55px;color:#171814}
+.hero-stamp{position:absolute;bottom:35px;right:7%;border:1px solid #ffffff66;border-radius:50%;width:112px;height:112px;display:grid;place-items:center;text-align:center;font:800 11px/1.4 var(--display);letter-spacing:1px;transform:rotate(-12deg);color:var(--lime)}
+.ticker{background:var(--lime);overflow:hidden;white-space:nowrap;padding:13px 0;font:800 17px var(--display);letter-spacing:2px}.ticker span{padding:0 22px}.ticker i{font-style:normal;color:var(--red)}
+.wrap{max-width:1400px;margin:auto;padding:0 5vw}.section{padding:90px 0}.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:34px;gap:20px}.kicker{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:900;color:#777}.section-title{font:900 clamp(42px,6vw,72px)/.9 var(--display);text-transform:uppercase;letter-spacing:-1px;margin:10px 0 0}.section-title span{color:#92958a}.text-link{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid var(--ink);padding-bottom:7px}
+.category-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.cat{height:250px;background:#dfe0d5;position:relative;overflow:hidden;padding:20px;display:flex;flex-direction:column;justify-content:space-between;transition:.25s}.cat:nth-child(2){background:#d6e2c6}.cat:nth-child(3){background:#d5d8d6}.cat:nth-child(4){background:#e4d5c9}.cat:hover{transform:translateY(-5px)}.cat-no{font-size:10px;font-weight:800;color:#777}.cat h3{font:900 36px/.9 var(--display);margin:0;text-transform:uppercase;position:relative;z-index:2}.cat-art{position:absolute;width:90px;height:200px;right:28px;top:20px;border:6px solid #222;border-radius:48px;transform:rotate(28deg);background:linear-gradient(160deg,#a9c92d,#222 80%);box-shadow:12px 15px 18px #0003}.cat:nth-child(2) .cat-art{background:linear-gradient(160deg,#d35d44,#f3c99e)}.cat:nth-child(3) .cat-art{height:130px;width:130px;border-radius:50%;top:55px;background:radial-gradient(circle,#d9ff3e 0 22%,#171814 24% 48%,#d9d9d0 50%)}.cat:nth-child(4) .cat-art{height:60px;width:160px;border-radius:15px;top:90px;background:linear-gradient(90deg,#111,#666,#111)}
+.catalog{background:#e8e8df}.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:25px}.filter{border:1px solid #bcbeb4;background:transparent;padding:10px 15px;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase}.filter.active,.filter:hover{background:var(--ink);color:white;border-color:var(--ink)}
+.product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.product{background:var(--paper);position:relative;min-width:0}.product-visual{height:265px;display:grid;place-items:center;position:relative;overflow:hidden;background:#e1e1d8}.product-visual:before{content:'';position:absolute;width:160px;height:225px;border-radius:90px;border:8px solid #171814;background:var(--board,linear-gradient(160deg,#c6d82c,#1c1d17));transform:rotate(25deg);box-shadow:18px 22px 25px #0003}.product-visual:after{content:'82';position:absolute;font:900 70px var(--display);color:var(--mark,#171814);transform:rotate(90deg);letter-spacing:-7px}.product[data-tone="pink"] .product-visual:before,.product[data-tone="unicorn"] .product-visual:before{background:linear-gradient(150deg,#f7b7ce,#a65b8a,#27202b)}
+.product[data-tone="wood"] .product-visual:before{background:linear-gradient(90deg,#c18c52,#e4c99a,#bd8950)}.product[data-tone="red"] .product-visual:before{background:linear-gradient(160deg,#e84d3d,#a51e26)}.product[data-tone="dragon"] .product-visual:before{background:linear-gradient(160deg,#e2d34b,#b53225,#24201c)}.product[data-tone="flower"] .product-visual:before{background:linear-gradient(160deg,#f3b8cb,#d9ff3e,#4e597a)}
+.product[data-tone="truck"] .product-visual:before{width:190px;height:45px;border-radius:10px;transform:rotate(-24deg);background:linear-gradient(90deg,#171717,#a7aaa1,#171717)}
+.product[data-tone^="wheel"] .product-visual:before{width:120px;height:120px;border-radius:50%;transform:rotate(0);background:radial-gradient(circle,#252720 0 20%,#aeb0a4 22% 39%,#20211d 42% 65%,#d9ff3e 67% 73%,#20211d 75%)}
+.product-badge{position:absolute;top:12px;left:12px;background:var(--lime);padding:6px 8px;font-size:8px;font-weight:900;letter-spacing:1px;z-index:2}.product-badge.used{background:var(--ink);color:white}.quick{position:absolute;bottom:12px;left:12px;right:12px;background:var(--ink);color:white;border:0;padding:12px;font-size:9px;letter-spacing:1px;font-weight:900;text-transform:uppercase;opacity:0;transform:translateY(8px);transition:.2s}.product:hover .quick{opacity:1;transform:none}
+.product-info{padding:15px 14px 17px}.product-meta{display:flex;justify-content:space-between;font-size:8px;color:#777;letter-spacing:1px;font-weight:800;text-transform:uppercase}.product-name{font:800 18px/1.05 var(--display);text-transform:uppercase;margin:9px 0 10px;min-height:38px}.price{font-size:13px;font-weight:900}.stock{font-size:9px;color:#777;margin-top:5px}
+.feature{background:var(--lime);display:grid;grid-template-columns:1fr 1fr;min-height:420px}.feature-left{padding:75px max(5vw,calc((100vw - 650px)/2)) 75px max(5vw,calc((100vw - 1300px)/2));display:flex;flex-direction:column;justify-content:center}.feature h2{font:900 clamp(52px,7vw,90px)/.84 var(--display);text-transform:uppercase;letter-spacing:-2px;margin:22px 0}.feature p{font-size:13px;line-height:1.8;max-width:420px}.feature-right{background:var(--ink);color:white;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.feature-right:before{content:'FIRST PUSH';position:absolute;font:900 16vw var(--display);white-space:nowrap;color:#ffffff0b;transform:rotate(-90deg)}.lesson-card{border:1px solid #ffffff55;padding:32px;max-width:330px;position:relative;z-index:1}.lesson-card strong{font:900 46px var(--display);color:var(--lime)}.lesson-card p{color:#c5c6bd;font-size:12px;line-height:1.8}
+.values{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.value{padding:30px 25px;border-right:1px solid var(--line)}.value:last-child{border:0}.value b{font:900 27px var(--display);text-transform:uppercase}.value p{font-size:11px;line-height:1.7;color:#686b62;margin-bottom:0}
+.footer{background:var(--ink);color:white;padding:65px 0 25px}.footer-top{display:flex;justify-content:space-between;gap:40px;padding-bottom:55px}.footer .logo{font-size:42px}.footer p{font-size:11px;color:#aeb0a6;line-height:1.8;max-width:330px}.footer-links{display:flex;gap:55px}.footer-links div{display:flex;flex-direction:column;gap:13px}.footer-links b{font-size:9px;letter-spacing:2px;color:var(--lime);margin-bottom:6px}.footer-links a{font-size:11px;color:#d0d1ca}.copyright{border-top:1px solid #ffffff26;padding-top:18px;display:flex;justify-content:space-between;color:#85877e;font-size:9px;letter-spacing:1px}
+.cart-panel{position:fixed;inset:0;z-index:50;pointer-events:none}.cart-panel.open{pointer-events:auto}.shade{position:absolute;inset:0;background:#0008;opacity:0;transition:.25s}.cart-panel.open .shade{opacity:1}.drawer{position:absolute;right:0;top:0;height:100%;width:min(440px,100%);background:var(--paper);padding:25px;transform:translateX(100%);transition:.3s;display:flex;flex-direction:column}.cart-panel.open .drawer{transform:none}.drawer-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:17px}.drawer-head h3{font:900 34px var(--display);margin:0}.close{background:none;border:0;font-size:24px}.cart-items{overflow:auto;flex:1;padding:15px 0}.cart-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:14px 0}.cart-row b{font:800 16px var(--display);display:block}.cart-row small{color:#777;font-size:10px}.qty{display:flex;align-items:center;gap:8px;margin-top:8px}.qty button{border:1px solid var(--line);background:none;width:23px;height:23px}.cart-bottom{border-top:1px solid var(--line);padding-top:18px}.total{display:flex;justify-content:space-between;font-weight:900;margin-bottom:15px}.checkout{width:100%;border:0;background:var(--lime);padding:16px;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase}
+.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);background:var(--ink);color:white;padding:13px 18px;font-size:11px;z-index:70;opacity:0;transition:.25s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:850px){.navlinks{display:none}.hero{grid-template-columns:1fr}.hero-copy{padding:75px 7vw 55px}.hero-art{min-height:390px}.deck-hero{height:350px;width:115px}.category-grid,.product-grid{grid-template-columns:repeat(2,1fr)}.feature{grid-template-columns:1fr}.feature-left{padding:60px 7vw}.feature-right{min-height:300px}.footer-top{flex-direction:column}.footer-links{gap:35px}}
+@media(max-width:520px){.nav{height:66px;padding:0 5vw}.logo{font-size:29px}.navright{gap:10px}.navright>a{display:none}.hero-copy{padding-top:65px}.hero-art{min-height:330px}h1{font-size:75px}.section{padding:65px 0}.section-head{align-items:start;flex-direction:column}.category-grid{gap:8px}.cat{height:190px;padding:13px}.cat h3{font-size:29px}.cat-art{right:14px;width:66px;height:150px}.product-grid{gap:8px}.product-visual{height:190px}.product-visual:before{width:112px;height:165px}.product-visual:after{font-size:55px}.product-name{font-size:16px}.product-info{padding:12px 10px}.quick{opacity:1;transform:none;padding:9px}.values{grid-template-columns:1fr}.value{border-right:0;border-bottom:1px solid var(--line);padding:22px 5px}.footer-links{gap:25px}.copyright{gap:15px;flex-direction:column}}
+</style>
 </head>
-
 <body>
-
-<!-- NAVBAR -->
-<header class="fixed top-0 left-0 w-full z-40
-  bg-black/85 backdrop-blur-xl border-b border-white/10">
-
-  <nav class="max-w-7xl mx-auto px-5 h-20
-    flex items-center justify-between">
-
-    <a href="#" class="text-3xl font-black tracking-tighter">
-      SK<span class="chrome-text">82</span>ND
-    </a>
-
-    <div class="hidden md:flex gap-8 text-sm
-      uppercase tracking-widest text-gray-300">
-
-      <a href="#shop" class="hover:text-sky-400">Shop</a>
-      <a href="#story" class="hover:text-sky-400">Our Story</a>
-      <a href="#recycle" class="hover:text-sky-400">Recycle</a>
-      <a href="#community" class="hover:text-sky-400">Community</a>
-
-    </div>
-
-    <button onclick="openCart()"
-      class="border border-sky-400 px-4 py-2
-      hover:bg-sky-400 hover:text-black transition">
-
-      BAG (<span id="cartCount">0</span>)
-
-    </button>
-
-  </nav>
-</header>
-
-
-<!-- HERO -->
-<section class="hero-bg min-h-[760px] pt-28
-  flex items-center overflow-hidden">
-
-  <div class="max-w-7xl mx-auto px-6 py-20
-    grid md:grid-cols-2 gap-12 items-center">
-
-    <div>
-
-      <p class="text-sky-400 tracking-[.35em]
-        text-xs font-bold mb-6">
-        INDEPENDENT SKATE CULTURE
-      </p>
-
-      <h1 class="text-6xl md:text-8xl
-        font-black leading-[.9] tracking-tighter">
-
-        NOT JUST<br>
-        A <span class="chrome-text">BOARD.</span>
-
-      </h1>
-
-      <h2 class="text-2xl md:text-4xl
-        font-black mt-4 text-gray-400">
-        IT'S A LIFESTYLE.
-      </h2>
-
-      <p class="text-gray-400 mt-7 max-w-md leading-7">
-        Skate your own way. Find your board,
-        discover your style and become part
-        of something bigger.
-      </p>
-
-      <div class="flex flex-wrap gap-4 mt-9">
-
-        <a href="#shop"
-          class="btn-primary px-8 py-4 inline-block">
-          SHOP NOW ↗
-        </a>
-
-        <a href="#story"
-          class="border border-white/30 px-8 py-4
-          hover:border-sky-400 transition">
-          OUR STORY
-        </a>
-
-      </div>
-
-      <div class="flex gap-10 mt-16">
-
-        <div>
-          <p class="text-3xl font-black chrome-text">01</p>
-          <p class="text-xs text-gray-500 tracking-widest">
-            FIND YOUR BOARD
-          </p>
-        </div>
-
-        <div>
-          <p class="text-3xl font-black chrome-text">02</p>
-          <p class="text-xs text-gray-500 tracking-widest">
-            OWN YOUR STYLE
-          </p>
-        </div>
-
-        <div>
-          <p class="text-3xl font-black chrome-text">03</p>
-          <p class="text-xs text-gray-500 tracking-widest">
-            RIDE TOGETHER
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="relative">
-
-      <div class="absolute inset-0 bg-sky-500/10
-        blur-[100px] rounded-full"></div>
-
-      <img
-        src="https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?w=1000"
-        alt="Skateboard"
-        class="relative w-full object-cover
-        aspect-[4/5] rounded-xl opacity-90
-        border border-white/10">
-
-      <div class="absolute bottom-5 left-5
-        bg-black/80 backdrop-blur px-5 py-4">
-
-        <p class="text-sky-400 text-xs tracking-widest">
-          SK82ND ORIGINAL
-        </p>
-
-        <p class="font-black text-xl">
-          RIDE DIFFERENT.
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
+<div class="announce">FREE BEGINNER SESSION WITH EVERY BOARD PURCHASE&nbsp; · &nbsp;SHIP NATIONWIDE</div>
+<header><nav class="nav">
+<a class="logo" href="#">SK<span>8</span>2ND<small>SKATEBOARDS • PARTS • ACCESSORIES</small></a>
+<div class="navlinks"><a href="#shop">Shop all</a><a href="#categories">Categories</a><a href="#story">Our scene</a><a href="#support">Support</a></div>
+<div class="navright"><a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a><button class="cartbtn" onclick="openCart()">BAG (<span id="cart-count">0</span>)</button></div>
+</nav></header>
+<main>
+<section class="hero">
+ <div class="hero-copy"><div class="eyebrow">Independent skate shop · Vietnam</div><h1>Find your <em>own line.</em></h1><p>Không có một cách trượt ván đúng cho tất cả. Chọn chiếc board hợp với bạn, tự tìm phong cách và bắt đầu hành trình của riêng mình.</p><a class="cta" href="#shop">Explore the shop <b>↗</b></a></div>
+ <div class="hero-art"><div class="hero-photo"></div><div class="deck-hero"></div><div class="hero-stamp">BUILT FOR<br>THE STREETS<br>— SK82ND —</div></div>
 </section>
-
-
-<div class="section-line"></div>
-
-
-<!-- SHOP -->
-<section id="shop" class="max-w-7xl mx-auto
-  px-5 py-24">
-
-  <div class="flex flex-wrap justify-between
-    items-end gap-5 mb-10">
-
-    <div>
-      <p class="text-sky-400 text-xs
-        tracking-[.3em] mb-3">
-        THE COLLECTION
-      </p>
-
-      <h2 class="text-5xl font-black
-        tracking-tighter">
-        LATEST <span class="chrome-text">DROPS.</span>
-      </h2>
-
-      <p class="text-gray-500 mt-3">
-        Find your next ride.
-      </p>
-    </div>
-
-    <span id="productTotal"
-      class="text-sm text-gray-500">
-      Loading products...
-    </span>
-
-  </div>
-
-
-  <!-- SEARCH -->
-  <div class="flex flex-col md:flex-row gap-4 mb-7">
-
-    <input id="searchInput"
-      type="search"
-      placeholder="Search your skateboard..."
-      class="w-full px-5 py-4 rounded"
-      oninput="renderProducts()">
-
-    <button onclick="loadProducts()"
-      class="border border-sky-400 px-6 py-3
-      hover:bg-sky-400 hover:text-black">
-      ↻ REFRESH
-    </button>
-
-  </div>
-
-
-  <!-- CATEGORIES -->
-  <div class="flex flex-wrap gap-3 mb-10">
-
-    <button class="category-btn active border
-      border-white/20 px-6 py-3"
-      data-category="all"
-      onclick="setCategory('all',this)">
-      ALL
-    </button>
-
-    <button class="category-btn border
-      border-white/20 px-6 py-3"
-      data-category="complete"
-      onclick="setCategory('complete',this)">
-      COMPLETE
-    </button>
-
-    <button class="category-btn border
-      border-white/20 px-6 py-3"
-      data-category="deck"
-      onclick="setCategory('deck',this)">
-      DECKS
-    </button>
-
-    <button class="category-btn border
-      border-white/20 px-6 py-3"
-      data-category="trucks"
-      onclick="setCategory('trucks',this)">
-      TRUCKS
-    </button>
-
-    <button class="category-btn border
-      border-white/20 px-6 py-3"
-      data-category="wheels"
-      onclick="setCategory('wheels',this)">
-      WHEELS
-    </button>
-
-  </div>
-
-
-  <!-- PRODUCTS DYNAMICALLY GENERATED -->
-  <div id="productGrid"
-    class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-
-    <div class="col-span-full text-center
-      text-gray-500 py-20">
-      Loading SK82ND inventory...
-    </div>
-
-  </div>
-
-  <div id="emptyState"
-    class="hidden text-center py-20 text-gray-500">
-    NO PRODUCTS FOUND.
-  </div>
-
+<div class="ticker"><span>SKATEBOARDS</span><i>✳</i><span>PARTS & ACCESSORIES</span><i>✳</i><span>SECONDHAND FINDS</span><i>✳</i><span>FIND YOUR OWN LINE</span><i>✳</i><span>SKATEBOARDS</span></div>
+<section class="section wrap" id="categories">
+ <div class="section-head"><div><div class="kicker">Pick your setup</div><h2 class="section-title">Shop by <span>category.</span></h2></div><a class="text-link" href="#shop">View all products ↗</a></div>
+ <div class="category-grid">
+  <a class="cat" href="#shop" onclick="setFilter('Complete')"><span class="cat-no">01 / THE WHOLE SETUP</span><h3>Complete<br>boards ↗</h3><div class="cat-art"></div></a>
+  <a class="cat" href="#shop" onclick="setFilter('Deck')"><span class="cat-no">02 / YOUR FOUNDATION</span><h3>Decks ↗</h3><div class="cat-art"></div></a>
+  <a class="cat" href="#shop" onclick="setFilter('Trucks')"><span class="cat-no">03 / THE HARDWARE</span><h3>Trucks ↗</h3><div class="cat-art"></div></a>
+  <a class="cat" href="#shop" onclick="setFilter('Wheels')"><span class="cat-no">04 / KEEP IT ROLLING</span><h3>Wheels ↗</h3><div class="cat-art"></div></a>
+ </div>
 </section>
-
-
-<div class="section-line"></div>
-
-
-<!-- HOW TO BUY -->
-<section class="bg-[#101214] py-20">
-
-  <div class="max-w-7xl mx-auto px-5">
-
-    <div class="text-center mb-14">
-
-      <p class="text-sky-400 tracking-[.3em] text-xs">
-        EASY AS 1, 2, 3
-      </p>
-
-      <h2 class="text-4xl md:text-5xl
-        font-black mt-3">
-        HOW TO <span class="chrome-text">BUY.</span>
-      </h2>
-
-      <p class="text-gray-500 mt-4">
-        Three simple steps. Your board is on its way.
-      </p>
-
-    </div>
-
-    <div class="grid md:grid-cols-3 gap-8">
-
-      <div class="text-center p-8 border border-white/10">
-        <div class="text-5xl mb-5">🛹</div>
-        <p class="text-sky-400 font-black">STEP 01</p>
-        <h3 class="text-xl font-black mt-2">
-          CHOOSE YOUR BOARD
-        </h3>
-        <p class="text-gray-500 mt-3 text-sm">
-          Find the skateboard that fits your style.
-        </p>
-      </div>
-
-      <div class="text-center p-8 border border-white/10">
-        <div class="text-5xl mb-5">🛒</div>
-        <p class="text-sky-400 font-black">STEP 02</p>
-        <h3 class="text-xl font-black mt-2">
-          CLICK BUY NOW
-        </h3>
-        <p class="text-gray-500 mt-3 text-sm">
-          Add to your bag or order directly.
-        </p>
-      </div>
-
-      <div class="text-center p-8 border border-white/10">
-        <div class="text-5xl mb-5">📦</div>
-        <p class="text-sky-400 font-black">STEP 03</p>
-        <h3 class="text-xl font-black mt-2">
-          ENTER YOUR DETAILS
-        </h3>
-        <p class="text-gray-500 mt-3 text-sm">
-          Name, phone number and address. Done!
-        </p>
-      </div>
-
-    </div>
-
-  </div>
+<section class="section catalog" id="shop"><div class="wrap">
+ <div class="section-head"><div><div class="kicker">Curated gear · Ready to roll</div><h2 class="section-title">The <span>shop.</span></h2></div><div class="kicker" id="result-count">28 products</div></div>
+ <div class="filters"><button class="filter active" onclick="setFilter('All',this)">All gear</button><button class="filter" onclick="setFilter('Complete',this)">Completes</button><button class="filter" onclick="setFilter('Deck',this)">Decks</button><button class="filter" onclick="setFilter('Trucks',this)">Trucks</button><button class="filter" onclick="setFilter('Wheels',this)">Wheels</button><button class="filter" onclick="setFilter('2hand',this)">2hand</button><button class="filter" onclick="setFilter('New',this)">New</button></div>
+ <div class="product-grid" id="product-grid"></div>
+</div></section>
+<section class="feature" id="story"><div class="feature-left"><div class="kicker">More than a board</div><h2>First push.<br>Zero pressure.</h2><p>Mua ván rồi nhưng chưa biết bắt đầu từ đâu? SK82ND đồng hành cùng bạn trong buổi hướng dẫn cơ bản miễn phí — làm quen với ván, tư thế đứng và những cú đẩy đầu tiên.</p><a class="cta" href="https://www.instagram.com/sk82nd.shop/" target="_blank">Book your first session <b>↗</b></a></div><div class="feature-right"><div class="lesson-card"><div class="kicker" style="color:var(--lime)">SK82ND beginner program</div><strong>01 FREE<br>SESSION</strong><p>01 buổi hướng dẫn nhập môn miễn phí khi mua bất kỳ chiếc ván nào tại shop. Nhắn Instagram để thống nhất lịch và địa điểm.</p></div></div></section>
+<section class="section wrap" id="support"><div class="section-head"><div><div class="kicker">Why ride with us</div><h2 class="section-title">Real skate.<br><span>Real support.</span></h2></div></div>
+<div class="values"><div class="value"><b>01 / Chọn đúng ván</b><p>Tư vấn theo chiều cao, size giày, mục tiêu và ngân sách — không cố bán chiếc đắt nhất.</p></div><div class="value"><b>02 / Ride with confidence</b><p>Ván mới và 2hand được phân loại rõ ràng. Hỏi kỹ tình trạng trước khi chốt đơn.</p></div><div class="value"><b>03 / Keep the scene alive</b><p>Không chỉ giao một chiếc ván. Bọn mình muốn giúp bạn thật sự bắt đầu chơi skateboarding.</p></div></div>
 </section>
-
-
-<!-- STORY -->
-<section id="story" class="max-w-7xl mx-auto
-  px-5 py-24">
-
-  <div class="grid md:grid-cols-2 gap-12 items-center">
-
-    <div>
-
-      <p class="text-sky-400 tracking-[.3em] text-xs">
-        WHO WE ARE
-      </p>
-
-      <h2 class="text-5xl md:text-6xl
-        font-black mt-4 leading-tight">
-        MORE THAN<br>
-        <span class="chrome-text">SKATEBOARD.</span>
-      </h2>
-
-      <p class="text-gray-400 mt-7 leading-8">
-        Sk82nd isn't just a skateboard shop.
-        It's a space for people who love freedom,
-        creativity and the feeling of being on wheels.
-      </p>
-
-      <p class="text-gray-400 mt-4 leading-8">
-        We believe skateboarding is more than
-        a sport. It's a way to express yourself,
-        challenge your limits and connect
-        with people who share the same passion.
-      </p>
-
-    </div>
-
-    <img
-      src="https://images.unsplash.com/photo-1547448415-e9f5b28e570d?w=1000"
-      alt="Skate culture"
-      class="w-full aspect-[4/3] object-cover rounded-lg">
-
-  </div>
-
-</section>
-
-
-<!-- RECYCLE -->
-<section id="recycle"
-  class="bg-[#101820] py-24">
-
-  <div class="max-w-7xl mx-auto px-5
-    grid md:grid-cols-2 gap-12 items-center">
-
-    <div>
-
-      <p class="text-sky-400 tracking-[.3em] text-xs">
-        SK82ND RE:BOARD PROJECT
-      </p>
-
-      <h2 class="text-5xl md:text-6xl
-        font-black mt-5">
-        GIVE IT<br>
-        A <span class="chrome-text">SECOND</span><br>
-        LIFE.
-      </h2>
-
-      <p class="text-gray-400 leading-8 mt-7">
-        An old skateboard doesn't have to
-        become waste.
-      </p>
-
-      <p class="text-gray-400 leading-8 mt-3">
-        Sk82nd aims to collect used and damaged
-        decks, reuse suitable materials and
-        explore creative ways to give old
-        skateboards a new purpose.
-      </p>
-
-      <a id="recycleContact"
-        href="#"
-        class="btn-primary inline-block
-        px-7 py-4 mt-8">
-        JOIN THE RE:BOARD PROJECT ↗
-      </a>
-
-    </div>
-
-    <img
-      src="https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?w=1000"
-      alt="Skateboard recycling"
-      class="w-full aspect-square object-cover rounded-lg">
-
-  </div>
-
-</section>
-
-
-<!-- COMMUNITY -->
-<section id="community"
-  class="max-w-7xl mx-auto px-5 py-24">
-
-  <div class="text-center max-w-2xl mx-auto">
-
-    <p class="text-sky-400 text-xs tracking-[.3em]">
-      MIND. BODY. COMMUNITY.
-    </p>
-
-    <h2 class="text-5xl font-black mt-4">
-      FIND YOUR <span class="chrome-text">BALANCE.</span>
-    </h2>
-
-    <p class="text-gray-400 mt-6 leading-8">
-      Skateboarding helps build balance,
-      endurance and coordination. It also gives
-      you a chance to step away from everyday
-      pressure, enjoy movement and meet new friends.
-    </p>
-
-  </div>
-
-  <div class="grid md:grid-cols-3 gap-5 mt-14">
-
-    <div class="border border-white/10 p-8">
-      <p class="text-4xl">⚡</p>
-      <h3 class="font-black text-xl mt-5">
-        PHYSICAL HEALTH
-      </h3>
-      <p class="text-gray-500 text-sm mt-3">
-        Improve balance, endurance and
-        body coordination.
-      </p>
-    </div>
-
-    <div class="border border-white/10 p-8">
-      <p class="text-4xl">🧠</p>
-      <h3 class="font-black text-xl mt-5">
-        MENTAL FREEDOM
-      </h3>
-      <p class="text-gray-500 text-sm mt-3">
-        Take a break, stay active and
-        release everyday stress.
-      </p>
-    </div>
-
-    <div class="border border-white/10 p-8">
-      <p class="text-4xl">🤝</p>
-      <h3 class="font-black text-xl mt-5">
-        REAL CONNECTIONS
-      </h3>
-      <p class="text-gray-500 text-sm mt-3">
-        Meet people, learn together
-        and grow a skate community.
-      </p>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- FOOTER -->
-<footer class="border-t border-white/10
-  bg-black py-14">
-
-  <div class="max-w-7xl mx-auto px-5">
-
-    <div class="flex flex-col md:flex-row
-      justify-between gap-10">
-
-      <div>
-        <h2 class="text-4xl font-black tracking-tighter">
-          SK<span class="chrome-text">82</span>ND
-        </h2>
-
-        <p class="text-gray-500 mt-3 text-sm">
-          RIDE YOUR OWN WAY.
-        </p>
-      </div>
-
-      <div>
-        <p class="font-black mb-4">EXPLORE</p>
-        <div class="flex flex-col gap-3 text-gray-500 text-sm">
-          <a href="#shop">Shop</a>
-          <a href="#story">Our Story</a>
-          <a href="#recycle">Recycling</a>
-          <a href="#community">Community</a>
-        </div>
-      </div>
-
-      <div>
-        <p class="font-black mb-4">CONTACT</p>
-        <div class="flex flex-col gap-3 text-gray-500 text-sm">
-          <a id="footerZalo" href="#">Zalo</a>
-          <a id="footerMessenger" href="#">Messenger</a>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="section-line my-10"></div>
-
-    <p class="text-center text-gray-600 text-xs">
-      © 2026 SK82ND. ALL RIGHTS RESERVED.
-    </p>
-
-  </div>
-</footer>
-
-
-<!-- CART MODAL -->
-<div id="cartModal"
-  class="modal fixed inset-0 z-50
-  bg-black/90 items-center justify-center p-4">
-
-  <div class="bg-[#151719] border border-white/10
-    w-full max-w-lg p-6 rounded-lg max-h-[90vh]
-    overflow-y-auto">
-
-    <div class="flex justify-between items-center">
-      <h2 class="text-2xl font-black">YOUR BAG</h2>
-
-      <button onclick="closeCart()"
-        class="text-2xl">×</button>
-    </div>
-
-    <div id="cartItems" class="mt-6"></div>
-
-    <div class="border-t border-white/10 mt-6 pt-5">
-      <div class="flex justify-between font-black">
-        <span>TOTAL</span>
-        <span id="cartTotal">0 ₫</span>
-      </div>
-
-      <button onclick="openCheckout()"
-        class="btn-primary w-full py-4 mt-6">
-        CHECKOUT →
-      </button>
-    </div>
-
-  </div>
-</div>
-
-
-<!-- CHECKOUT MODAL -->
-<div id="checkoutModal"
-  class="modal fixed inset-0 z-[60]
-  bg-black/95 items-center justify-center p-4">
-
-  <div class="bg-[#151719] border border-sky-400/30
-    w-full max-w-lg p-6 rounded-lg">
-
-    <div class="flex justify-between">
-      <h2 class="text-2xl font-black">
-        ORDER DETAILS
-      </h2>
-
-      <button onclick="closeCheckout()"
-        class="text-2xl">×</button>
-    </div>
-
-    <form id="checkoutForm" class="mt-7 space-y-4">
-
-      <input id="customerName"
-        required maxlength="100"
-        placeholder="Your full name"
-        class="w-full p-4 rounded">
-
-      <input id="customerPhone"
-        required type="tel"
-        maxlength="20"
-        placeholder="Phone number"
-        class="w-full p-4 rounded">
-
-      <textarea id="customerAddress"
-        required maxlength="500"
-        placeholder="Delivery address"
-        class="w-full p-4 rounded h-28"></textarea>
-
-      <textarea id="customerNote"
-        maxlength="500"
-        placeholder="Order note (optional)"
-        class="w-full p-4 rounded h-20"></textarea>
-
-      <button type="submit"
-        class="btn-primary w-full py-4">
-        SEND ORDER VIA ZALO ↗
-      </button>
-
-      <p class="text-gray-500 text-xs text-center">
-        Your order will be sent to our shop
-        through Zalo for confirmation.
-      </p>
-
-    </form>
-
-  </div>
-</div>
-
-
-<!-- TOAST -->
-<div id="toast"
-  class="toast fixed bottom-6 left-1/2
-  -translate-x-1/2 z-[100]
-  bg-sky-400 text-black font-bold
-  px-6 py-4 rounded shadow-xl">
-</div>
-
-
+</main>
+<footer class="footer"><div class="wrap"><div class="footer-top"><div><a class="logo" href="#">SK<span>8</span>2ND<small>SKATEBOARDS • PARTS • ACCESSORIES</small></a><p>An independent skate shop for people who want to find their own line. New & secondhand skateboards, parts and accessories.</p></div><div class="footer-links"><div><b>EXPLORE</b><a href="#shop">Shop all</a><a href="#categories">Categories</a><a href="#story">Beginner session</a></div><div><b>CONNECT</b><a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a><a href="https://www.facebook.com/" target="_blank">Facebook ↗</a><a href="#support">Contact & support</a></div></div></div><div class="copyright"><span>© 2026 SK82ND SKATESHOP. ALL RIGHTS RESERVED.</span><span>SKATEBOARDS • PARTS • ACCESSORIES</span></div></div></footer>
+<div class="cart-panel" id="cart-panel"><div class="shade" onclick="closeCart()"></div><aside class="drawer"><div class="drawer-head"><h3>YOUR BAG</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cart-items"></div><div class="cart-bottom"><div class="total"><span>SUBTOTAL</span><span id="cart-total">0₫</span></div><button class="checkout" onclick="checkout()">Send order via Instagram ↗</button><p style="font-size:9px;color:#777;line-height:1.6">Đây là giỏ hàng xem trước. Đơn hàng sẽ được gửi qua Instagram để shop xác nhận tồn kho, phí vận chuyển và thanh toán.</p></div></aside></div>
+<div class="toast" id="toast">Added to your bag</div>
 <script>
 
-// ======================================
-// CONFIG
-// ======================================
-
-const API_URL = "/api";
-
 let products = [];
-let cart = [];
-let currentCategory = "all";
+let cart = {};
+let filter = "All";
 
-let shopConfig = {
-  zalo: "",
-  messenger: ""
-};
+const grid = document.getElementById("product-grid");
 
 const money = value =>
-  new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND"
-  }).format(value);
+  new Intl.NumberFormat("vi-VN").format(value) + " ₫";
 
-
-// ======================================
-// FETCH SHOP CONFIG
-// ======================================
-
-async function loadConfig() {
-  try {
-    const res = await fetch(`${API_URL}/config`);
-    shopConfig = await res.json();
-
-    const zalo = shopConfig.zalo
-      ? `https://zalo.me/${shopConfig.zalo}`
-      : "#";
-
-    const messenger = shopConfig.messenger
-      ? `https://m.me/${shopConfig.messenger}`
-      : "#";
-
-    document.getElementById("footerZalo").href = zalo;
-    document.getElementById("footerMessenger").href = messenger;
-    document.getElementById("recycleContact").href = zalo;
-
-  } catch (error) {
-    console.error("Config error:", error);
-  }
-}
-
-
-// ======================================
-// FETCH PRODUCTS FROM NOTION BACKEND
-// ======================================
-
-async function loadProducts() {
-
-  const grid = document.getElementById("productGrid");
-
-  grid.innerHTML = `
-    <div class="col-span-full text-center py-20 text-gray-500">
-      LOADING INVENTORY...
-    </div>
-  `;
-
-  try {
-
-    const response = await fetch(`${API_URL}/products`);
-
-    if (!response.ok) {
-      throw new Error("API error");
-    }
-
-    const data = await response.json();
-
-    if (!data.success) {
-      throw new Error("Cannot load products");
-    }
-
-    products = data.products || [];
-
-    renderProducts();
-
-  } catch (error) {
-
-    console.error(error);
-
-    grid.innerHTML = `
-      <div class="col-span-full text-center py-20">
-        <p class="text-red-400 font-bold">
-          CANNOT LOAD PRODUCTS
-        </p>
-        <button onclick="loadProducts()"
-          class="border border-sky-400 px-6 py-3 mt-5">
-          TRY AGAIN
-        </button>
-      </div>
-    `;
-  }
-}
-
-
-// ======================================
-// PRODUCT CARD
-// ======================================
-
-function renderProducts() {
-
-  const grid = document.getElementById("productGrid");
-
-  const search = document.getElementById("searchInput")
-    .value.toLowerCase().trim();
-
-  const filtered = products.filter(product => {
-
-    const name = product.name.toLowerCase();
-    const description = product.description.toLowerCase();
-    const category = product.category.toLowerCase();
-
-    const matchesSearch =
-      name.includes(search) ||
-      description.includes(search) ||
-      category.includes(search);
-
-    let matchesCategory = true;
-
-    if (currentCategory !== "all") {
-      matchesCategory =
-        category.includes(currentCategory) ||
-        name.includes(currentCategory);
-    }
-
-    return matchesSearch && matchesCategory;
-  });
-
-  document.getElementById("productTotal").textContent =
-    `${filtered.length} PRODUCTS`;
-
-  document.getElementById("emptyState")
-    .classList.toggle("hidden", filtered.length !== 0);
-
-  grid.innerHTML = filtered.map(product => {
-
-    const image = product.image || "";
-
-    const description = product.description
-      .slice(0, 100);
-
-    const safeId = JSON.stringify(product.id);
-
-    return `
-
-      <article class="product-card rounded-lg overflow-hidden">
-
-        <div class="relative">
-
-          <img
-            src="${escapeHTML(image)}"
-            alt="${escapeHTML(product.name)}"
-            class="product-image w-full"
-            loading="lazy"
-            onerror="this.src='https://placehold.co/600x600/151719/38BDF8?text=SK82ND'">
-
-          <span class="absolute top-3 left-3
-            bg-black/80 text-sky-400
-            text-[10px] tracking-widest px-3 py-2">
-            SK82ND
-          </span>
-
-        </div>
-
-        <div class="p-4">
-
-          <p class="text-gray-500 text-[10px]
-            uppercase tracking-widest">
-            ${escapeHTML(product.category)}
-          </p>
-
-          <h3 class="font-black text-sm md:text-base
-            mt-2 min-h-10">
-            ${escapeHTML(product.name)}
-          </h3>
-
-          <p class="text-gray-500 text-xs
-            mt-2 min-h-8">
-            ${escapeHTML(description)}
-          </p>
-
-          <p class="chrome-text font-black
-            text-lg mt-4">
-            ${money(product.price)}
-          </p>
-
-          <p class="text-xs text-gray-500 mt-2">
-            ${product.stock === null
-              ? "Contact for availability"
-              : `Stock: ${product.stock}`}
-          </p>
-
-          <button
-            onclick="addToCart(${safeId})"
-            class="btn-primary w-full py-3 mt-4 text-xs">
-            ADD TO BAG
-          </button>
-
-          <button
-            onclick="buyNow(${safeId})"
-            class="w-full border border-white/20
-            py-3 mt-2 text-xs
-            hover:border-sky-400 transition">
-            BUY NOW ↗
-          </button>
-
-        </div>
-
-      </article>
-
-    `;
-
-  }).join("");
-
-}
-
-
-// Escape HTML to avoid injecting Notion text as markup
 function escapeHTML(value) {
-
   return String(value ?? "").replace(/[&<>"']/g, char => ({
     "&": "&amp;",
     "<": "&lt;",
     ">": "&gt;",
     '"': "&quot;",
     "'": "&#39;"
-  })[char]);
-
+  }[char]));
 }
 
+// Lấy sản phẩm từ Backend
+async function loadProducts() {
+  grid.innerHTML = `
+    <p style="padding:40px;color:#64748b">
+      Loading SK82ND inventory...
+    </p>
+  `;
 
-// ======================================
-// CATEGORY FILTER
-// ======================================
-
-function setCategory(category, button) {
-
-  currentCategory = category;
-
-  document.querySelectorAll(".category-btn")
-    .forEach(btn => btn.classList.remove("active"));
-
-  button.classList.add("active");
-
-  renderProducts();
-}
-
-
-// ======================================
-// CART
-// ======================================
-
-function addToCart(id) {
-
-  const product = products.find(p => p.id === id);
-
-  if (!product) return;
-
-  const existing = cart.find(p => p.id === id);
-
-  if (existing) {
-    existing.quantity++;
-  } else {
-    cart.push({
-      ...product,
-      quantity: 1
+  try {
+    const response = await fetch("/api/products", {
+      cache: "no-store"
     });
+
+    if (!response.ok) {
+      throw new Error("API error: " + response.status);
+    }
+
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error(data.error || "Cannot load products");
+    }
+
+    products = data.products || [];
+
+    // Loại bỏ sản phẩm đã biến mất khỏi kho
+    for (const id of Object.keys(cart)) {
+      if (!products.some(p => p.id === id)) {
+        delete cart[id];
+      }
+    }
+
+    render();
+    updateCart();
+
+  } catch (error) {
+    console.error("SK82ND:", error);
+
+    grid.innerHTML = `
+      <p style="padding:40px;color:#0284C7">
+        Không thể tải kho hàng. Vui lòng thử lại sau.
+      </p>
+    `;
   }
-
-  updateCart();
-
-  showToast("ADDED TO YOUR BAG ✓");
 }
 
+// Render sản phẩm
+function render() {
+  const items = products.filter(p => {
+    return filter === "All";
+  });
 
-function updateCart() {
+  document.getElementById("result-count").textContent =
+    items.length + " products · AVAILABLE NOW";
 
-  const count = cart.reduce(
-    (sum, item) => sum + item.quantity, 0
-  );
-
-  document.getElementById("cartCount").textContent = count;
-
-  const total = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity, 0
-  );
-
-  document.getElementById("cartTotal").textContent =
-    money(total);
-
-  document.getElementById("cartItems").innerHTML =
-    cart.length
-      ? cart.map(item => `
-        <div class="flex justify-between gap-4
-          border-b border-white/10 py-4">
-
-          <div>
-            <p class="font-bold">
-              ${escapeHTML(item.name)}
-            </p>
-
-            <p class="text-sky-400 text-sm mt-2">
-              ${money(item.price)}
-            </p>
-
-            <p class="text-gray-500 text-xs mt-2">
-              Quantity: ${item.quantity}
-            </p>
-          </div>
-
-          <button onclick="removeFromCart('${item.id}')"
-            class="text-red-400">
-            REMOVE
-          </button>
-
-        </div>
-      `).join("")
-      : '<p class="text-gray-500 py-8">Your bag is empty.</p>';
-}
-
-
-function removeFromCart(id) {
-  cart = cart.filter(item => item.id !== id);
-  updateCart();
-}
-
-
-function openCart() {
-  document.getElementById("cartModal")
-    .classList.add("active");
-}
-
-
-function closeCart() {
-  document.getElementById("cartModal")
-    .classList.remove("active");
-}
-
-
-// ======================================
-// BUY NOW
-// ======================================
-
-function buyNow(id) {
-
-  const product = products.find(p => p.id === id);
-
-  if (!product) return;
-
-  cart = [{
-    ...product,
-    quantity: 1
-  }];
-
-  updateCart();
-
-  openCheckout();
-}
-
-
-// ======================================
-// CHECKOUT
-// ======================================
-
-function openCheckout() {
-
-  if (!cart.length) {
-    showToast("YOUR BAG IS EMPTY");
+  if (!items.length) {
+    grid.innerHTML = `
+      <p style="padding:40px;color:#64748b">
+        Hiện chưa có sản phẩm còn tồn.
+      </p>
+    `;
     return;
   }
 
-  closeCart();
+  grid.innerHTML = items.map(p => {
+    const id = escapeHTML(p.id);
 
-  document.getElementById("checkoutModal")
-    .classList.add("active");
+    const image = p.image
+      ? `<img
+          class="product-photo"
+          src="${escapeHTML(p.image)}"
+          alt="${escapeHTML(p.name)}"
+          loading="lazy"
+          onerror="this.style.display='none'"
+        >`
+      : "";
+
+    const gifts = p.gifts
+      ? `<div class="gift-line">
+          🎁 GIFTS: ${escapeHTML(p.gifts)}
+        </div>`
+      : "";
+
+    return `
+      <article class="product">
+
+        <div class="product-visual ${p.image ? "has-image" : ""}">
+
+          ${image}
+
+          <span class="product-badge">
+            AVAILABLE
+          </span>
+
+          <button
+            class="quick"
+            onclick="addToCart('${id}')"
+          >
+            Add to bag +
+          </button>
+
+        </div>
+
+        <div class="product-info">
+
+          <div class="product-name">
+            ${escapeHTML(p.name)}
+          </div>
+
+          <div class="price">
+            ${money(p.price)}
+          </div>
+
+          <div class="stock">
+            ${escapeHTML(p.info)}
+          </div>
+
+          <div class="stock">
+            SL Tồn: ${Number(p.stock)}
+          </div>
+
+          ${gifts}
+
+        </div>
+
+      </article>
+    `;
+  }).join("");
 }
 
-
-function closeCheckout() {
-  document.getElementById("checkoutModal")
-    .classList.remove("active");
+// Bộ lọc
+// Không sử dụng các danh mục cũ vì API mới chỉ trả
+// về những trường dữ liệu đã được yêu cầu.
+function setFilter(value, btn) {
+  filter = "All";
+  render();
 }
 
+// Thêm vào giỏ hàng
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
 
-document.getElementById("checkoutForm")
-  .addEventListener("submit", event => {
+  if (!product) return;
 
-    event.preventDefault();
+  const quantity = cart[id] || 0;
 
-    if (!cart.length) return;
+  if (quantity >= product.stock) {
+    alert("Số lượng sản phẩm không đủ!");
+    return;
+  }
 
-    const name = document.getElementById("customerName")
-      .value.trim();
+  cart[id] = quantity + 1;
 
-    const phone = document.getElementById("customerPhone")
-      .value.trim();
-
-    const address = document.getElementById("customerAddress")
-      .value.trim();
-
-    const note = document.getElementById("customerNote")
-      .value.trim();
-
-    const phoneValid = /^[0-9+().\-\s]{8,20}$/.test(phone);
-
-    if (!name || !address || !phoneValid) {
-      showToast("PLEASE CHECK YOUR DETAILS");
-      return;
-    }
-
-    const orderLines = cart.map(item =>
-      `- ${item.name} x${item.quantity}: ${money(item.price * item.quantity)}`
-    );
-
-    const total = cart.reduce(
-      (sum, item) => sum + item.price * item.quantity, 0
-    );
-
-    const message = [
-      "SK82ND - NEW ORDER",
-      "",
-      `Name: ${name}`,
-      `Phone: ${phone}`,
-      `Address: ${address}`,
-      "",
-      "PRODUCTS:",
-      ...orderLines,
-      "",
-      `TOTAL: ${money(total)}`,
-      `Note: ${note || "None"}`
-    ].join("\n");
-
-    if (!shopConfig.zalo) {
-      showToast("SHOP ZALO IS NOT CONFIGURED");
-      return;
-    }
-
-    const zaloURL =
-      `https://zalo.me/${encodeURIComponent(shopConfig.zalo)}`;
-
-    // Copy order message and open Zalo
-    if (navigator.clipboard?.writeText) {
-      navigator.clipboard.writeText(message)
-        .catch(() => {});
-    }
-
-    window.open(zaloURL, "_blank", "noopener");
-
-    showToast("ORDER READY - PASTE MESSAGE IN ZALO");
-
-  });
-
-
-// ======================================
-// TOAST
-// ======================================
-
-function showToast(message) {
+  updateCart();
 
   const toast = document.getElementById("toast");
-
-  toast.textContent = message;
   toast.classList.add("show");
 
   setTimeout(() => {
     toast.classList.remove("show");
-  }, 2800);
+  }, 1500);
 }
 
+// Cập nhật giỏ hàng
+function updateCart() {
+  const entries = Object.entries(cart).filter(([id, qty]) =>
+    qty > 0 && products.some(p => p.id === id)
+  );
 
-// ======================================
-// INITIALIZE
-// ======================================
+  const count = entries.reduce((sum, [, qty]) => sum + qty, 0);
 
-loadConfig();
+  document.getElementById("cart-count").textContent = count;
+
+  document.getElementById("cart-items").innerHTML =
+    entries.length
+      ? entries.map(([id, qty]) => {
+          const p = products.find(x => x.id === id);
+
+          return `
+            <div class="cart-row">
+              <div>
+                <b>${escapeHTML(p.name)}</b>
+
+                <small>${money(p.price)}</small>
+
+                <div class="qty">
+                  <button onclick="changeQty('${id}',-1)">−</button>
+                  <span>${qty}</span>
+                  <button onclick="changeQty('${id}',1)">+</button>
+                </div>
+              </div>
+
+              <strong>${money(p.price * qty)}</strong>
+            </div>
+          `;
+        }).join("")
+      : `<p>Your bag is empty. Find your setup.</p>`;
+
+  const total = entries.reduce((sum, [id, qty]) => {
+    const p = products.find(x => x.id === id);
+    return sum + p.price * qty;
+  }, 0);
+
+  document.getElementById("cart-total").textContent =
+    money(total);
+}
+
+// Tăng giảm số lượng
+function changeQty(id, amount) {
+  const p = products.find(x => x.id === id);
+
+  if (!p) return;
+
+  cart[id] = (cart[id] || 0) + amount;
+
+  if (cart[id] <= 0) {
+    delete cart[id];
+  }
+
+  if (cart[id] > p.stock) {
+    cart[id] = p.stock;
+    alert("Số lượng tồn kho không đủ!");
+  }
+
+  updateCart();
+}
+
+function openCart() {
+  document.getElementById("cart-panel").classList.add("open");
+}
+
+function closeCart() {
+  document.getElementById("cart-panel").classList.remove("open");
+}
+
+// Đặt hàng
+function checkout() {
+  const entries = Object.entries(cart);
+
+  if (!entries.length) {
+    alert("Giỏ hàng đang trống.");
+    return;
+  }
+
+  const lines = entries.map(([id, qty]) => {
+    const p = products.find(x => x.id === id);
+
+    return `${p.name} x${qty} - ${money(p.price * qty)}`;
+  });
+
+  const total = entries.reduce((sum, [id, qty]) => {
+    const p = products.find(x => x.id === id);
+    return sum + p.price * qty;
+  }, 0);
+
+  const message =
+    "Chào SK82ND! Mình muốn đặt hàng:\n" +
+    lines.join("\n") +
+    "\nTổng đơn: " + money(total) +
+    "\nNhờ shop xác nhận tồn kho và phí ship.";
+
+  window.open(
+    "https://www.instagram.com/sk82nd.shop/",
+    "_blank"
+  );
+
+  navigator.clipboard?.writeText(message)
+    .then(() => alert("Đã copy đơn hàng!"))
+    .catch(() => alert(message));
+}
+
+// Khởi chạy
 loadProducts();
 
-// Refresh inventory every 60 seconds.
-// Backend cache prevents excessive Notion API requests.
-setInterval(loadProducts, 60 * 1000);
+// Đồng bộ lại kho mỗi 60 giây
+setInterval(loadProducts, 60000);
 
 </script>
-
-</body>
-</html>
+</body></html>
+```[cite: 16]

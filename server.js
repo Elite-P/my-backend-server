@@ -1,353 +1,219 @@
 
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
+require("dotenv").config();
 
-dotenv.config();
+const express = require("express");
+const path = require("path");
+const { Client } = require("@notionhq/client");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const notion = new Client({
+  auth: process.env.NOTION_TOKEN
+});
 
-app.use(cors());
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
-
-const NOTION_TOKEN = process.env.NOTION_TOKEN;
 const DATABASE_ID = process.env.NOTION_DATABASE_ID;
 
-const NOTION_VERSION = "2025-09-03";
-const NOTION_URL = "https://api.notion.com/v1";
+// Tên Properties trong Database Sk82nd
+const PROP = {
+  name: "Tên",
+  info: "Thông tin ván",
+  stock: "SL Tồn",
+  price: "Giá dự kiến",
+  gifts: "Gifts",
+  status: "Tình trạng hàng (Automate)"
+};
 
-if (!NOTION_TOKEN || !DATABASE_ID) {
-  throw new Error("Missing NOTION_TOKEN or NOTION_DATABASE_ID");
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
+
+app.use(express.json({ limit: "100kb" }));
+
+app.use("/api", rateLimit({
+  windowMs: 60 * 1000,
+  limit: 120
+}));
+
+app.use(express.static(path.join(__dirname, "public")));
+
+// Đọc dữ liệu Property Notion
+function readProperty(page, name) {
+  const p = page.properties?.[name];
+  if (!p) return null;
+
+  switch (p.type) {
+    case "title":
+      return p.title.map(x => x.plain_text).join("");
+
+    case "rich_text":
+      return p.rich_text.map(x => x.plain_text).join("");
+
+    case "number":
+      return p.number;
+
+    case "select":
+      return p.select?.name || "";
+
+    case "status":
+      return p.status?.name || "";
+
+    case "multi_select":
+      return p.multi_select.map(x => x.name).join(", ");
+
+    case "checkbox":
+      return p.checkbox;
+
+    case "formula":
+      return p.formula.string ??
+        p.formula.number ??
+        null;
+
+    default:
+      return "";
+  }
 }
 
-async function notionRequest(endpoint, options = {}) {
-  const response = await fetch(`${NOTION_URL}${endpoint}`, {
-    ...options,
-    headers: {
-      Authorization: `Bearer ${NOTION_TOKEN}`,
-      "Notion-Version": NOTION_VERSION,
-      "Content-Type": "application/json",
-      ...options.headers
-    }
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(
-      `Notion API ${response.status}: ${JSON.stringify(data)}`
-    );
-  }
-
-  return data;
-}
-
-// Cache
-let cachedProducts = null;
-let lastFetch = 0;
-const CACHE_DURATION = 30 * 1000;
-
-// Resolve Database ID -> Data Source ID
-let dataSourceId = null;
-
-async function getDataSourceId() {
-  if (dataSourceId) return dataSourceId;
-
-  const database = await notionRequest(
-    `/databases/${DATABASE_ID}`
-  );
-
-  const sources = database.data_sources || [];
-
-  if (!sources.length) {
-    throw new Error("Database has no accessible data source");
-  }
-
-  // Nếu có nhiều data source, chọn theo tên
-  const selected =
-    sources.find(s => s.name === "Sk82nd") || sources[0];
-
-  dataSourceId = selected.id;
-
-  console.log("Connected to data source:", selected.name);
-
-  return dataSourceId;
-}
-
-// Helpers: read Notion property values
-function getText(prop) {
-  if (!prop) return "";
-
-  if (prop.type === "title" || prop.type === "rich_text") {
-    return (prop[prop.type] || [])
-      .map(item => item.plain_text)
-      .join("");
-  }
-
-  if (prop.type === "select" || prop.type === "status") {
-    return prop[prop.type]?.name || "";
-  }
-
-  if (prop.type === "number") {
-    return prop.number ?? "";
-  }
-
-  if (prop.type === "url") {
-    return prop.url || "";
-  }
-
-  if (prop.type === "checkbox") {
-    return prop.checkbox;
-  }
-
-  if (prop.type === "formula") {
-    const value = prop.formula;
-
-    if (value?.type === "string") return value.string;
-    if (value?.type === "number") return value.number;
-
-    return "";
-  }
-
-  if (prop.type === "rollup") {
-    const value = prop.rollup;
-
-    if (value?.type === "number") return value.number;
-
-    return "";
-  }
-
-  return "";
-}
-
-function getNumber(prop) {
-  if (!prop) return null;
-
-  if (prop.type === "number") {
-    return prop.number;
-  }
-
-  if (prop.type === "formula") {
-    return prop.formula?.number ?? null;
-  }
-
-  if (prop.type === "rollup") {
-    return prop.rollup?.number ?? null;
-  }
-
-  const value = getText(prop);
-
+// Đọc số lượng tồn
+function parseStock(value) {
   if (typeof value === "number") return value;
+  if (value == null) return 0;
 
-  if (typeof value === "string") {
-    const parsed = Number(
-      value.replace(/[^\d-]/g, "")
-    );
-
-    return Number.isFinite(parsed) ? parsed : null;
-  }
-
-  return null;
+  const match = String(value).match(/-?\d+/);
+  return match ? Number(match[0]) : 0;
 }
 
-// Get image URL from URL, Files & Media or cover
-function getImage(prop, page) {
-  if (prop?.type === "url" && prop.url) {
-    return prop.url;
-  }
+// Chỉ lấy trạng thái Còn tồn
+function isAvailable(page) {
+  const status = String(
+    readProperty(page, PROP.status) || ""
+  ).trim().toLocaleLowerCase("vi");
 
-  if (prop?.type === "files") {
-    const file = prop.files?.[0];
-
-    if (file?.type === "external") {
-      return file.external.url;
-    }
-
-    if (file?.type === "file") {
-      return file.file.url;
-    }
-  }
-
-  if (page.cover?.type === "external") {
-    return page.cover.external.url;
-  }
-
-  if (page.cover?.type === "file") {
-    return page.cover.file.url;
-  }
-
-  return null;
+  return status === "còn tồn";
 }
 
-// Convert Notion page into website product
-function mapProduct(page) {
-  const p = page.properties || {};
+// Lấy toàn bộ ảnh trong nội dung trang Notion
+async function getPageImages(blockId, depth = 0) {
+  if (depth > 3) return [];
 
-  const name =
-    getText(p["Tên"]) ||
-    getText(p["Name"]) ||
-    "Sk82nd Product";
-
-  const price =
-    getNumber(p["Giá bán"]) ??
-    getNumber(p["Giá dự kiến"]) ??
-    0;
-
-  const description =
-    getText(p["Thông tin ván"]) ||
-    getText(p["Mô tả"]) ||
-    getText(p["Ghi chú"]) ||
-    "";
-
-  const category =
-    getText(p["Danh mục"]) ||
-    getText(p["Sort type"]) ||
-    "Skateboard";
-
-  const image =
-    getImage(p["Ảnh sản phẩm"], page) ||
-    getImage(p["Hình ảnh"], page);
-
-  const stock =
-    getNumber(p["SL Stock"]) ??
-    getNumber(p["Số lượng tồn"]);
-
-  const status =
-    getText(p["Tình trạng hàng (Manual)"]) ||
-    getText(p["Tình trạng hàng (Automate)"]);
-
-  // Hỗ trợ database cũ đang lưu "SL: 1"
-  const stockText = getText(p["SL Tồn"]);
-  const stockMatch = String(stockText).match(/-?\d+/);
-  const legacyStock = stockMatch
-    ? Number(stockMatch[0])
-    : null;
-
-  const quantity = stock ?? legacyStock;
-
-  return {
-    id: page.id,
-    name,
-    price,
-    description,
-    category,
-    image,
-    stock: quantity,
-    status,
-    url: page.url,
-    updatedAt: page.last_edited_time
-  };
-}
-
-// Read all pages with pagination
-async function fetchAllProducts() {
-  const sourceId = await getDataSourceId();
-
-  let results = [];
-  let cursor = undefined;
+  const images = [];
+  let cursor;
 
   do {
-    const body = {
+    const response = await notion.blocks.children.list({
+      block_id: blockId,
       page_size: 100,
       ...(cursor ? { start_cursor: cursor } : {})
-    };
+    });
 
-    const data = await notionRequest(
-      `/data_sources/${sourceId}/query`,
-      {
-        method: "POST",
-        body: JSON.stringify(body)
+    for (const block of response.results) {
+      if (block.type === "image") {
+        const image = block.image;
+
+        if (image.type === "external") {
+          images.push({
+            url: image.external.url,
+            notionFile: false
+          });
+        } else if (image.type === "file") {
+          images.push({
+            url: image.file.url,
+            notionFile: true
+          });
+        }
       }
-    );
 
-    results.push(...data.results);
+      // Đọc cả ảnh nằm trong các block lồng nhau
+      if (block.has_children) {
+        const nested = await getPageImages(
+          block.id,
+          depth + 1
+        );
+        images.push(...nested);
+      }
+    }
 
-    cursor = data.has_more ? data.next_cursor : null;
+    cursor = response.has_more
+      ? response.next_cursor
+      : undefined;
 
   } while (cursor);
 
-  return results;
+  return images;
 }
 
-// GET products
-app.get("/api/products", async (req, res) => {
-  try {
-    const now = Date.now();
+// Cache dữ liệu
+let cache = {
+  time: 0,
+  products: []
+};
 
-    if (
-      cachedProducts &&
-      now - lastFetch < CACHE_DURATION
-    ) {
-      return res.json({
-        success: true,
-        cached: true,
-        products: cachedProducts
-      });
-    }
+const CACHE_TIME = 30 * 1000;
 
-    const pages = await fetchAllProducts();
+// Lấy dữ liệu sản phẩm
+async function getProducts() {
+  let pages = [];
+  let cursor;
 
-    let products = pages.map(mapProduct);
+  do {
+    const result = await notion.databases.query({
+      database_id: DATABASE_ID,
+      page_size: 100,
+      ...(cursor ? { start_cursor: cursor } : {})
+    });
 
-    // Remove pages without a name or valid price
-    products = products.filter(product =>
-      product.name &&
-      product.price > 0
+    pages.push(...result.results);
+
+    cursor = result.has_more
+      ? result.next_cursor
+      : undefined;
+
+  } while (cursor);
+
+  // Lọc ngay tại Backend
+  const availablePages = pages.filter(isAvailable);
+
+  const products = [];
+
+  for (const page of availablePages) {
+    const name = readProperty(page, PROP.name) || "Skateboard";
+
+    const info = readProperty(page, PROP.info) || "";
+
+    const stock = parseStock(
+      readProperty(page, PROP.stock)
     );
 
-    // Hide sold-out products
-    products = products.filter(product => {
-      const status = String(product.status).toLowerCase();
+    // Giá website lấy từ Giá dự kiến
+    const price = Number(
+      readProperty(page, PROP.price) || 0
+    );
 
-      if (
-        status.includes("đã bán") ||
-        status.includes("sold") ||
-        status.includes("hết hàng")
-      ) {
-        return false;
-      }
+    const gifts = readProperty(page, PROP.gifts) || "";
 
-      if (product.stock !== null && product.stock <= 0) {
-        return false;
-      }
+    // Ảnh được lấy từ nội dung trang Notion
+    const images = await getPageImages(page.id);
 
-      return true;
-    });
-
-    cachedProducts = products;
-    lastFetch = now;
-
-    res.json({
-      success: true,
-      cached: false,
-      total: products.length,
-      products
-    });
-
-  } catch (error) {
-    console.error("Product API error:", error.message);
-
-    res.status(500).json({
-      success: false,
-      message: "Cannot load products from Notion"
+    products.push({
+      id: page.id,
+      name,
+      info,
+      stock,
+      price,
+      gifts,
+      images: images.map((_, index) =>
+        `/api/image/${page.id}/${index}`
+      ),
+      image: images.length
+        ? `/api/image/${page.id}/0`
+        : null
     });
   }
-});
 
-// GET shop contact information
-app.get("/api/config", (req, res) => {
-  res.json({
-    zalo: process.env.ZALO_PHONE || "",
-    messenger: process.env.MESSENGER_PAGE || ""
-  });
-});
+  return products;
+}
 
 // Health check
 app.get("/api/health", (req, res) => {
@@ -357,6 +223,68 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+// API sản phẩm
+app.get("/api/products", async (req, res) => {
+  try {
+    if (!process.env.NOTION_TOKEN || !DATABASE_ID) {
+      return res.status(500).json({
+        success: false,
+        error: "Missing Notion configuration"
+      });
+    }
+
+    if (Date.now() - cache.time > CACHE_TIME) {
+      cache.products = await getProducts();
+      cache.time = Date.now();
+    }
+
+    res.set("Cache-Control", "no-store");
+
+    res.json({
+      success: true,
+      total: cache.products.length,
+      products: cache.products
+    });
+
+  } catch (error) {
+    console.error("Notion API error:", error);
+
+    res.status(500).json({
+      success: false,
+      error: "Cannot load Notion inventory"
+    });
+  }
+});
+
+// Lấy URL ảnh mới nhất từ Notion
+app.get("/api/image/:pageId/:index", async (req, res) => {
+  try {
+    const pageId = req.params.pageId;
+    const index = Number(req.params.index) || 0;
+
+    const images = await getPageImages(pageId);
+    const image = images[index];
+
+    if (!image) {
+      return res.sendStatus(404);
+    }
+
+    res.set("Cache-Control", "private, max-age=240");
+
+    return res.redirect(image.url);
+
+  } catch (error) {
+    console.error("Image error:", error.message);
+    return res.sendStatus(404);
+  }
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "public", "index.html")
+  );
+});
+
 app.listen(PORT, () => {
-  console.log(`Sk82nd running at http://localhost:${PORT}`);
+  console.log(`SK82ND running on port ${PORT}`);
 });
