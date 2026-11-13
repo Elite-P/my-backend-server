@@ -14,7 +14,8 @@ const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 3000;
 const app = express();
 const notion = new Client({
-  auth: process.env.NOTION_TOKEN
+  auth: process.env.NOTION_TOKEN,
+  notionVersion: "2025-09-03"
 });
 
 const DATABASE_ID = process.env.NOTION_DATABASE_ID;
