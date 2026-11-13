@@ -27,6 +27,7 @@ const PROP = {
   price: "Giá dự kiến",
   gifts: "Gifts",
   status: "Tình trạng hàng (Automate)"
+  manualStatus: "Tình trạng hàng (Manual)"
 };
 
 app.use(helmet({
@@ -90,13 +91,28 @@ function parseStock(value) {
 
 // Chỉ lấy trạng thái Còn tồn
 function isAvailable(page) {
-  const status = String(
+  // 1. Kiểm tra cột Manual trước (chỉnh sửa tay)
+  const manual = String(
+    readProperty(page, PROP.manualStatus) || ""
+  ).trim().toLowerCase();
+
+  // Nếu trong Manual có chữ như "hết", "giữ chỗ", "ẩn" thì ẩn luôn khỏi web
+  if (manual.includes("hết") || manual.includes("giữ") || manual.includes("ẩn")) {
+    return false;
+  }
+
+  // Nếu Manual có ghi rõ là "còn" hoặc "hiện" thì cho phép hiển thị luôn
+  if (manual.includes("còn") || manual.includes("hiện")) {
+    return true;
+  }
+
+  // 2. Nếu Manual để trống, hệ thống mới xét tiếp cột Automate
+  const autoStatus = String(
     readProperty(page, PROP.status) || ""
-  ).trim().toLocaleLowerCase("vi");
+  ).trim().toLowerCase();
 
-  return status === "còn tồn";
+  return autoStatus.includes("còn");
 }
-
 // Lấy toàn bộ ảnh trong nội dung trang Notion
 async function getPageImages(blockId, depth = 0) {
   if (depth > 3) return [];
