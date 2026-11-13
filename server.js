@@ -1,13 +1,16 @@
 
 import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-dotenv.config();
-const path = require("path");
-const { Client } = require("@notionhq/client");
-const helmet = require("helmet");
-const rateLimit = require("express-rate-limit");
+import { Client } from '@notionhq/client';
+import helmet from 'helmet';
+import ratelimit from 'express-rate-limit';
 
-const app = express();
+dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 3000;
 
 const notion = new Client({
