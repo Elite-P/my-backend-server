@@ -1,0 +1,1274 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color" content="#0A0A0A">
+  <meta name="description"
+    content="Sk82nd - Skateboard, skate culture and streetwear.">
+
+  <title>SK82ND — Skate Your Own Way</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: "#0A0A0A",
+            chrome: "#38BDF8",
+            silver: "#A1A1AA"
+          },
+          fontFamily: {
+            display: ["Arial", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #0A0A0A;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .chrome-text {
+      background: linear-gradient(
+        120deg,
+        #ffffff 0%,
+        #38BDF8 25%,
+        #dbeafe 50%,
+        #0284c7 75%,
+        #ffffff 100%
+      );
+      background-size: 200% auto;
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+      animation: chrome 5s linear infinite;
+    }
+
+    @keyframes chrome {
+      to { background-position: 200% center; }
+    }
+
+    .hero-bg {
+      background:
+        radial-gradient(
+          ellipse at 75% 40%,
+          rgba(14,165,233,.16),
+          transparent 55%
+        ),
+        linear-gradient(135deg,#080808,#15191e,#080808);
+    }
+
+    .metal-border {
+      border: 1px solid rgba(56,189,248,.25);
+    }
+
+    .product-card {
+      background: #111315;
+      border: 1px solid #25282c;
+      transition: .3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      border-color: #38BDF8;
+      box-shadow: 0 10px 35px rgba(56,189,248,.12);
+    }
+
+    .product-image {
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      background: #181818;
+    }
+
+    .btn-primary {
+      background: linear-gradient(110deg,#0284c7,#38BDF8);
+      color: #050505;
+      font-weight: 900;
+      transition: .2s;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.15);
+      transform: translateY(-2px);
+    }
+
+    .section-line {
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        #38BDF8,
+        transparent
+      );
+    }
+
+    .modal {
+      display: none;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    input, textarea {
+      background: #17191c;
+      border: 1px solid #34383e;
+      color: white;
+      outline: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #38BDF8;
+    }
+
+    .category-btn.active {
+      background: #38BDF8;
+      color: #050505;
+    }
+
+    .toast {
+      transform: translateY(100px);
+      opacity: 0;
+      transition: .3s;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="fixed top-0 left-0 w-full z-40
+  bg-black/85 backdrop-blur-xl border-b border-white/10">
+
+  <nav class="max-w-7xl mx-auto px-5 h-20
+    flex items-center justify-between">
+
+    <a href="#" class="text-3xl font-black tracking-tighter">
+      SK<span class="chrome-text">82</span>ND
+    </a>
+
+    <div class="hidden md:flex gap-8 text-sm
+      uppercase tracking-widest text-gray-300">
+
+      <a href="#shop" class="hover:text-sky-400">Shop</a>
+      <a href="#story" class="hover:text-sky-400">Our Story</a>
+      <a href="#recycle" class="hover:text-sky-400">Recycle</a>
+      <a href="#community" class="hover:text-sky-400">Community</a>
+
+    </div>
+
+    <button onclick="openCart()"
+      class="border border-sky-400 px-4 py-2
+      hover:bg-sky-400 hover:text-black transition">
+
+      BAG (<span id="cartCount">0</span>)
+
+    </button>
+
+  </nav>
+</header>
+
+
+<!-- HERO -->
+<section class="hero-bg min-h-[760px] pt-28
+  flex items-center overflow-hidden">
+
+  <div class="max-w-7xl mx-auto px-6 py-20
+    grid md:grid-cols-2 gap-12 items-center">
+
+    <div>
+
+      <p class="text-sky-400 tracking-[.35em]
+        text-xs font-bold mb-6">
+        INDEPENDENT SKATE CULTURE
+      </p>
+
+      <h1 class="text-6xl md:text-8xl
+        font-black leading-[.9] tracking-tighter">
+
+        NOT JUST<br>
+        A <span class="chrome-text">BOARD.</span>
+
+      </h1>
+
+      <h2 class="text-2xl md:text-4xl
+        font-black mt-4 text-gray-400">
+        IT'S A LIFESTYLE.
+      </h2>
+
+      <p class="text-gray-400 mt-7 max-w-md leading-7">
+        Skate your own way. Find your board,
+        discover your style and become part
+        of something bigger.
+      </p>
+
+      <div class="flex flex-wrap gap-4 mt-9">
+
+        <a href="#shop"
+          class="btn-primary px-8 py-4 inline-block">
+          SHOP NOW ↗
+        </a>
+
+        <a href="#story"
+          class="border border-white/30 px-8 py-4
+          hover:border-sky-400 transition">
+          OUR STORY
+        </a>
+
+      </div>
+
+      <div class="flex gap-10 mt-16">
+
+        <div>
+          <p class="text-3xl font-black chrome-text">01</p>
+          <p class="text-xs text-gray-500 tracking-widest">
+            FIND YOUR BOARD
+          </p>
+        </div>
+
+        <div>
+          <p class="text-3xl font-black chrome-text">02</p>
+          <p class="text-xs text-gray-500 tracking-widest">
+            OWN YOUR STYLE
+          </p>
+        </div>
+
+        <div>
+          <p class="text-3xl font-black chrome-text">03</p>
+          <p class="text-xs text-gray-500 tracking-widest">
+            RIDE TOGETHER
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="relative">
+
+      <div class="absolute inset-0 bg-sky-500/10
+        blur-[100px] rounded-full"></div>
+
+      <img
+        src="https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?w=1000"
+        alt="Skateboard"
+        class="relative w-full object-cover
+        aspect-[4/5] rounded-xl opacity-90
+        border border-white/10">
+
+      <div class="absolute bottom-5 left-5
+        bg-black/80 backdrop-blur px-5 py-4">
+
+        <p class="text-sky-400 text-xs tracking-widest">
+          SK82ND ORIGINAL
+        </p>
+
+        <p class="font-black text-xl">
+          RIDE DIFFERENT.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<div class="section-line"></div>
+
+
+<!-- SHOP -->
+<section id="shop" class="max-w-7xl mx-auto
+  px-5 py-24">
+
+  <div class="flex flex-wrap justify-between
+    items-end gap-5 mb-10">
+
+    <div>
+      <p class="text-sky-400 text-xs
+        tracking-[.3em] mb-3">
+        THE COLLECTION
+      </p>
+
+      <h2 class="text-5xl font-black
+        tracking-tighter">
+        LATEST <span class="chrome-text">DROPS.</span>
+      </h2>
+
+      <p class="text-gray-500 mt-3">
+        Find your next ride.
+      </p>
+    </div>
+
+    <span id="productTotal"
+      class="text-sm text-gray-500">
+      Loading products...
+    </span>
+
+  </div>
+
+
+  <!-- SEARCH -->
+  <div class="flex flex-col md:flex-row gap-4 mb-7">
+
+    <input id="searchInput"
+      type="search"
+      placeholder="Search your skateboard..."
+      class="w-full px-5 py-4 rounded"
+      oninput="renderProducts()">
+
+    <button onclick="loadProducts()"
+      class="border border-sky-400 px-6 py-3
+      hover:bg-sky-400 hover:text-black">
+      ↻ REFRESH
+    </button>
+
+  </div>
+
+
+  <!-- CATEGORIES -->
+  <div class="flex flex-wrap gap-3 mb-10">
+
+    <button class="category-btn active border
+      border-white/20 px-6 py-3"
+      data-category="all"
+      onclick="setCategory('all',this)">
+      ALL
+    </button>
+
+    <button class="category-btn border
+      border-white/20 px-6 py-3"
+      data-category="complete"
+      onclick="setCategory('complete',this)">
+      COMPLETE
+    </button>
+
+    <button class="category-btn border
+      border-white/20 px-6 py-3"
+      data-category="deck"
+      onclick="setCategory('deck',this)">
+      DECKS
+    </button>
+
+    <button class="category-btn border
+      border-white/20 px-6 py-3"
+      data-category="trucks"
+      onclick="setCategory('trucks',this)">
+      TRUCKS
+    </button>
+
+    <button class="category-btn border
+      border-white/20 px-6 py-3"
+      data-category="wheels"
+      onclick="setCategory('wheels',this)">
+      WHEELS
+    </button>
+
+  </div>
+
+
+  <!-- PRODUCTS DYNAMICALLY GENERATED -->
+  <div id="productGrid"
+    class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+
+    <div class="col-span-full text-center
+      text-gray-500 py-20">
+      Loading SK82ND inventory...
+    </div>
+
+  </div>
+
+  <div id="emptyState"
+    class="hidden text-center py-20 text-gray-500">
+    NO PRODUCTS FOUND.
+  </div>
+
+</section>
+
+
+<div class="section-line"></div>
+
+
+<!-- HOW TO BUY -->
+<section class="bg-[#101214] py-20">
+
+  <div class="max-w-7xl mx-auto px-5">
+
+    <div class="text-center mb-14">
+
+      <p class="text-sky-400 tracking-[.3em] text-xs">
+        EASY AS 1, 2, 3
+      </p>
+
+      <h2 class="text-4xl md:text-5xl
+        font-black mt-3">
+        HOW TO <span class="chrome-text">BUY.</span>
+      </h2>
+
+      <p class="text-gray-500 mt-4">
+        Three simple steps. Your board is on its way.
+      </p>
+
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <div class="text-center p-8 border border-white/10">
+        <div class="text-5xl mb-5">🛹</div>
+        <p class="text-sky-400 font-black">STEP 01</p>
+        <h3 class="text-xl font-black mt-2">
+          CHOOSE YOUR BOARD
+        </h3>
+        <p class="text-gray-500 mt-3 text-sm">
+          Find the skateboard that fits your style.
+        </p>
+      </div>
+
+      <div class="text-center p-8 border border-white/10">
+        <div class="text-5xl mb-5">🛒</div>
+        <p class="text-sky-400 font-black">STEP 02</p>
+        <h3 class="text-xl font-black mt-2">
+          CLICK BUY NOW
+        </h3>
+        <p class="text-gray-500 mt-3 text-sm">
+          Add to your bag or order directly.
+        </p>
+      </div>
+
+      <div class="text-center p-8 border border-white/10">
+        <div class="text-5xl mb-5">📦</div>
+        <p class="text-sky-400 font-black">STEP 03</p>
+        <h3 class="text-xl font-black mt-2">
+          ENTER YOUR DETAILS
+        </h3>
+        <p class="text-gray-500 mt-3 text-sm">
+          Name, phone number and address. Done!
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- STORY -->
+<section id="story" class="max-w-7xl mx-auto
+  px-5 py-24">
+
+  <div class="grid md:grid-cols-2 gap-12 items-center">
+
+    <div>
+
+      <p class="text-sky-400 tracking-[.3em] text-xs">
+        WHO WE ARE
+      </p>
+
+      <h2 class="text-5xl md:text-6xl
+        font-black mt-4 leading-tight">
+        MORE THAN<br>
+        <span class="chrome-text">SKATEBOARD.</span>
+      </h2>
+
+      <p class="text-gray-400 mt-7 leading-8">
+        Sk82nd isn't just a skateboard shop.
+        It's a space for people who love freedom,
+        creativity and the feeling of being on wheels.
+      </p>
+
+      <p class="text-gray-400 mt-4 leading-8">
+        We believe skateboarding is more than
+        a sport. It's a way to express yourself,
+        challenge your limits and connect
+        with people who share the same passion.
+      </p>
+
+    </div>
+
+    <img
+      src="https://images.unsplash.com/photo-1547448415-e9f5b28e570d?w=1000"
+      alt="Skate culture"
+      class="w-full aspect-[4/3] object-cover rounded-lg">
+
+  </div>
+
+</section>
+
+
+<!-- RECYCLE -->
+<section id="recycle"
+  class="bg-[#101820] py-24">
+
+  <div class="max-w-7xl mx-auto px-5
+    grid md:grid-cols-2 gap-12 items-center">
+
+    <div>
+
+      <p class="text-sky-400 tracking-[.3em] text-xs">
+        SK82ND RE:BOARD PROJECT
+      </p>
+
+      <h2 class="text-5xl md:text-6xl
+        font-black mt-5">
+        GIVE IT<br>
+        A <span class="chrome-text">SECOND</span><br>
+        LIFE.
+      </h2>
+
+      <p class="text-gray-400 leading-8 mt-7">
+        An old skateboard doesn't have to
+        become waste.
+      </p>
+
+      <p class="text-gray-400 leading-8 mt-3">
+        Sk82nd aims to collect used and damaged
+        decks, reuse suitable materials and
+        explore creative ways to give old
+        skateboards a new purpose.
+      </p>
+
+      <a id="recycleContact"
+        href="#"
+        class="btn-primary inline-block
+        px-7 py-4 mt-8">
+        JOIN THE RE:BOARD PROJECT ↗
+      </a>
+
+    </div>
+
+    <img
+      src="https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?w=1000"
+      alt="Skateboard recycling"
+      class="w-full aspect-square object-cover rounded-lg">
+
+  </div>
+
+</section>
+
+
+<!-- COMMUNITY -->
+<section id="community"
+  class="max-w-7xl mx-auto px-5 py-24">
+
+  <div class="text-center max-w-2xl mx-auto">
+
+    <p class="text-sky-400 text-xs tracking-[.3em]">
+      MIND. BODY. COMMUNITY.
+    </p>
+
+    <h2 class="text-5xl font-black mt-4">
+      FIND YOUR <span class="chrome-text">BALANCE.</span>
+    </h2>
+
+    <p class="text-gray-400 mt-6 leading-8">
+      Skateboarding helps build balance,
+      endurance and coordination. It also gives
+      you a chance to step away from everyday
+      pressure, enjoy movement and meet new friends.
+    </p>
+
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-5 mt-14">
+
+    <div class="border border-white/10 p-8">
+      <p class="text-4xl">⚡</p>
+      <h3 class="font-black text-xl mt-5">
+        PHYSICAL HEALTH
+      </h3>
+      <p class="text-gray-500 text-sm mt-3">
+        Improve balance, endurance and
+        body coordination.
+      </p>
+    </div>
+
+    <div class="border border-white/10 p-8">
+      <p class="text-4xl">🧠</p>
+      <h3 class="font-black text-xl mt-5">
+        MENTAL FREEDOM
+      </h3>
+      <p class="text-gray-500 text-sm mt-3">
+        Take a break, stay active and
+        release everyday stress.
+      </p>
+    </div>
+
+    <div class="border border-white/10 p-8">
+      <p class="text-4xl">🤝</p>
+      <h3 class="font-black text-xl mt-5">
+        REAL CONNECTIONS
+      </h3>
+      <p class="text-gray-500 text-sm mt-3">
+        Meet people, learn together
+        and grow a skate community.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FOOTER -->
+<footer class="border-t border-white/10
+  bg-black py-14">
+
+  <div class="max-w-7xl mx-auto px-5">
+
+    <div class="flex flex-col md:flex-row
+      justify-between gap-10">
+
+      <div>
+        <h2 class="text-4xl font-black tracking-tighter">
+          SK<span class="chrome-text">82</span>ND
+        </h2>
+
+        <p class="text-gray-500 mt-3 text-sm">
+          RIDE YOUR OWN WAY.
+        </p>
+      </div>
+
+      <div>
+        <p class="font-black mb-4">EXPLORE</p>
+        <div class="flex flex-col gap-3 text-gray-500 text-sm">
+          <a href="#shop">Shop</a>
+          <a href="#story">Our Story</a>
+          <a href="#recycle">Recycling</a>
+          <a href="#community">Community</a>
+        </div>
+      </div>
+
+      <div>
+        <p class="font-black mb-4">CONTACT</p>
+        <div class="flex flex-col gap-3 text-gray-500 text-sm">
+          <a id="footerZalo" href="#">Zalo</a>
+          <a id="footerMessenger" href="#">Messenger</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-line my-10"></div>
+
+    <p class="text-center text-gray-600 text-xs">
+      © 2026 SK82ND. ALL RIGHTS RESERVED.
+    </p>
+
+  </div>
+</footer>
+
+
+<!-- CART MODAL -->
+<div id="cartModal"
+  class="modal fixed inset-0 z-50
+  bg-black/90 items-center justify-center p-4">
+
+  <div class="bg-[#151719] border border-white/10
+    w-full max-w-lg p-6 rounded-lg max-h-[90vh]
+    overflow-y-auto">
+
+    <div class="flex justify-between items-center">
+      <h2 class="text-2xl font-black">YOUR BAG</h2>
+
+      <button onclick="closeCart()"
+        class="text-2xl">×</button>
+    </div>
+
+    <div id="cartItems" class="mt-6"></div>
+
+    <div class="border-t border-white/10 mt-6 pt-5">
+      <div class="flex justify-between font-black">
+        <span>TOTAL</span>
+        <span id="cartTotal">0 ₫</span>
+      </div>
+
+      <button onclick="openCheckout()"
+        class="btn-primary w-full py-4 mt-6">
+        CHECKOUT →
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- CHECKOUT MODAL -->
+<div id="checkoutModal"
+  class="modal fixed inset-0 z-[60]
+  bg-black/95 items-center justify-center p-4">
+
+  <div class="bg-[#151719] border border-sky-400/30
+    w-full max-w-lg p-6 rounded-lg">
+
+    <div class="flex justify-between">
+      <h2 class="text-2xl font-black">
+        ORDER DETAILS
+      </h2>
+
+      <button onclick="closeCheckout()"
+        class="text-2xl">×</button>
+    </div>
+
+    <form id="checkoutForm" class="mt-7 space-y-4">
+
+      <input id="customerName"
+        required maxlength="100"
+        placeholder="Your full name"
+        class="w-full p-4 rounded">
+
+      <input id="customerPhone"
+        required type="tel"
+        maxlength="20"
+        placeholder="Phone number"
+        class="w-full p-4 rounded">
+
+      <textarea id="customerAddress"
+        required maxlength="500"
+        placeholder="Delivery address"
+        class="w-full p-4 rounded h-28"></textarea>
+
+      <textarea id="customerNote"
+        maxlength="500"
+        placeholder="Order note (optional)"
+        class="w-full p-4 rounded h-20"></textarea>
+
+      <button type="submit"
+        class="btn-primary w-full py-4">
+        SEND ORDER VIA ZALO ↗
+      </button>
+
+      <p class="text-gray-500 text-xs text-center">
+        Your order will be sent to our shop
+        through Zalo for confirmation.
+      </p>
+
+    </form>
+
+  </div>
+</div>
+
+
+<!-- TOAST -->
+<div id="toast"
+  class="toast fixed bottom-6 left-1/2
+  -translate-x-1/2 z-[100]
+  bg-sky-400 text-black font-bold
+  px-6 py-4 rounded shadow-xl">
+</div>
+
+
+<script>
+
+// ======================================
+// CONFIG
+// ======================================
+
+const API_URL = "/api";
+
+let products = [];
+let cart = [];
+let currentCategory = "all";
+
+let shopConfig = {
+  zalo: "",
+  messenger: ""
+};
+
+const money = value =>
+  new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND"
+  }).format(value);
+
+
+// ======================================
+// FETCH SHOP CONFIG
+// ======================================
+
+async function loadConfig() {
+  try {
+    const res = await fetch(`${API_URL}/config`);
+    shopConfig = await res.json();
+
+    const zalo = shopConfig.zalo
+      ? `https://zalo.me/${shopConfig.zalo}`
+      : "#";
+
+    const messenger = shopConfig.messenger
+      ? `https://m.me/${shopConfig.messenger}`
+      : "#";
+
+    document.getElementById("footerZalo").href = zalo;
+    document.getElementById("footerMessenger").href = messenger;
+    document.getElementById("recycleContact").href = zalo;
+
+  } catch (error) {
+    console.error("Config error:", error);
+  }
+}
+
+
+// ======================================
+// FETCH PRODUCTS FROM NOTION BACKEND
+// ======================================
+
+async function loadProducts() {
+
+  const grid = document.getElementById("productGrid");
+
+  grid.innerHTML = `
+    <div class="col-span-full text-center py-20 text-gray-500">
+      LOADING INVENTORY...
+    </div>
+  `;
+
+  try {
+
+    const response = await fetch(`${API_URL}/products`);
+
+    if (!response.ok) {
+      throw new Error("API error");
+    }
+
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error("Cannot load products");
+    }
+
+    products = data.products || [];
+
+    renderProducts();
+
+  } catch (error) {
+
+    console.error(error);
+
+    grid.innerHTML = `
+      <div class="col-span-full text-center py-20">
+        <p class="text-red-400 font-bold">
+          CANNOT LOAD PRODUCTS
+        </p>
+        <button onclick="loadProducts()"
+          class="border border-sky-400 px-6 py-3 mt-5">
+          TRY AGAIN
+        </button>
+      </div>
+    `;
+  }
+}
+
+
+// ======================================
+// PRODUCT CARD
+// ======================================
+
+function renderProducts() {
+
+  const grid = document.getElementById("productGrid");
+
+  const search = document.getElementById("searchInput")
+    .value.toLowerCase().trim();
+
+  const filtered = products.filter(product => {
+
+    const name = product.name.toLowerCase();
+    const description = product.description.toLowerCase();
+    const category = product.category.toLowerCase();
+
+    const matchesSearch =
+      name.includes(search) ||
+      description.includes(search) ||
+      category.includes(search);
+
+    let matchesCategory = true;
+
+    if (currentCategory !== "all") {
+      matchesCategory =
+        category.includes(currentCategory) ||
+        name.includes(currentCategory);
+    }
+
+    return matchesSearch && matchesCategory;
+  });
+
+  document.getElementById("productTotal").textContent =
+    `${filtered.length} PRODUCTS`;
+
+  document.getElementById("emptyState")
+    .classList.toggle("hidden", filtered.length !== 0);
+
+  grid.innerHTML = filtered.map(product => {
+
+    const image = product.image || "";
+
+    const description = product.description
+      .slice(0, 100);
+
+    const safeId = JSON.stringify(product.id);
+
+    return `
+
+      <article class="product-card rounded-lg overflow-hidden">
+
+        <div class="relative">
+
+          <img
+            src="${escapeHTML(image)}"
+            alt="${escapeHTML(product.name)}"
+            class="product-image w-full"
+            loading="lazy"
+            onerror="this.src='https://placehold.co/600x600/151719/38BDF8?text=SK82ND'">
+
+          <span class="absolute top-3 left-3
+            bg-black/80 text-sky-400
+            text-[10px] tracking-widest px-3 py-2">
+            SK82ND
+          </span>
+
+        </div>
+
+        <div class="p-4">
+
+          <p class="text-gray-500 text-[10px]
+            uppercase tracking-widest">
+            ${escapeHTML(product.category)}
+          </p>
+
+          <h3 class="font-black text-sm md:text-base
+            mt-2 min-h-10">
+            ${escapeHTML(product.name)}
+          </h3>
+
+          <p class="text-gray-500 text-xs
+            mt-2 min-h-8">
+            ${escapeHTML(description)}
+          </p>
+
+          <p class="chrome-text font-black
+            text-lg mt-4">
+            ${money(product.price)}
+          </p>
+
+          <p class="text-xs text-gray-500 mt-2">
+            ${product.stock === null
+              ? "Contact for availability"
+              : `Stock: ${product.stock}`}
+          </p>
+
+          <button
+            onclick="addToCart(${safeId})"
+            class="btn-primary w-full py-3 mt-4 text-xs">
+            ADD TO BAG
+          </button>
+
+          <button
+            onclick="buyNow(${safeId})"
+            class="w-full border border-white/20
+            py-3 mt-2 text-xs
+            hover:border-sky-400 transition">
+            BUY NOW ↗
+          </button>
+
+        </div>
+
+      </article>
+
+    `;
+
+  }).join("");
+
+}
+
+
+// Escape HTML to avoid injecting Notion text as markup
+function escapeHTML(value) {
+
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+
+}
+
+
+// ======================================
+// CATEGORY FILTER
+// ======================================
+
+function setCategory(category, button) {
+
+  currentCategory = category;
+
+  document.querySelectorAll(".category-btn")
+    .forEach(btn => btn.classList.remove("active"));
+
+  button.classList.add("active");
+
+  renderProducts();
+}
+
+
+// ======================================
+// CART
+// ======================================
+
+function addToCart(id) {
+
+  const product = products.find(p => p.id === id);
+
+  if (!product) return;
+
+  const existing = cart.find(p => p.id === id);
+
+  if (existing) {
+    existing.quantity++;
+  } else {
+    cart.push({
+      ...product,
+      quantity: 1
+    });
+  }
+
+  updateCart();
+
+  showToast("ADDED TO YOUR BAG ✓");
+}
+
+
+function updateCart() {
+
+  const count = cart.reduce(
+    (sum, item) => sum + item.quantity, 0
+  );
+
+  document.getElementById("cartCount").textContent = count;
+
+  const total = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity, 0
+  );
+
+  document.getElementById("cartTotal").textContent =
+    money(total);
+
+  document.getElementById("cartItems").innerHTML =
+    cart.length
+      ? cart.map(item => `
+        <div class="flex justify-between gap-4
+          border-b border-white/10 py-4">
+
+          <div>
+            <p class="font-bold">
+              ${escapeHTML(item.name)}
+            </p>
+
+            <p class="text-sky-400 text-sm mt-2">
+              ${money(item.price)}
+            </p>
+
+            <p class="text-gray-500 text-xs mt-2">
+              Quantity: ${item.quantity}
+            </p>
+          </div>
+
+          <button onclick="removeFromCart('${item.id}')"
+            class="text-red-400">
+            REMOVE
+          </button>
+
+        </div>
+      `).join("")
+      : '<p class="text-gray-500 py-8">Your bag is empty.</p>';
+}
+
+
+function removeFromCart(id) {
+  cart = cart.filter(item => item.id !== id);
+  updateCart();
+}
+
+
+function openCart() {
+  document.getElementById("cartModal")
+    .classList.add("active");
+}
+
+
+function closeCart() {
+  document.getElementById("cartModal")
+    .classList.remove("active");
+}
+
+
+// ======================================
+// BUY NOW
+// ======================================
+
+function buyNow(id) {
+
+  const product = products.find(p => p.id === id);
+
+  if (!product) return;
+
+  cart = [{
+    ...product,
+    quantity: 1
+  }];
+
+  updateCart();
+
+  openCheckout();
+}
+
+
+// ======================================
+// CHECKOUT
+// ======================================
+
+function openCheckout() {
+
+  if (!cart.length) {
+    showToast("YOUR BAG IS EMPTY");
+    return;
+  }
+
+  closeCart();
+
+  document.getElementById("checkoutModal")
+    .classList.add("active");
+}
+
+
+function closeCheckout() {
+  document.getElementById("checkoutModal")
+    .classList.remove("active");
+}
+
+
+document.getElementById("checkoutForm")
+  .addEventListener("submit", event => {
+
+    event.preventDefault();
+
+    if (!cart.length) return;
+
+    const name = document.getElementById("customerName")
+      .value.trim();
+
+    const phone = document.getElementById("customerPhone")
+      .value.trim();
+
+    const address = document.getElementById("customerAddress")
+      .value.trim();
+
+    const note = document.getElementById("customerNote")
+      .value.trim();
+
+    const phoneValid = /^[0-9+().\-\s]{8,20}$/.test(phone);
+
+    if (!name || !address || !phoneValid) {
+      showToast("PLEASE CHECK YOUR DETAILS");
+      return;
+    }
+
+    const orderLines = cart.map(item =>
+      `- ${item.name} x${item.quantity}: ${money(item.price * item.quantity)}`
+    );
+
+    const total = cart.reduce(
+      (sum, item) => sum + item.price * item.quantity, 0
+    );
+
+    const message = [
+      "SK82ND - NEW ORDER",
+      "",
+      `Name: ${name}`,
+      `Phone: ${phone}`,
+      `Address: ${address}`,
+      "",
+      "PRODUCTS:",
+      ...orderLines,
+      "",
+      `TOTAL: ${money(total)}`,
+      `Note: ${note || "None"}`
+    ].join("\n");
+
+    if (!shopConfig.zalo) {
+      showToast("SHOP ZALO IS NOT CONFIGURED");
+      return;
+    }
+
+    const zaloURL =
+      `https://zalo.me/${encodeURIComponent(shopConfig.zalo)}`;
+
+    // Copy order message and open Zalo
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(message)
+        .catch(() => {});
+    }
+
+    window.open(zaloURL, "_blank", "noopener");
+
+    showToast("ORDER READY - PASTE MESSAGE IN ZALO");
+
+  });
+
+
+// ======================================
+// TOAST
+// ======================================
+
+function showToast(message) {
+
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2800);
+}
+
+
+// ======================================
+// INITIALIZE
+// ======================================
+
+loadConfig();
+loadProducts();
+
+// Refresh inventory every 60 seconds.
+// Backend cache prevents excessive Notion API requests.
+setInterval(loadProducts, 60 * 1000);
+
+</script>
+
+</body>
+</html>
