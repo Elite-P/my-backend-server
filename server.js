@@ -26,7 +26,7 @@ const PROP = {
   stock: "SL Tồn",
   price: "Giá dự kiến",
   gifts: "Gifts",
-  status: "Tình trạng hàng (Automate)"
+  status: "Tình trạng hàng (Automate)",
   manualStatus: "Tình trạng hàng (Manual)"
 };
 
