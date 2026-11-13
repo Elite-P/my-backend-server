@@ -1,7 +1,7 @@
 
-require("dotenv").config();
-
-const express = require("express");
+import express from 'express';
+import dotenv from 'dotenv';
+dotenv.config();
 const path = require("path");
 const { Client } = require("@notionhq/client");
 const helmet = require("helmet");
