@@ -248,15 +248,20 @@ app.get("/api/products", async (req, res) => {
       total: cache.products.length,
       products: cache.products
     });
+} catch (error) {
+  console.error("========== SK82ND NOTION ERROR ==========");
+  console.error("Message:", error.message);
+  console.error("Code:", error.code);
+  console.error("Status:", error.status);
+  console.error("Body:", error.body);
+  console.error("Stack:", error.stack);
+  console.error("=========================================");
 
-  } catch (error) {
-    console.error("Notion API error:", error);
-
-    res.status(500).json({
-      success: false,
-      error: "Cannot load Notion inventory"
-    });
-  }
+  res.status(500).json({
+    success: false,
+    error: "Cannot load Notion inventory"
+  });
+}
 });
 
 // Lấy URL ảnh mới nhất từ Notion
