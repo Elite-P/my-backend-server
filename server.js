@@ -95,12 +95,17 @@ function parseStock(value) {
 
 // Chỉ lấy trạng thái Còn tồn
 // Vòng lặp chính duyệt qua từng sản phẩm trả về từ Notion
+// 1. Gọi API lấy dữ liệu từ Notion Database trước
+const response = await notion.databases.query({
+  database_id: process.env.NOTION_DATABASE_ID,
+});
+
+const products = [];
+
+// 2. Sau đó mới dùng vòng lặp duyệt qua response.results
 for (const page of response.results) {
 
-  // Kiểm tra trạng thái còn tồn kho hay không
-  if (!isAvailable(page)) continue;
-
-  // Lấy toàn bộ danh sách block ảnh bên trong trang con của sản phẩm này (dùng đúng biến `page.id`)
+  // Lấy danh sách ảnh bên trong trang con
   const blocks = await notion.blocks.children.list({ block_id: page.id });
   const images = blocks.results
     .filter(block => block.type === "image")
@@ -115,9 +120,7 @@ for (const page of response.results) {
     gifts: readProperty(page, PROP.gifts),
     condition: readProperty(page, PROP.condition) || "New",
     category: readProperty(page, PROP.category) || "Complete",
-    // Ảnh chính cho trang chủ (lấy ảnh đầu tiên)
     image: images.length > 0 ? `/api/image/${page.id}/0` : null,
-    // Toàn bộ ảnh cho trang chi tiết
     images: images.map((_, index) => `/api/image/${page.id}/${index}`)
   });
 }
