@@ -96,16 +96,26 @@ function parseStock(value) {
 const products = [];
 
 // 1. Gọi API lấy dữ liệu từ Notion Database trước
-const response = await notion.databases.query({
-  database_id: process.env.NOTION_DATABASE_ID,
-});
+const databaseId = process.env.NOTION_DATABASE_ID;
 
-// 2. Vòng lặp chính duyệt qua từng sản phẩm trả về từ Notion
+if (!databaseId) {
+  console.error("LỖI: Chưa cấu hình NOTION_DATABASE_ID trong biến môi trường Render!");
+}
+
+let response = { results: [] };
+try {
+  response = await notion.databases.query({
+    database_id: databaseId,
+  });
+} catch (err) {
+  console.error("Không thể truy vấn Notion Database:", err.message);
+}
+
+// Vòng lặp duyệt dữ liệu an toàn
 for (const page of response.results) {
   if (!page || !page.id) continue;
-
   if (!isAvailable(page)) continue;
-
+  
   let images = [];
   try {
     const blocks = await notion.blocks.children.list({ block_id: page.id });
