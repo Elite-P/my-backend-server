@@ -93,8 +93,14 @@ function parseStock(value) {
   return match ? Number(match[0]) : 0;
 }
 
-// Chỉ lấy trạng thái Còn tồn
-// Vòng lặp chính duyệt qua từng sản phẩm trả về từ Notion
+const products = [];
+
+// 1. Gọi API lấy dữ liệu từ Notion Database trước
+const response = await notion.databases.query({
+  database_id: process.env.NOTION_DATABASE_ID,
+});
+
+// 2. Vòng lặp chính duyệt qua từng sản phẩm trả về từ Notion
 for (const page of response.results) {
   if (!page || !page.id) continue;
 
