@@ -21,6 +21,7 @@ const notion = new Client({
 const DATABASE_ID = process.env.NOTION_DATABASE_ID;
 
 // Tên Properties trong Database Sk82nd
+// Cập nhật lại tên các cột trỏ vào Database Notion mới
 const PROP = {
   name: "Tên",
   info: "Thông tin ván",
@@ -28,7 +29,9 @@ const PROP = {
   price: "Giá dự kiến",
   gifts: "Gifts",
   status: "Tình trạng hàng (Automate)",
-  manualStatus: "Tình trạng hàng (Manual)"
+  manualStatus: "Tình trạng hàng (Manual)",
+  condition: "Loại hàng (AI)",   // 👈 Cột Formula/AI bóc tách New / 2hand
+  category: "Danh mục (AI)"     // 👈 Cột Formula/AI bóc tách Deck, Trucks, v.v.
 };
 
 app.use(helmet({
@@ -92,78 +95,40 @@ function parseStock(value) {
 
 // Chỉ lấy trạng thái Còn tồn
 function isAvailable(page) {
-  // 1. Kiểm tra cột Manual trước (chỉnh sửa tay)
-  const manual = String(
-    readProperty(page, PROP.manualStatus) || ""
-  ).trim().toLowerCase();
-
-  // Nếu trong Manual có chữ như "hết", "giữ chỗ", "ẩn" thì ẩn luôn khỏi web
+  // 1. Kiểm tra trạng thái chỉnh tay (Manual) nếu có
+  const manual = String(readProperty(page, PROP.manualStatus) || "").trim().toLowerCase();
   if (manual.includes("hết") || manual.includes("giữ") || manual.includes("ẩn")) {
     return false;
   }
-
-  // Nếu Manual có ghi rõ là "còn" hoặc "hiện" thì cho phép hiển thị luôn
   if (manual.includes("còn") || manual.includes("hiện")) {
     return true;
   }
 
-  // 2. Nếu Manual để trống, hệ thống mới xét tiếp cột Automate
-  const autoStatus = String(
-    readProperty(page, PROP.status) || ""
-  ).trim().toLowerCase();
-
+  // 2. Kiểm tra cột tự động (Automate) - nếu SL tồn = 0 sẽ trả về "Sold Out"
+  const autoStatus = String(readProperty(page, PROP.status) || "").trim().toLowerCase();
   return autoStatus.includes("còn");
 }
 // Lấy toàn bộ ảnh trong nội dung trang Notion
-async function getPageImages(blockId, depth = 0) {
-  if (depth > 3) return [];
+// Lấy danh sách block ảnh bên trong trang con của sản phẩm
+const blocks = await notion.blocks.children.list({ block_id: page.id });
+const images = blocks.results
+  .filter(block => block.type === "image")
+  .map(block => block.image.file?.url || block.image.external?.url);
 
-  const images = [];
-  let cursor;
-
-  do {
-    const response = await notion.blocks.children.list({
-      block_id: blockId,
-      page_size: 100,
-      ...(cursor ? { start_cursor: cursor } : {})
-    });
-
-    for (const block of response.results) {
-      if (block.type === "image") {
-        const image = block.image;
-
-        if (image.type === "external") {
-          images.push({
-            url: image.external.url,
-            notionFile: false
-          });
-        } else if (image.type === "file") {
-          images.push({
-            url: image.file.url,
-            notionFile: true
-          });
-        }
-      }
-
-      // Đọc cả ảnh nằm trong các block lồng nhau
-      if (block.has_children) {
-        const nested = await getPageImages(
-          block.id,
-          depth + 1
-        );
-        images.push(...nested);
-      }
-    }
-
-    cursor = response.has_more
-      ? response.next_cursor
-      : undefined;
-
-  } while (cursor);
-
-  return images;
-}
-
+products.push({
+  id: page.id,
+  name: readProperty(page, PROP.name),
+  info: readProperty(page, PROP.info),
+  stock: readProperty(page, PROP.stock),
+  price: readProperty(page, PROP.price),
+  gifts: readProperty(page, PROP.gifts),
+  condition: readProperty(page, PROP.condition) || "New",
+  category: readProperty(page, PROP.category) || "Complete",
+  // Ảnh chính cho trang chủ (lấy ảnh đầu tiên)
+  image: images.length > 0 ? `/api/image/${page.id}/0` : null,
+  // Toàn bộ ảnh cho trang chi tiết
+  images: images.map((_, index) => `/api/image/${page.id}/${index}`)
+});
 // Cache dữ liệu
 let cache = {
   time: 0,
