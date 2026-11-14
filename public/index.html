@@ -242,7 +242,9 @@ async function loadProducts() {
 // Render sản phẩm
 function render() {
   const items = products.filter(p => {
-    return filter === "All";
+    if (filter === "All") return true;
+    // Khớp với danh mục (Deck, Trucks, Wheels, Complete) hoặc loại hàng (New, 2hand)
+    return p.category === filter || p.condition === filter;
   });
 
   document.getElementById("result-count").textContent =
@@ -251,7 +253,7 @@ function render() {
   if (!items.length) {
     grid.innerHTML = `
       <p style="padding:40px;color:#64748b">
-        Hiện chưa có sản phẩm còn tồn.
+        Hiện chưa có sản phẩm trong danh mục này.
       </p>
     `;
     return;
@@ -284,7 +286,7 @@ function render() {
           ${image}
 
           <span class="product-badge">
-            AVAILABLE
+            ${escapeHTML(p.condition || "New")}
           </span>
 
           <button
@@ -294,7 +296,7 @@ function render() {
             Add to bag +
           </button>
 
-        </div>
+          </div>
 
         <div class="product-info">
 
@@ -322,7 +324,6 @@ function render() {
     `;
   }).join("");
 }
-
 // Bộ lọc
 // Không sử dụng các danh mục cũ vì API mới chỉ trả
 // về những trường dữ liệu đã được yêu cầu.
