@@ -93,11 +93,9 @@ function parseStock(value) {
   return match ? Number(match[0]) : 0;
 }
 
-const products = [];
-
 // 1. Gọi API lấy dữ liệu từ Notion Database trước
 // Khởi tạo mảng sản phẩm trống để tránh lỗi undefined
-let products = [];
+const products = [];
 
 try {
   const databaseId = process.env.NOTION_DATABASE_ID;
