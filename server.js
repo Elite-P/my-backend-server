@@ -95,21 +95,20 @@ function parseStock(value) {
 
 // Chỉ lấy trạng thái Còn tồn
 // Vòng lặp chính duyệt qua từng sản phẩm trả về từ Notion
-// 1. Gọi API lấy dữ liệu từ Notion Database trước
-const response = await notion.databases.query({
-  database_id: process.env.NOTION_DATABASE_ID,
-});
-
-const products = [];
-
-// 2. Sau đó mới dùng vòng lặp duyệt qua response.results
 for (const page of response.results) {
+  if (!page || !page.id) continue;
 
-  // Lấy danh sách ảnh bên trong trang con
-  const blocks = await notion.blocks.children.list({ block_id: page.id });
-  const images = blocks.results
-    .filter(block => block.type === "image")
-    .map(block => block.image.file?.url || block.image.external?.url);
+  if (!isAvailable(page)) continue;
+
+  let images = [];
+  try {
+    const blocks = await notion.blocks.children.list({ block_id: page.id });
+    images = blocks.results
+      .filter(block => block.type === "image")
+      .map(block => block.image.file?.url || block.image.external?.url);
+  } catch (err) {
+    console.error(`Không thể lấy ảnh của page ${page.id}:`, err.message);
+  }
 
   products.push({
     id: page.id,
