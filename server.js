@@ -94,19 +94,32 @@ function parseStock(value) {
 }
 
 // Chỉ lấy trạng thái Còn tồn
-function isAvailable(page) {
-  // 1. Kiểm tra trạng thái chỉnh tay (Manual) nếu có
-  const manual = String(readProperty(page, PROP.manualStatus) || "").trim().toLowerCase();
-  if (manual.includes("hết") || manual.includes("giữ") || manual.includes("ẩn")) {
-    return false;
-  }
-  if (manual.includes("còn") || manual.includes("hiện")) {
-    return true;
-  }
+// Vòng lặp chính duyệt qua từng sản phẩm trả về từ Notion
+for (const page of response.results) {
 
-  // 2. Kiểm tra cột tự động (Automate) - nếu SL tồn = 0 sẽ trả về "Sold Out"
-  const autoStatus = String(readProperty(page, PROP.status) || "").trim().toLowerCase();
-  return autoStatus.includes("còn");
+  // Kiểm tra trạng thái còn tồn kho hay không
+  if (!isAvailable(page)) continue;
+
+  // Lấy toàn bộ danh sách block ảnh bên trong trang con của sản phẩm này (dùng đúng biến `page.id`)
+  const blocks = await notion.blocks.children.list({ block_id: page.id });
+  const images = blocks.results
+    .filter(block => block.type === "image")
+    .map(block => block.image.file?.url || block.image.external?.url);
+
+  products.push({
+    id: page.id,
+    name: readProperty(page, PROP.name),
+    info: readProperty(page, PROP.info),
+    stock: readProperty(page, PROP.stock),
+    price: readProperty(page, PROP.price),
+    gifts: readProperty(page, PROP.gifts),
+    condition: readProperty(page, PROP.condition) || "New",
+    category: readProperty(page, PROP.category) || "Complete",
+    // Ảnh chính cho trang chủ (lấy ảnh đầu tiên)
+    image: images.length > 0 ? `/api/image/${page.id}/0` : null,
+    // Toàn bộ ảnh cho trang chi tiết
+    images: images.map((_, index) => `/api/image/${page.id}/${index}`)
+  });
 }
 // Lấy toàn bộ ảnh trong nội dung trang Notion
 // Lấy danh sách block ảnh bên trong trang con của sản phẩm
