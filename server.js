@@ -96,48 +96,50 @@ function parseStock(value) {
 const products = [];
 
 // 1. Gọi API lấy dữ liệu từ Notion Database trước
-const databaseId = process.env.NOTION_DATABASE_ID;
+// Khởi tạo mảng sản phẩm trống để tránh lỗi undefined
+let products = [];
 
-if (!databaseId) {
-  console.error("LỖI: Chưa cấu hình NOTION_DATABASE_ID trong biến môi trường Render!");
-}
-
-let response = { results: [] };
 try {
-  response = await notion.databases.query({
-    database_id: databaseId,
-  });
-} catch (err) {
-  console.error("Không thể truy vấn Notion Database:", err.message);
-}
+  const databaseId = process.env.NOTION_DATABASE_ID;
+  if (!databaseId) {
+    console.error("LỖI: Biến môi trường NOTION_DATABASE_ID chưa được thiết lập trên Render!");
+  } else {
+    // 1. Truy vấn dữ liệu từ Notion Database an toàn
+    const response = await notion.databases.query({
+      database_id: databaseId,
+    });
 
-// Vòng lặp duyệt dữ liệu an toàn
-for (const page of response.results) {
-  if (!page || !page.id) continue;
-  if (!isAvailable(page)) continue;
-  
-  let images = [];
-  try {
-    const blocks = await notion.blocks.children.list({ block_id: page.id });
-    images = blocks.results
-      .filter(block => block.type === "image")
-      .map(block => block.image.file?.url || block.image.external?.url);
-  } catch (err) {
-    console.error(`Không thể lấy ảnh của page ${page.id}:`, err.message);
+    // 2. Vòng lặp `for...of` khai báo đúng biến `page`
+    for (const page of response.results) {
+      if (!page || !page.id) continue;
+      if (!isAvailable(page)) continue;
+
+      let images = [];
+      try {
+        const blocks = await notion.blocks.children.list({ block_id: page.id });
+        images = blocks.results
+          .filter(block => block.type === "image")
+          .map(block => block.image.file?.url || block.image.external?.url);
+      } catch (err) {
+        console.error(`Không thể lấy ảnh của page ${page.id}:`, err.message);
+      }
+
+      products.push({
+        id: page.id,
+        name: readProperty(page, PROP.name),
+        info: readProperty(page, PROP.info),
+        stock: readProperty(page, PROP.stock),
+        price: readProperty(page, PROP.price),
+        gifts: readProperty(page, PROP.gifts),
+        condition: readProperty(page, PROP.condition) || "New",
+        category: readProperty(page, PROP.category) || "Complete",
+        image: images.length > 0 ? `/api/image/${page.id}/0` : null,
+        images: images.map((_, index) => `/api/image/${page.id}/${index}`)
+      });
+    }
   }
-
-  products.push({
-    id: page.id,
-    name: readProperty(page, PROP.name),
-    info: readProperty(page, PROP.info),
-    stock: readProperty(page, PROP.stock),
-    price: readProperty(page, PROP.price),
-    gifts: readProperty(page, PROP.gifts),
-    condition: readProperty(page, PROP.condition) || "New",
-    category: readProperty(page, PROP.category) || "Complete",
-    image: images.length > 0 ? `/api/image/${page.id}/0` : null,
-    images: images.map((_, index) => `/api/image/${page.id}/${index}`)
-  });
+} catch (err) {
+  console.error("Lỗi khi kết nối hoặc truy xuất dữ liệu từ Notion:", err.message);
 }
 // Lấy toàn bộ ảnh trong nội dung trang Notion
 // Lấy danh sách block ảnh bên trong trang con của sản phẩm
