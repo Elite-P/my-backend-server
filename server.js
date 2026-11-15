@@ -139,14 +139,24 @@ async function getProducts() {
     const price = Number(readProperty(page, PROP.price) || 0);
     const gifts = readProperty(page, PROP.gifts) || "";
     
-    // Đọc thêm text từ chính trang Notion (block nội dung hoặc tiêu đề/property khác nếu có)
+    // Đọc thêm giá trị từ các cột có thể chứa thông tin tình trạng hàng
+    const aiAutofill = readProperty(page, "AI autofill") || "";
+    const condProp = readProperty(page, PROP.condition) || "";
     let catProp = String(readProperty(page, PROP.category) || "").trim().toLowerCase();
     
-    // QUÉT TẤT CẢ DỮ LIỆU THÔ: Nếu tên, thông tin, hoặc bất kỳ chỗ nào chứa từ khóa 2hand/used thì gán luôn là 2hand
-    let fullTextSearch = (name + " " + info + " " + catProp).toLowerCase();
+    // Gom tất cả text thô lại để quét toàn diện
+    let fullTextSearch = (name + " " + info + " " + aiAutofill + " " + condProp + " " + catProp).toLowerCase();
     
+    // Kiểm tra tất cả các biến thể: 2hand, 2 hand, 2nd, qua su dung...
     let condition = "new";
-    if (fullTextSearch.includes("2hand") || fullTextSearch.includes("used") || fullTextSearch.includes("qua su dung") || fullTextSearch.includes("2 hand")) {
+    if (
+      fullTextSearch.includes("2hand") || 
+      fullTextSearch.includes("2 hand") || 
+      fullTextSearch.includes("2nd") || 
+      fullTextSearch.includes("used") || 
+      fullTextSearch.includes("qua su dung") ||
+      fullTextSearch.includes("da qua su dung")
+    ) {
       condition = "2hand";
     }
 
@@ -160,7 +170,7 @@ async function getProducts() {
 
     const images = await getPageImages(page);
 
-    // In log ra để kiểm tra ngay lập tức trên Render
+    // In log để kiểm tra trên Render
     console.log(`[PARSED PRODUCT] -> Tên: ${name} | Danh mục: ${category} | Loại hàng: ${condition}`);
 
     productsList.push({
