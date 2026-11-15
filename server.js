@@ -128,7 +128,6 @@ async function getProducts() {
   for (const page of availablePages) {
     const name = readProperty(page, PROP.name) || "Skateboard";
     
-    // Lấy thông tin ván chuẩn, loại bỏ chữ *THÔNG TIN VÁN* nếu bị dính công thức Notion
     let rawInfo = readProperty(page, PROP.info) || "";
     const info = rawInfo.replace(/\*THÔNG TIN VÁN\*/gi, "").trim();
 
@@ -136,10 +135,12 @@ async function getProducts() {
     const price = Number(readProperty(page, PROP.price) || 0);
     const gifts = readProperty(page, PROP.gifts) || "";
     
+    // Chuẩn hóa condition và category về dạng chữ thường không khoảng trắng thừa để khớp tuyệt đối ở client
     let rawCondition = readProperty(page, PROP.condition) || "New";
-    const condition = rawCondition.trim() !== "" ? rawCondition.trim() : "New";
+    const condition = rawCondition.trim() !== "" ? rawCondition.trim().toLowerCase() : "new";
 
-    const category = readProperty(page, PROP.category) || "Complete";
+    let rawCategory = readProperty(page, PROP.category) || "Complete";
+    const category = rawCategory.trim() !== "" ? rawCategory.trim().toLowerCase() : "complete";
 
     const images = await getPageImages(page);
 
