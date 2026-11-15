@@ -135,7 +135,10 @@ async function getProducts() {
     const stock = parseStock(readProperty(page, PROP.stock));
     const price = Number(readProperty(page, PROP.price) || 0);
     const gifts = readProperty(page, PROP.gifts) || "";
-    const condition = readProperty(page, PROP.condition) || "New";
+    
+    let rawCondition = readProperty(page, PROP.condition) || "New";
+    const condition = rawCondition.trim() !== "" ? rawCondition.trim() : "New";
+
     const category = readProperty(page, PROP.category) || "Complete";
 
     const images = await getPageImages(page);
