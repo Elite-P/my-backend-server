@@ -20,7 +20,8 @@ const notion = new Client({
   notionVersion: "2025-09-03"
 });
 
-const DATABASE_ID = process.env.NOTION_DATABASE_ID?.trim();
+// GÁN CỨNG TRỰC TIẾP DATABASE ID ĐỂ ĐẢM BẢO KHÔNG BAO GIỜ BỊ RỖNG HAY LỖI
+const DATABASE_ID = "418f5c2fde598066b0b3d4aeebd7128c";
 
 // Tên các cột trong bảng Notion của bạn
 const PROP = {
@@ -83,13 +84,10 @@ function parseStock(value) {
   return match ? Number(match[0]) : 0;
 }
 
-// Kiểm tra điều kiện hiển thị sản phẩm (Nới lỏng để không bị ẩn nhầm)
+// Kiểm tra điều kiện hiển thị sản phẩm
 function isAvailable(page) {
   const statusVal = String(readProperty(page, PROP.status) || "").trim();
-  // Nếu ghi rõ là Sold Out thì ẩn đi
   if (statusVal.toLowerCase() === "sold out") return false;
-  
-  // Các trường hợp còn lại đều hiển thị lên web
   return true;
 }
 
@@ -128,11 +126,6 @@ let cache = {
 const CACHE_TIME = 30 * 1000;
 
 async function getProducts() {
-  if (!DATABASE_ID) {
-    console.error("LỖI: Thiếu NOTION_DATABASE_ID!");
-    return [];
-  }
-
   let pages = [];
   let cursor;
 
@@ -184,8 +177,8 @@ app.get("/api/health", (req, res) => {
 
 app.get("/api/products", async (req, res) => {
   try {
-    if (!process.env.NOTION_TOKEN || !DATABASE_ID) {
-      return res.status(500).json({ success: false, error: "Missing configuration" });
+    if (!process.env.NOTION_TOKEN) {
+      return res.status(500).json({ success: false, error: "Missing Notion Token" });
     }
 
     if (Date.now() - cache.time > CACHE_TIME) {
