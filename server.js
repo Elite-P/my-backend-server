@@ -66,14 +66,15 @@ function readProperty(page, name) {
     case "checkbox":
       return p.checkbox;
     case "formula":
-      return p.formula.string ?? p.formula.number ?? p.formula.boolean ?? null;
+      return p.formula.string ?? p.formula.number ?? p.formula.boolean ?? "";
     case "rollup":
       if (p.rollup.type === "array") {
         return p.rollup.array.map(item => {
           if (item.type === "select") return item.select?.name;
           if (item.type === "rich_text") return item.rich_text.map(x => x.plain_text).join("");
+          if (item.type === "formula") return item.formula?.string || item.formula?.number || "";
           return "";
-        }).filter(Boolean).join(", ");
+        }).filter(Boolean).join(" ");
       }
       return p.rollup.string ?? p.rollup.number ?? "";
     default:
@@ -144,19 +145,22 @@ async function getProducts() {
     const price = Number(readProperty(page, PROP.price) || 0);
     const gifts = readProperty(page, PROP.gifts) || "";
     
-    let rawCondition = readProperty(page, PROP.condition) || "";
-    if (!rawCondition && info.toLowerCase().includes("2hand")) {
-      rawCondition = "2hand";
-    } else if (!rawCondition && info.toLowerCase().includes("used")) {
-      rawCondition = "used";
-    }
-    const condition = rawCondition.trim() !== "" ? rawCondition.trim().toLowerCase() : "new";
+    // Đọc trực tiếp giá trị từ property "Loại hàng" (dù là formula hay text)
+    let condProp = String(readProperty(page, PROP.condition) || "").trim().toLowerCase();
+    
+    // Nếu property trống hoặc lấy từ công thức AI autofill, quét trực tiếp trong chuỗi giá trị formula/info
+    let combinedText = (condProp + " " + info).toLowerCase();
 
-    let rawCategory = readProperty(page, PROP.category) || "Complete";
-    if (!rawCategory && info.toLowerCase().includes("deck")) {
-      rawCategory = "Deck";
+    let condition = "new";
+    if (combinedText.includes("2hand") || combinedText.includes("used") || combinedText.includes("qua su dung")) {
+      condition = "2hand";
     }
-    const category = rawCategory.trim() !== "" ? rawCategory.trim().toLowerCase() : "complete";
+
+    let catProp = String(readProperty(page, PROP.category) || "").trim().toLowerCase();
+    let category = catProp !== "" ? catProp : "complete";
+    if (!catProp && combinedText.includes("deck")) {
+      category = "deck";
+    }
 
     const images = await getPageImages(page);
 
@@ -195,11 +199,7 @@ app.get("/api/products", async (req, res) => {
       products: cache.products
     });
   } catch (error) {
-    console.error("========== NOTION ERROR ==========");
-    console.error("Message:", error.message);
-    console.error("Stack:", error.stack);
-    console.error("==================================");
-
+    console.error("========== NOTION ERROR ==========", error);
     res.status(500).json({ success: false, error: error.message || "Cannot load inventory" });
   }
 });
