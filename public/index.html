@@ -327,9 +327,26 @@ function render() {
 // Bộ lọc
 // Không sử dụng các danh mục cũ vì API mới chỉ trả
 // về những trường dữ liệu đã được yêu cầu.
+// HÀM LỌC CHUẨN ĐÃ ĐƯỢC SỬA:
 function setFilter(value, btn) {
-  filter = "All";
-  render();
+  filter = value; // Gán đúng giá trị danh mục người dùng vừa chọn
+
+  // Cập nhật trạng thái active cho các nút bấm lọc ở phần shop
+  if (btn) {
+    document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+  } else {
+    // Nếu bấm từ phần category ở trang chủ, tự động active nút tương ứng nếu có
+    document.querySelectorAll(".filter").forEach(b => {
+      if (b.textContent.toLowerCase().includes(value.toLowerCase())) {
+        b.classList.add("active");
+      } else {
+        b.classList.remove("active");
+      }
+    });
+  }
+
+  render(); // Vẽ lại danh sách sản phẩm theo đúng bộ lọc
 }
 
 // Thêm vào giỏ hàng
