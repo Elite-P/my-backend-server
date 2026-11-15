@@ -139,28 +139,28 @@ async function getProducts() {
     const price = Number(readProperty(page, PROP.price) || 0);
     const gifts = readProperty(page, PROP.gifts) || "";
     
-    // Đọc kỹ giá trị từ thuộc tính condition và chuỗi info/formula
-    let condProp = String(readProperty(page, PROP.condition) || "").trim().toLowerCase();
+    // Đọc thêm text từ chính trang Notion (block nội dung hoặc tiêu đề/property khác nếu có)
     let catProp = String(readProperty(page, PROP.category) || "").trim().toLowerCase();
-    let combinedText = (condProp + " " + info + " " + catProp).toLowerCase();
-
-    // Mặc định là "new", nếu phát hiện từ khóa 2hand hoặc used thì gán là "2hand"
+    
+    // QUÉT TẤT CẢ DỮ LIỆU THÔ: Nếu tên, thông tin, hoặc bất kỳ chỗ nào chứa từ khóa 2hand/used thì gán luôn là 2hand
+    let fullTextSearch = (name + " " + info + " " + catProp).toLowerCase();
+    
     let condition = "new";
-    if (combinedText.includes("2hand") || combinedText.includes("used") || combinedText.includes("qua su dung") || combinedText.includes("2 hand")) {
+    if (fullTextSearch.includes("2hand") || fullTextSearch.includes("used") || fullTextSearch.includes("qua su dung") || fullTextSearch.includes("2 hand")) {
       condition = "2hand";
     }
 
-    // Mặc định danh mục là "complete" nếu không khớp các loại khác
     let category = "complete";
     if (catProp.includes("deck")) category = "deck";
     else if (catProp.includes("truck")) category = "trucks";
     else if (catProp.includes("wheel")) category = "wheels";
-    else if (catProp.includes("complete") || info.toLowerCase().includes("deck:") && info.toLowerCase().includes("trucks:")) {
+    else if (catProp.includes("complete") || fullTextSearch.includes("deck:") && fullTextSearch.includes("trucks:")) {
       category = "complete";
     }
 
     const images = await getPageImages(page);
 
+    // In log ra để kiểm tra ngay lập tức trên Render
     console.log(`[PARSED PRODUCT] -> Tên: ${name} | Danh mục: ${category} | Loại hàng: ${condition}`);
 
     productsList.push({
