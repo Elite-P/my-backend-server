@@ -20,20 +20,21 @@ const notion = new Client({
 
 const DATABASE_ID = process.env.NOTION_DATABASE_ID;
 
-// Tên Properties trong Database Sk82nd
+// Khớp chính xác 100% tên các cột trong bảng Notion của bạn
 const PROP = {
-  name: "Tên",
+  name: "Tên ván",
   info: "Thông tin ván",
   stock: "SL Tồn",
   price: "Giá dự kiến",
   gifts: "Gifts",
-  status: "Tình trạng hàng (Automate)",
-  manualStatus: "Tình trạng hàng (Manual)",
-  condition: "Loại hàng (AI)",
-  category: "Danh mục (AI)"
+  status: "Tình trạng hàng",
+  manualStatus: "Tình trạng hàng",
+  condition: "Loại hàng",
+  category: "Danh mục"
 };
 
 app.use(helmet({
+  contentSecurityPolicy: false,
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
@@ -83,29 +84,40 @@ function parseStock(value) {
 
 // Kiểm tra sản phẩm có sẵn để hiển thị không
 function isAvailable(page) {
-  const manual = readProperty(page, PROP.manualStatus);
-  if (manual === "Sold Out") return false;
-  if (manual === "Cón tồn" || manual === "Còn tồn" || manual === "Available") return true;
-  
-  const auto = readProperty(page, PROP.status);
-  if (auto === "Sold Out") return false;
+  const statusVal = readProperty(page, PROP.status);
+  if (statusVal === "Sold Out") return false;
   
   const stock = parseStock(readProperty(page, PROP.stock));
   return stock > 0;
 }
 
-// Lấy danh sách ảnh bên trong trang con của sản phẩm
-async function getPageImages(pageId) {
+// Lấy danh sách ảnh (Hỗ trợ cả ảnh Cover của trang và ảnh block bên trong)
+async function getPageImages(page) {
+  const images = [];
+  
+  // 1. Lấy ảnh Cover nếu có (như trong ảnh bạn vừa chụp)
+  if (page.cover) {
+    if (page.cover.type === "external") {
+      images.push({ url: page.cover.external.url });
+    } else if (page.cover.type === "file") {
+      images.push({ url: page.cover.file.url });
+    }
+  }
+
+  // 2. Lấy thêm các ảnh trong nội dung block bên dưới
   try {
-    const blocks = await notion.blocks.children.list({ block_id: pageId });
-    return blocks.results
+    const blocks = await notion.blocks.children.list({ block_id: page.id });
+    const blockImages = blocks.results
       .filter(block => block.type === "image")
       .map(block => block.image.file || block.image.external)
       .filter(Boolean);
+    
+    images.push(...blockImages);
   } catch (err) {
-    console.error(`Không thể lấy ảnh của page ${pageId}:`, err.message);
-    return [];
+    console.error(`Không thể lấy ảnh blocks của page ${page.id}:`, err.message);
   }
+
+  return images;
 }
 
 // Cache dữ liệu
@@ -149,7 +161,7 @@ async function getProducts() {
     const condition = readProperty(page, PROP.condition) || "New";
     const category = readProperty(page, PROP.category) || "Complete";
 
-    const images = await getPageImages(page.id);
+    const images = await getPageImages(page);
 
     productsList.push({
       id: page.id,
@@ -213,13 +225,15 @@ app.get("/api/products", async (req, res) => {
   }
 });
 
-// Lấy URL ảnh từ Notion
+// Lấy URL ảnh từ Notion và chuyển hướng
 app.get("/api/image/:pageId/:index", async (req, res) => {
   try {
     const pageId = req.params.pageId;
     const index = Number(req.params.index) || 0;
 
-    const images = await getPageImages(pageId);
+    // Lấy thông tin trang để lấy cover
+    const page = await notion.pages.retrieve({ page_id: pageId });
+    const images = await getPageImages(page);
     const image = images[index];
 
     if (!image || !image.url) {
