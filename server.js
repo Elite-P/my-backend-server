@@ -21,7 +21,7 @@ const notion = new Client({
 });
 
 // GÁN CỨNG TRỰC TIẾP DATABASE ID ĐỂ ĐẢM BẢO KHÔNG BAO GIỜ BỊ RỖNG HAY LỖI
-const DATABASE_ID = "418f5c2fde598066b0b3d4aeebd7128c";
+const DATABASE_ID = "418f5c2fde598066b0b3d4aeebd7128c".trim();
 
 // Tên các cột trong bảng Notion của bạn
 const PROP = {
