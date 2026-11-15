@@ -13,7 +13,6 @@ const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 3000;
 const app = express();
 
-// Bật trust proxy cho môi trường Cloud như Render để tránh lỗi rate-limit
 app.set('trust proxy', 1);
 
 const notion = new Client({
@@ -21,7 +20,6 @@ const notion = new Client({
   notionVersion: "2025-09-03"
 });
 
-// Lấy và làm sạch DATABASE_ID (loại bỏ khoảng trắng thừa nếu có)
 const DATABASE_ID = process.env.NOTION_DATABASE_ID?.trim();
 
 // Tên các cột trong bảng Notion của bạn
@@ -32,7 +30,6 @@ const PROP = {
   price: "Giá dự kiến",
   gifts: "Gifts",
   status: "Tình trạng hàng",
-  manualStatus: "Tình trạng hàng",
   condition: "Loại hàng",
   category: "Danh mục"
 };
@@ -51,7 +48,7 @@ app.use("/api", ratelimit({
 
 app.use(express.static(path.join(__dirname, "public")));
 
-// Đọc dữ liệu Property Notion
+// Đọc dữ liệu Property Notion an toàn
 function readProperty(page, name) {
   const p = page.properties?.[name];
   if (!p) return null;
@@ -72,7 +69,7 @@ function readProperty(page, name) {
     case "checkbox":
       return p.checkbox;
     case "formula":
-      return p.formula.string ?? p.formula.number ?? null;
+      return p.formula.string ?? p.formula.number ?? p.formula.boolean ?? null;
     default:
       return "";
   }
@@ -86,16 +83,17 @@ function parseStock(value) {
   return match ? Number(match[0]) : 0;
 }
 
-// Kiểm tra sản phẩm có sẵn để hiển thị không
+// Kiểm tra điều kiện hiển thị sản phẩm (Nới lỏng để không bị ẩn nhầm)
 function isAvailable(page) {
-  const statusVal = readProperty(page, PROP.status);
-  if (statusVal === "Sold Out") return false;
+  const statusVal = String(readProperty(page, PROP.status) || "").trim();
+  // Nếu ghi rõ là Sold Out thì ẩn đi
+  if (statusVal.toLowerCase() === "sold out") return false;
   
-  const stock = parseStock(readProperty(page, PROP.stock));
-  return stock > 0;
+  // Các trường hợp còn lại đều hiển thị lên web
+  return true;
 }
 
-// Lấy danh sách ảnh (Hỗ trợ ảnh Cover và ảnh blocks bên trong)
+// Lấy danh sách ảnh (Cover + Blocks)
 async function getPageImages(page) {
   const images = [];
   
@@ -122,7 +120,6 @@ async function getPageImages(page) {
   return images;
 }
 
-// Cache dữ liệu
 let cache = {
   time: 0,
   products: []
@@ -130,10 +127,9 @@ let cache = {
 
 const CACHE_TIME = 30 * 1000;
 
-// Lấy dữ liệu sản phẩm từ Notion Database
 async function getProducts() {
   if (!DATABASE_ID) {
-    console.error("LỖI NGHIÊM TRỌNG: Biến môi trường NOTION_DATABASE_ID chưa được thiết lập trên Render!");
+    console.error("LỖI: Thiếu NOTION_DATABASE_ID!");
     return [];
   }
 
@@ -182,22 +178,14 @@ async function getProducts() {
   return productsList;
 }
 
-// Health check
 app.get("/api/health", (req, res) => {
-  res.json({
-    status: "OK",
-    shop: "Sk82nd"
-  });
+  res.json({ status: "OK", shop: "Sk82nd" });
 });
 
-// API sản phẩm
 app.get("/api/products", async (req, res) => {
   try {
     if (!process.env.NOTION_TOKEN || !DATABASE_ID) {
-      return res.status(500).json({
-        success: false,
-        error: "Missing Notion configuration"
-      });
+      return res.status(500).json({ success: false, error: "Missing configuration" });
     }
 
     if (Date.now() - cache.time > CACHE_TIME) {
@@ -212,22 +200,15 @@ app.get("/api/products", async (req, res) => {
       products: cache.products
     });
   } catch (error) {
-    console.error("========== SK82ND NOTION ERROR ==========");
+    console.error("========== NOTION ERROR ==========");
     console.error("Message:", error.message);
-    console.error("Code:", error.code);
-    console.error("Status:", error.status);
-    console.error("Body:", error.body);
     console.error("Stack:", error.stack);
-    console.error("=========================================");
+    console.error("==================================");
 
-    res.status(500).json({
-      success: false,
-      error: "Cannot load Notion inventory"
-    });
+    res.status(500).json({ success: false, error: "Cannot load inventory" });
   }
 });
 
-// Lấy URL ảnh từ Notion và chuyển hướng
 app.get("/api/image/:pageId/:index", async (req, res) => {
   try {
     const pageId = req.params.pageId;
