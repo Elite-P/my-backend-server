@@ -112,18 +112,12 @@ async function getPageImages(page) {
       .map(block => block.image.file || block.image.external)
       .filter(Boolean);
     images.push(...blockImages);
-  } catch (err) {
-    // Bỏ qua nếu không lấy được block ảnh phụ
-  }
+  } catch (err) {}
 
   return images;
 }
 
-let cache = {
-  time: 0,
-  products: []
-};
-
+let cache = { time: 0, products: [] };
 const CACHE_TIME = 30 * 1000;
 
 async function getProducts() {
@@ -145,24 +139,29 @@ async function getProducts() {
     const price = Number(readProperty(page, PROP.price) || 0);
     const gifts = readProperty(page, PROP.gifts) || "";
     
-    // Đọc trực tiếp giá trị từ property "Loại hàng" (dù là formula hay text)
+    // Đọc kỹ giá trị từ thuộc tính condition và chuỗi info/formula
     let condProp = String(readProperty(page, PROP.condition) || "").trim().toLowerCase();
-    
-    // Nếu property trống hoặc lấy từ công thức AI autofill, quét trực tiếp trong chuỗi giá trị formula/info
-    let combinedText = (condProp + " " + info).toLowerCase();
+    let catProp = String(readProperty(page, PROP.category) || "").trim().toLowerCase();
+    let combinedText = (condProp + " " + info + " " + catProp).toLowerCase();
 
+    // Mặc định là "new", nếu phát hiện từ khóa 2hand hoặc used thì gán là "2hand"
     let condition = "new";
-    if (combinedText.includes("2hand") || combinedText.includes("used") || combinedText.includes("qua su dung")) {
+    if (combinedText.includes("2hand") || combinedText.includes("used") || combinedText.includes("qua su dung") || combinedText.includes("2 hand")) {
       condition = "2hand";
     }
 
-    let catProp = String(readProperty(page, PROP.category) || "").trim().toLowerCase();
-    let category = catProp !== "" ? catProp : "complete";
-    if (!catProp && combinedText.includes("deck")) {
-      category = "deck";
+    // Mặc định danh mục là "complete" nếu không khớp các loại khác
+    let category = "complete";
+    if (catProp.includes("deck")) category = "deck";
+    else if (catProp.includes("truck")) category = "trucks";
+    else if (catProp.includes("wheel")) category = "wheels";
+    else if (catProp.includes("complete") || info.toLowerCase().includes("deck:") && info.toLowerCase().includes("trucks:")) {
+      category = "complete";
     }
 
     const images = await getPageImages(page);
+
+    console.log(`[PARSED PRODUCT] -> Tên: ${name} | Danh mục: ${category} | Loại hàng: ${condition}`);
 
     productsList.push({
       id: page.id,
@@ -191,16 +190,11 @@ app.get("/api/products", async (req, res) => {
       cache.products = await getProducts();
       cache.time = Date.now();
     }
-
     res.set("Cache-Control", "no-store");
-    res.json({
-      success: true,
-      total: cache.products.length,
-      products: cache.products
-    });
+    res.json({ success: true, total: cache.products.length, products: cache.products });
   } catch (error) {
-    console.error("========== NOTION ERROR ==========", error);
-    res.status(500).json({ success: false, error: error.message || "Cannot load inventory" });
+    console.error("NOTION ERROR:", error);
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 
@@ -208,15 +202,10 @@ app.get("/api/image/:pageId/:index", async (req, res) => {
   try {
     const pageId = req.params.pageId;
     const index = Number(req.params.index) || 0;
-
     const page = await notion.pages.retrieve({ page_id: pageId });
     const images = await getPageImages(page);
     const image = images[index];
-
-    if (!image || !image.url) {
-      return res.sendStatus(404);
-    }
-
+    if (!image || !image.url) return res.sendStatus(404);
     res.set("Cache-Control", "private, max-age=240");
     return res.redirect(image.url);
   } catch (error) {
