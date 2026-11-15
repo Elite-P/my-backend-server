@@ -67,6 +67,15 @@ function readProperty(page, name) {
       return p.checkbox;
     case "formula":
       return p.formula.string ?? p.formula.number ?? p.formula.boolean ?? null;
+    case "rollup":
+      if (p.rollup.type === "array") {
+        return p.rollup.array.map(item => {
+          if (item.type === "select") return item.select?.name;
+          if (item.type === "rich_text") return item.rich_text.map(x => x.plain_text).join("");
+          return "";
+        }).filter(Boolean).join(", ");
+      }
+      return p.rollup.string ?? p.rollup.number ?? "";
     default:
       return "";
   }
@@ -117,11 +126,15 @@ let cache = {
 const CACHE_TIME = 30 * 1000;
 
 async function getProducts() {
-  const response = await notion.databases.query({
+  const response = namespaceQuery: {
+    // Lấy dữ liệu từ database Notion
+  };
+  
+  const queryResponse = await notion.databases.query({
     database_id: DATABASE_ID
   });
 
-  const pages = response.results || [];
+  const pages = queryResponse.results || [];
   const availablePages = pages.filter(p => p.properties && isAvailable(p));
   const productsList = [];
 
@@ -135,14 +148,24 @@ async function getProducts() {
     const price = Number(readProperty(page, PROP.price) || 0);
     const gifts = readProperty(page, PROP.gifts) || "";
     
-    // Chuẩn hóa condition và category về dạng chữ thường không khoảng trắng thừa để khớp tuyệt đối ở client
-    let rawCondition = readProperty(page, PROP.condition) || "New";
+    // Đọc Loại hàng từ property, nếu trống thì quét trực tiếp trong chuỗi `info` xem có chứa từ khóa 2hand/used không
+    let rawCondition = readProperty(page, PROP.condition) || "";
+    if (!rawCondition && info.toLowerCase().includes("2hand")) {
+      rawCondition = "2hand";
+    } else if (!rawCondition && info.toLowerCase().includes("used")) {
+      rawCondition = "used";
+    }
     const condition = rawCondition.trim() !== "" ? rawCondition.trim().toLowerCase() : "new";
 
     let rawCategory = readProperty(page, PROP.category) || "Complete";
+    if (!rawCategory && info.toLowerCase().includes("deck")) {
+      rawCategory = "Deck";
+    }
     const category = rawCategory.trim() !== "" ? rawCategory.trim().toLowerCase() : "complete";
 
     const images = await getPageImages(page);
+
+    console.log(`[PRODUCT] Name: ${name} | Category: ${category} | Condition: ${condition}`);
 
     productsList.push({
       id: page.id,
