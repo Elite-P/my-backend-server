@@ -13,14 +13,18 @@ const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 3000;
 const app = express();
 
+// Bật trust proxy cho môi trường Cloud như Render để tránh lỗi rate-limit
+app.set('trust proxy', 1);
+
 const notion = new Client({
-  auth: process.env.NOTION_TOKEN,
+  auth: process.env.NOTION_TOKEN?.trim(),
   notionVersion: "2025-09-03"
 });
 
-const DATABASE_ID = process.env.NOTION_DATABASE_ID;
+// Lấy và làm sạch DATABASE_ID (loại bỏ khoảng trắng thừa nếu có)
+const DATABASE_ID = process.env.NOTION_DATABASE_ID?.trim();
 
-// Khớp chính xác 100% tên các cột trong bảng Notion của bạn
+// Tên các cột trong bảng Notion của bạn
 const PROP = {
   name: "Tên ván",
   info: "Thông tin ván",
@@ -91,11 +95,10 @@ function isAvailable(page) {
   return stock > 0;
 }
 
-// Lấy danh sách ảnh (Hỗ trợ cả ảnh Cover của trang và ảnh block bên trong)
+// Lấy danh sách ảnh (Hỗ trợ ảnh Cover và ảnh blocks bên trong)
 async function getPageImages(page) {
   const images = [];
   
-  // 1. Lấy ảnh Cover nếu có (như trong ảnh bạn vừa chụp)
   if (page.cover) {
     if (page.cover.type === "external") {
       images.push({ url: page.cover.external.url });
@@ -104,7 +107,6 @@ async function getPageImages(page) {
     }
   }
 
-  // 2. Lấy thêm các ảnh trong nội dung block bên dưới
   try {
     const blocks = await notion.blocks.children.list({ block_id: page.id });
     const blockImages = blocks.results
@@ -131,7 +133,7 @@ const CACHE_TIME = 30 * 1000;
 // Lấy dữ liệu sản phẩm từ Notion Database
 async function getProducts() {
   if (!DATABASE_ID) {
-    console.error("LỖI: Biến môi trường NOTION_DATABASE_ID chưa được thiết lập!");
+    console.error("LỖI NGHIÊM TRỌNG: Biến môi trường NOTION_DATABASE_ID chưa được thiết lập trên Render!");
     return [];
   }
 
@@ -231,7 +233,6 @@ app.get("/api/image/:pageId/:index", async (req, res) => {
     const pageId = req.params.pageId;
     const index = Number(req.params.index) || 0;
 
-    // Lấy thông tin trang để lấy cover
     const page = await notion.pages.retrieve({ page_id: pageId });
     const images = await getPageImages(page);
     const image = images[index];
