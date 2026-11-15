@@ -16,14 +16,11 @@ const app = express();
 app.set('trust proxy', 1);
 
 const notion = new Client({
-  auth: process.env.NOTION_TOKEN?.trim(),
-  notionVersion: "2025-09-03"
+  auth: process.env.NOTION_TOKEN?.trim()
 });
 
-// GÁN CỨNG TRỰC TIẾP DATABASE ID ĐỂ ĐẢM BẢO KHÔNG BAO GIỜ BỊ RỖNG HAY LỖI
-const DATABASE_ID = "418f5c2fde598066b0b3d4aeebd7128c".trim();
+const DATABASE_ID = "418f5c2fde598066b0b3d4aeebd7128c";
 
-// Tên các cột trong bảng Notion của bạn
 const PROP = {
   name: "Tên ván",
   info: "Thông tin ván",
@@ -49,7 +46,6 @@ app.use("/api", ratelimit({
 
 app.use(express.static(path.join(__dirname, "public")));
 
-// Đọc dữ liệu Property Notion an toàn
 function readProperty(page, name) {
   const p = page.properties?.[name];
   if (!p) return null;
@@ -76,7 +72,6 @@ function readProperty(page, name) {
   }
 }
 
-// Đọc số lượng tồn
 function parseStock(value) {
   if (typeof value === "number") return value;
   if (value == null) return 0;
@@ -84,17 +79,14 @@ function parseStock(value) {
   return match ? Number(match[0]) : 0;
 }
 
-// Kiểm tra điều kiện hiển thị sản phẩm
 function isAvailable(page) {
   const statusVal = String(readProperty(page, PROP.status) || "").trim();
   if (statusVal.toLowerCase() === "sold out") return false;
   return true;
 }
 
-// Lấy danh sách ảnh (Cover + Blocks)
 async function getPageImages(page) {
   const images = [];
-  
   if (page.cover) {
     if (page.cover.type === "external") {
       images.push({ url: page.cover.external.url });
@@ -109,10 +101,9 @@ async function getPageImages(page) {
       .filter(block => block.type === "image")
       .map(block => block.image.file || block.image.external)
       .filter(Boolean);
-    
     images.push(...blockImages);
   } catch (err) {
-    console.error(`Không thể lấy ảnh blocks của page ${page.id}:`, err.message);
+    // Bỏ qua nếu không lấy được block ảnh phụ
   }
 
   return images;
@@ -126,21 +117,12 @@ let cache = {
 const CACHE_TIME = 30 * 1000;
 
 async function getProducts() {
-  let pages = [];
-  let cursor;
+  const response = await notion.databases.query({
+    database_id: DATABASE_ID
+  });
 
-  do {
-    const result = await notion.databases.query({
-      database_id: DATABASE_ID,
-      page_size: 100,
-      ...(cursor ? { start_cursor: cursor } : {})
-    });
-
-    pages.push(...result.results);
-    cursor = result.has_more ? result.next_cursor : undefined;
-  } while (cursor);
-
-  const availablePages = pages.filter(isAvailable);
+  const pages = response.results || [];
+  const availablePages = pages.filter(p => p.properties && isAvailable(p));
   const productsList = [];
 
   for (const page of availablePages) {
@@ -177,10 +159,6 @@ app.get("/api/health", (req, res) => {
 
 app.get("/api/products", async (req, res) => {
   try {
-    if (!process.env.NOTION_TOKEN) {
-      return res.status(500).json({ success: false, error: "Missing Notion Token" });
-    }
-
     if (Date.now() - cache.time > CACHE_TIME) {
       cache.products = await getProducts();
       cache.time = Date.now();
@@ -198,7 +176,7 @@ app.get("/api/products", async (req, res) => {
     console.error("Stack:", error.stack);
     console.error("==================================");
 
-    res.status(500).json({ success: false, error: "Cannot load inventory" });
+    res.status(500).json({ success: false, error: error.message || "Cannot load inventory" });
   }
 });
 
@@ -218,7 +196,6 @@ app.get("/api/image/:pageId/:index", async (req, res) => {
     res.set("Cache-Control", "private, max-age=240");
     return res.redirect(image.url);
   } catch (error) {
-    console.error("Image error:", error.message);
     return res.sendStatus(404);
   }
 });
