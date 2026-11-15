@@ -126,10 +126,6 @@ let cache = {
 const CACHE_TIME = 30 * 1000;
 
 async function getProducts() {
-  const response = namespaceQuery: {
-    // Lấy dữ liệu từ database Notion
-  };
-  
   const queryResponse = await notion.databases.query({
     database_id: DATABASE_ID
   });
@@ -148,7 +144,6 @@ async function getProducts() {
     const price = Number(readProperty(page, PROP.price) || 0);
     const gifts = readProperty(page, PROP.gifts) || "";
     
-    // Đọc Loại hàng từ property, nếu trống thì quét trực tiếp trong chuỗi `info` xem có chứa từ khóa 2hand/used không
     let rawCondition = readProperty(page, PROP.condition) || "";
     if (!rawCondition && info.toLowerCase().includes("2hand")) {
       rawCondition = "2hand";
@@ -164,8 +159,6 @@ async function getProducts() {
     const category = rawCategory.trim() !== "" ? rawCategory.trim().toLowerCase() : "complete";
 
     const images = await getPageImages(page);
-
-    console.log(`[PRODUCT] Name: ${name} | Category: ${category} | Condition: ${condition}`);
 
     productsList.push({
       id: page.id,
