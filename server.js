@@ -128,7 +128,7 @@ async function getProducts() {
   for (const page of availablePages) {
     const name = readProperty(page, PROP.name) || "Skateboard";
     
-    // Chỉ lấy từ cột "Thông tin ván" và xóa chữ "*THÔNG TIN VÁN*" nếu có
+    // Lấy thông tin ván chuẩn, loại bỏ chữ *THÔNG TIN VÁN* nếu bị dính công thức Notion
     let rawInfo = readProperty(page, PROP.info) || "";
     const info = rawInfo.replace(/\*THÔNG TIN VÁN\*/gi, "").trim();
 
