@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-
 :root {
   --ink: #080D16;
   --paper: #FFFFFF;
@@ -16,167 +15,37 @@
   --lime: #38BDF8;
   --red: #0284C7;
   --white: #FFFFFF;
-
   --display: 'Barlow Condensed', Impact, sans-serif;
   --body: 'DM Sans', Arial, sans-serif;
 }
+body { background: #FFFFFF; color: #080D16; }
+header { background: rgba(255,255,255,.95); }
+.hero { background: #080D16; }
+.announce { background: #38BDF8; color: #080D16; }
+.logo span { color: #38BDF8; }
+.navlinks a:hover { color: #0284C7; }
+.product-visual { background: #EDF7FC; }
+.filter.active { background: #080D16; color: #FFFFFF; }
+.cta, .checkout { background: #38BDF8; color: #080D16; }
+.product-photo { width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; z-index: 1; }
+.product-visual.has-image:before, .product-visual.has-image:after { display: none; }
+.product-badge { z-index: 2; }
+.quick { z-index: 3; }
 
-body {
-  background: #FFFFFF;
-  color: #080D16;
-}
-
-header {
-  background: rgba(255,255,255,.95);
-}
-
-.hero {
-  background: #080D16;
-}
-
-.announce {
-  background: #38BDF8;
-  color: #080D16;
-}
-
-.logo span {
-  color: #38BDF8;
-}
-
-.navlinks a:hover {
-  color: #0284C7;
-}
-
-.product-visual {
-  background: #EDF7FC;
-}
-
-.filter.active {
-  background: #080D16;
-  color: #FFFFFF;
-}
-
-.cta, .checkout {
-  background: #38BDF8;
-  color: #080D16;
-}
-
-.product-photo {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  inset: 0;
-  object-fit: cover;
-  z-index: 1;
-}
-
-.product-visual.has-image:before,
-.product-visual.has-image:after {
-  display: none;
-}
-
-.product-badge {
-  z-index: 2;
-}
-
-.quick {
-  z-index: 3;
-}
-
-/* CSS CHO MODAL CHI TIẾT SẢN PHẨM KIỂU VIETGANGZ */
-.product-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: #ffffff;
-  z-index: 9999;
-  overflow-y: auto;
-  padding: 24px 40px;
-}
-.product-modal.active {
-  display: block;
-}
-.modal-close-btn {
-  position: fixed;
-  top: 20px;
-  right: 30px;
-  background: #111;
-  color: #fff;
-  border: none;
-  padding: 10px 18px;
-  font-weight: 700;
-  cursor: pointer;
-  z-index: 10000;
-}
-.modal-layout {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 48px;
-  max-width: 1300px;
-  margin: 40px auto 0;
-  align-items: start;
-}
-.modal-gallery {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-.modal-gallery img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  background: #f5f5f5;
-  aspect-ratio: 1/1;
-}
-.modal-gallery.single-img {
-  grid-template-columns: 1fr;
-}
-.modal-details {
-  position: sticky;
-  top: 40px;
-}
-.modal-title {
-  font-size: 28px;
-  font-weight: 800;
-  margin: 0 0 10px 0;
-  text-transform: uppercase;
-}
-.modal-price {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 0 0 24px 0;
-}
-.modal-specs {
-  white-space: pre-line;
-  line-height: 1.8;
-  font-size: 15px;
-  color: #333;
-  border-top: 1px solid #e5e5e5;
-  padding-top: 20px;
-  margin-bottom: 24px;
-}
-.modal-gifts {
-  background: #f8f8f8;
-  padding: 12px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 24px;
-  border-left: 3px solid #111;
-}
-.modal-buy-btn {
-  width: 100%;
-  padding: 16px;
-  background: #111;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 700;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-}
-.modal-buy-btn:hover {
-  background: #333;
-}
+.product-modal { display: none; position: fixed; inset: 0; background: #ffffff; z-index: 9999; overflow-y: auto; padding: 24px 40px; }
+.product-modal.active { display: block; }
+.modal-close-btn { position: fixed; top: 20px; right: 30px; background: #111; color: #fff; border: none; padding: 10px 18px; font-weight: 700; cursor: pointer; z-index: 10000; }
+.modal-layout { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; max-width: 1300px; margin: 40px auto 0; align-items: start; }
+.modal-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.modal-gallery img { width: 100%; height: auto; object-fit: cover; background: #f5f5f5; aspect-ratio: 1/1; }
+.modal-gallery.single-img { grid-template-columns: 1fr; }
+.modal-details { position: sticky; top: 40px; }
+.modal-title { font-size: 28px; font-weight: 800; margin: 0 0 10px 0; text-transform: uppercase; }
+.modal-price { font-size: 20px; font-weight: 600; margin: 0 0 24px 0; }
+.modal-specs { white-space: pre-line; line-height: 1.8; font-size: 15px; color: #333; border-top: 1px solid #e5e5e5; padding-top: 20px; margin-bottom: 24px; }
+.modal-gifts { background: #f8f8f8; padding: 12px 16px; font-size: 14px; font-weight: 600; margin-bottom: 24px; border-left: 3px solid #111; }
+.modal-buy-btn { width: 100%; padding: 16px; background: #111; color: #fff; font-size: 15px; font-weight: 700; text-transform: uppercase; border: none; cursor: pointer; }
+.modal-buy-btn:hover { background: #333; }
 
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body)}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}
 .announce{background:var(--lime);padding:9px 18px;text-align:center;font-size:10px;letter-spacing:1.4px;font-weight:800;text-transform:uppercase}
@@ -202,7 +71,6 @@ h1{font:900 clamp(66px,9vw,132px)/.82 var(--display);letter-spacing:-3px;text-tr
 .category-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.cat{height:250px;background:#dfe0d5;position:relative;overflow:hidden;padding:20px;display:flex;flex-direction:column;justify-content:space-between;transition:.25s}.cat:nth-child(2){background:#d6e2c6}.cat:nth-child(3){background:#d5d8d6}.cat:nth-child(4){background:#e4d5c9}.cat:hover{transform:translateY(-5px)}.cat-no{font-size:10px;font-weight:800;color:#777}.cat h3{font:900 36px/.9 var(--display);margin:0;text-transform:uppercase;position:relative;z-index:2}.cat-art{position:absolute;width:90px;height:200px;right:28px;top:20px;border:6px solid #222;border-radius:48px;transform:rotate(28deg);background:linear-gradient(160deg,#a9c92d,#222 80%);box-shadow:12px 15px 18px #0003}.cat:nth-child(2) .cat-art{background:linear-gradient(160deg,#d35d44,#f3c99e)}.cat:nth-child(3) .cat-art{height:130px;width:130px;border-radius:50%;top:55px;background:radial-gradient(circle,#d9ff3e 0 22%,#171814 24% 48%,#d9d9d0 50%)}.cat:nth-child(4) .cat-art{height:60px;width:160px;border-radius:15px;top:90px;background:linear-gradient(90deg,#111,#666,#111)}
 .catalog{background:#e8e8df}.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:25px}.filter{border:1px solid #bcbeb4;background:transparent;padding:10px 15px;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase}.filter.active,.filter:hover{background:var(--ink);color:white;border-color:var(--ink)}
 
-/* THẺ SẢN PHẨM TỐI GIẢN NGOÀI TRANG CHỦ (ẢNH, TÊN, GIÁ) */
 .product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
 .product{background:var(--paper);position:relative;min-width:0;cursor:pointer;transition:.2s}
 .product:hover{transform:translateY(-3px)}
@@ -264,7 +132,6 @@ h1{font:900 clamp(66px,9vw,132px)/.82 var(--display);letter-spacing:-3px;text-tr
 <div class="cart-panel" id="cart-panel"><div class="shade" onclick="closeCart()"></div><aside class="drawer"><div class="drawer-head"><h3>YOUR BAG</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cart-items"></div><div class="cart-bottom"><div class="total"><span>SUBTOTAL</span><span id="cart-total">0₫</span></div><button class="checkout" onclick="checkout()">Send order via Instagram ↗</button><p style="font-size:9px;color:#777;line-height:1.6">Đây là giỏ hàng xem trước. Đơn hàng sẽ được gửi qua Instagram để shop xác nhận tồn kho, phí vận chuyển và thanh toán.</p></div></aside></div>
 <div class="toast" id="toast">Added to your bag</div>
 
-<!-- MODAL CHI TIẾT SẢN PHẨM KIỂU VIETGANGZ -->
 <div id="productModal" class="product-modal">
   <button class="modal-close-btn" onclick="closeProductModal()">✕ ĐÓNG</button>
   <div class="modal-layout">
@@ -286,75 +153,46 @@ let cart = {};
 let filter = "All";
 
 const grid = document.getElementById("product-grid");
-
-const money = value =>
-  new Intl.NumberFormat("vi-VN").format(value) + " ₫";
-
+const money = value => new Intl.NumberFormat("vi-VN").format(value) + " ₫";
 const fnNormalize = str => String(str || "").trim().toLowerCase();
 
 function escapeHTML(value) {
   return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
   }[char]));
 }
 
-// Lấy sản phẩm từ Backend
 async function loadProducts() {
-  grid.innerHTML = `
-    <p style="padding:40px;color:#64748b">
-      Loading SK82ND inventory...
-    </p>
-  `;
+  grid.innerHTML = `<p style="padding:40px;color:#64748b">Loading SK82ND inventory...</p>`;
 
   try {
-    const response = await fetch("/api/products", {
-      cache: "no-store"
-    });
-
-    if (!response.ok) {
-      throw new Error("API error: " + response.status);
-    }
-
+    const response = await fetch("/api/products", { cache: "no-store" });
+    if (!response.ok) throw new Error("API error: " + response.status);
     const data = await response.json();
-
-    if (!data.success) {
-      throw new Error(data.error || "Cannot load products");
-    }
+    if (!data.success) throw new Error(data.error || "Cannot load products");
 
     products = data.products || [];
     window.allLoadedProducts = products;
 
     for (const id of Object.keys(cart)) {
-      if (!products.some(p => p.id === id)) {
-        delete cart[id];
-      }
+      if (!products.some(p => p.id === id)) delete cart[id];
     }
 
     render();
     updateCart();
-
   } catch (error) {
     console.error("SK82ND:", error);
-    grid.innerHTML = `
-      <p style="padding:40px;color:#0284C7">
-        Không thể tải kho hàng. Vui lòng thử lại sau.
-      </p>
-    `;
+    grid.innerHTML = `<p style="padding:40px;color:#0284C7">Không thể tải kho hàng. Vui lòng thử lại sau.</p>`;
   }
 }
 
-// Hàm render danh sách sản phẩm với logic lọc chuẩn xác
+// Logic lọc linh hoạt, không bị kẹt cứng chữ hoa/thường
 function render() {
   const items = products.filter(p => {
     const cat = fnNormalize(p.category);
     const cond = fnNormalize(p.condition);
 
     if (filter === "All") {
-      // All Gear chỉ hiển thị Complete có điều kiện là New hoặc các biến thể 2hand/used
       return cat === "complete" && (cond === "new" || cond.includes("2hand") || cond.includes("used"));
     }
     if (filter === "Complete") {
@@ -370,29 +208,22 @@ function render() {
       return cat === "wheels" || cat === "wheel";
     }
     if (filter === "New") {
-      // New chỉ dành riêng cho Complete
       return cat === "complete" && cond === "new";
     }
     if (filter === "2hand") {
-      // 2hand chỉ dành riêng cho Complete và quét mọi biến thể 2hand/used
-      return cat === "complete" && (cond.includes("2hand") || cond.includes("used"));
+      // Nới lỏng: miễn là condition chứa chữ 2hand hoặc used là hiển thị
+      return cond.includes("2hand") || cond.includes("used");
     }
     return true;
   });
 
-  document.getElementById("result-count").textContent =
-    items.length + " products · AVAILABLE NOW";
+  document.getElementById("result-count").textContent = items.length + " products · AVAILABLE NOW";
 
   if (!items.length) {
-    grid.innerHTML = `
-      <p style="padding:40px;color:#64748b">
-        Hiện chưa có sản phẩm trong danh mục này.
-      </p>
-    `;
+    grid.innerHTML = `<p style="padding:40px;color:#64748b">Hiện chưa có sản phẩm trong danh mục này.</p>`;
     return;
   }
 
-  // Giao diện thẻ sản phẩm ngoài trang chủ TỐI GIẢN (Ảnh, Tên, Giá)
   grid.innerHTML = items.map(p => {
     const id = escapeHTML(p.id);
     const image = p.image
@@ -413,10 +244,8 @@ function render() {
   }).join("");
 }
 
-// Xử lý bộ lọc
 function setFilter(value, btn) {
   filter = value;
-
   if (btn) {
     document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
@@ -432,7 +261,6 @@ function setFilter(value, btn) {
   render();
 }
 
-// Mở Modal chi tiết sản phẩm kiểu Vietgangz
 function openProductModal(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
@@ -473,7 +301,6 @@ function closeProductModal() {
   document.body.style.overflow = '';
 }
 
-// Thêm vào giỏ hàng
 function addToCart(id) {
   const product = products.find(p => p.id === id);
   if (!product) return;
@@ -489,58 +316,44 @@ function addToCart(id) {
 
   const toast = document.getElementById("toast");
   toast.classList.add("show");
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 1500);
+  setTimeout(() => toast.classList.remove("show"), 1500);
 }
 
-// Cập nhật giỏ hàng
 function updateCart() {
-  const entries = Object.entries(cart).filter(([id, qty]) =>
-    qty > 0 && products.some(p => p.id === id)
-  );
-
+  const entries = Object.entries(cart).filter(([id, qty]) => qty > 0 && products.some(p => p.id === id));
   const count = entries.reduce((sum, [, qty]) => sum + qty, 0);
   document.getElementById("cart-count").textContent = count;
 
-  document.getElementById("cart-items").innerHTML =
-    entries.length
-      ? entries.map(([id, qty]) => {
-          const p = products.find(x => x.id === id);
-          return `
-            <div class="cart-row">
-              <div>
-                <b>${escapeHTML(p.name)}</b>
-                <small>${money(p.price)}</small>
-                <div class="qty">
-                  <button onclick="changeQty('${id}',-1)">−</button>
-                  <span>${qty}</span>
-                  <button onclick="changeQty('${id}',1)">+</button>
-                </div>
+  document.getElementById("cart-items").innerHTML = entries.length
+    ? entries.map(([id, qty]) => {
+        const p = products.find(x => x.id === id);
+        return `
+          <div class="cart-row">
+            <div>
+              <b>${escapeHTML(p.name)}</b>
+              <small>${money(p.price)}</small>
+              <div class="qty">
+                <button onclick="changeQty('${id}',-1)">−</button>
+                <span>${qty}</span>
+                <button onclick="changeQty('${id}',1)">+</button>
               </div>
-              <strong>${money(p.price * qty)}</strong>
             </div>
-          `;
-        }).join("")
-      : `<p>Your bag is empty. Find your setup.</p>`;
+            <strong>${money(p.price * qty)}</strong>
+          </div>
+        `;
+      }).join("")
+    : `<p>Your bag is empty. Find your setup.</p>`;
 
-  const total = entries.reduce((sum, [id, qty]) => {
-    const p = products.find(x => x.id === id);
-    return sum + p.price * qty;
-  }, 0);
-
+  const total = entries.reduce((sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty, 0);
   document.getElementById("cart-total").textContent = money(total);
 }
 
-// Tăng giảm số lượng
 function changeQty(id, amount) {
   const p = products.find(x => x.id === id);
   if (!p) return;
 
   cart[id] = (cart[id] || 0) + amount;
-  if (cart[id] <= 0) {
-    delete cart[id];
-  }
+  if (cart[id] <= 0) delete cart[id];
   if (cart[id] > p.stock) {
     cart[id] = p.stock;
     alert("Số lượng tồn kho không đủ!");
@@ -548,46 +361,26 @@ function changeQty(id, amount) {
   updateCart();
 }
 
-function openCart() {
-  document.getElementById("cart-panel").classList.add("open");
-}
+function openCart() { document.getElementById("cart-panel").classList.add("open"); }
+function closeCart() { document.getElementById("cart-panel").classList.remove("open"); }
 
-function closeCart() {
-  document.getElementById("cart-panel").classList.remove("open");
-}
-
-// Đặt hàng qua Instagram
 function checkout() {
   const entries = Object.entries(cart);
-  if (!entries.length) {
-    alert("Giỏ hàng đang trống.");
-    return;
-  }
+  if (!entries.length) { alert("Giỏ hàng đang trống."); return; }
 
   const lines = entries.map(([id, qty]) => {
     const p = products.find(x => x.id === id);
     return `${p.name} x${qty} - ${money(p.price * qty)}`;
   });
 
-  const total = entries.reduce((sum, [id, qty]) => {
-    const p = products.find(x => x.id === id);
-    return sum + p.price * qty;
-  }, 0);
+  const total = entries.reduce((sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty, 0);
 
-  const message =
-    "Chào SK82ND! Mình muốn đặt hàng:\n" +
-    lines.join("\n") +
-    "\nTổng đơn: " + money(total) +
-    "\nNhờ shop xác nhận tồn kho và phí ship.";
+  const message = "Chào SK82ND! Mình muốn đặt hàng:\n" + lines.join("\n") + "\nTổng đơn: " + money(total) + "\nNhờ shop xác nhận tồn kho và phí ship.";
 
   window.open("https://www.instagram.com/sk82nd.shop/", "_blank");
-
-  navigator.clipboard?.writeText(message)
-    .then(() => alert("Đã copy đơn hàng!"))
-    .catch(() => alert(message));
+  navigator.clipboard?.writeText(message).then(() => alert("Đã copy đơn hàng!")).catch(() => alert(message));
 }
 
-// Khởi chạy khi tải trang
 loadProducts();
 setInterval(loadProducts, 60000);
 </script>
