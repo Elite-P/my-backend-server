@@ -47,10 +47,6 @@ header {
   color: #0284C7;
 }
 
-.product-visual {
-  background: #EDF7FC;
-}
-
 .filter.active {
   background: #080D16;
   color: #FFFFFF;
@@ -61,38 +57,62 @@ header {
   color: #080D16;
 }
 
-/* ĐIỀU CHỈNH ẢNH SẢN PHẨM THEO TỶ LỆ 4:3 */
+/* HIỂN THỊ ẢNH FULL 100% - KHÔNG CROP - KHÔNG KHOẢNG TRẮNG (MASONRY GRID) */
+.product-grid {
+  column-count: 4;
+  column-gap: 14px;
+}
+
+.product {
+  break-inside: avoid;
+  margin-bottom: 14px;
+  background: var(--paper);
+  position: relative;
+  cursor: pointer;
+  transition: .2s;
+  display: inline-block;
+  width: 100%;
+}
+
+.product:hover {
+  transform: translateY(-3px);
+}
+
 .product-visual {
   width: 100%;
-  aspect-ratio: 4 / 3; /* Hoặc có thể đổi thành 3 / 4 nếu muốn khung dọc dài hơn, nhưng để 4:3 chuẩn e-commerce */
+  height: auto;
+  aspect-ratio: unset;
   position: relative;
   overflow: hidden;
-  background: #f4f4f4; /* Màu nền lót khi ảnh không lấp đầy khung */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: transparent;
+  display: block;
 }
 
 .product-photo {
   width: 100%;
-  height: 100%;
-  position: absolute;
-  inset: 0;
-  object-fit: contain; /* Đổi từ cover sang contain để hiện trọn vẹn cây ván, không bị khuất */
+  height: auto;
+  position: relative;
+  display: block;
+  object-fit: cover;
   z-index: 1;
 }
 
-.product-visual.has-image:before,
-.product-visual.has-image:after {
-  display: none;
+.product-info {
+  padding: 14px;
+  text-align: left;
 }
 
-.product-badge {
-  z-index: 2;
+.product-name {
+  font: 800 16px/1.2 var(--display);
+  text-transform: uppercase;
+  margin: 0 0 6px 0;
+  color: #111;
 }
 
-.quick {
-  z-index: 3;
+.price {
+  font-size: 14px;
+  font-weight: 900;
+  color: #111;
 }
 
 /* MODAL CHI TIẾT SẢN PHẨM */
@@ -136,9 +156,10 @@ header {
 .modal-gallery img {
   width: 100%;
   height: auto;
+  display: block;
+  background: transparent;
+  aspect-ratio: unset;
   object-fit: cover;
-  background: #f5f5f5;
-  aspect-ratio: 4/3;
 }
 .modal-gallery.single-img {
   grid-template-columns: 1fr;
@@ -214,20 +235,50 @@ h1{font:900 clamp(66px,9vw,132px)/.82 var(--display);letter-spacing:-3px;text-tr
 .category-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.cat{height:250px;background:#dfe0d5;position:relative;overflow:hidden;padding:20px;display:flex;flex-direction:column;justify-content:space-between;transition:.25s}.cat:nth-child(2){background:#d6e2c6}.cat:nth-child(3){background:#d5d8d6}.cat:nth-child(4){background:#e4d5c9}.cat:hover{transform:translateY(-5px)}.cat-no{font-size:10px;font-weight:800;color:#777}.cat h3{font:900 36px/.9 var(--display);margin:0;text-transform:uppercase;position:relative;z-index:2}.cat-art{position:absolute;width:90px;height:200px;right:28px;top:20px;border:6px solid #222;border-radius:48px;transform:rotate(28deg);background:linear-gradient(160deg,#a9c92d,#222 80%);box-shadow:12px 15px 18px #0003}.cat:nth-child(2) .cat-art{background:linear-gradient(160deg,#d35d44,#f3c99e)}.cat:nth-child(3) .cat-art{height:130px;width:130px;border-radius:50%;top:55px;background:radial-gradient(circle,#d9ff3e 0 22%,#171814 24% 48%,#d9d9d0 50%)}.cat:nth-child(4) .cat-art{height:60px;width:160px;border-radius:15px;top:90px;background:linear-gradient(90deg,#111,#666,#111)}
 .catalog{background:#e8e8df}.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:25px}.filter{border:1px solid #bcbeb4;background:transparent;padding:10px 15px;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase}.filter.active,.filter:hover{background:var(--ink);color:white;border-color:var(--ink)}
 
-.product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
-.product{background:var(--paper);position:relative;min-width:0;cursor:pointer;transition:.2s}
-.product:hover{transform:translateY(-3px)}
-.product-info{padding:15px 14px 17px;text-align:left}
-.product-name{font:800 16px/1.1 var(--display);text-transform:uppercase;margin:0 0 6px 0;color:#111;min-height:35px}
-.price{font-size:14px;font-weight:900;color:#111}
-
 .feature{background:var(--lime);display:grid;grid-template-columns:1fr 1fr;min-height:420px}.feature-left{padding:75px max(5vw,calc((100vw - 650px)/2)) 75px max(5vw,calc((100vw - 1300px)/2));display:flex;flex-direction:column;justify-content:center}.feature h2{font:900 clamp(52px,7vw,90px)/.84 var(--display);text-transform:uppercase;letter-spacing:-2px;margin:22px 0}.feature p{font-size:13px;line-height:1.8;max-width:420px}.feature-right{background:var(--ink);color:white;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.feature-right:before{content:'FIRST PUSH';position:absolute;font:900 16vw var(--display);white-space:nowrap;color:#ffffff0b;transform:rotate(-90deg)}.lesson-card{border:1px solid #ffffff55;padding:32px;max-width:330px;position:relative;z-index:1}.lesson-card strong{font:900 46px var(--display);color:var(--lime)}.lesson-card p{color:#c5c6bd;font-size:12px;line-height:1.8}
 .values{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.value{padding:30px 25px;border-right:1px solid var(--line)}.value:last-child{border:0}.value b{font:900 27px var(--display);text-transform:uppercase}.value p{font-size:11px;line-height:1.7;color:#686b62;margin-bottom:0}
 .footer{background:var(--ink);color:white;padding:65px 0 25px}.footer-top{display:flex;justify-content:space-between;gap:40px;padding-bottom:55px}.footer .logo{font-size:42px}.footer p{font-size:11px;color:#aeb0a6;line-height:1.8;max-width:330px}.footer-links{display:flex;gap:55px}.footer-links div{display:flex;flex-direction:column;gap:13px}.footer-links b{font-size:9px;letter-spacing:2px;color:var(--lime);margin-bottom:6px}.footer-links a{font-size:11px;color:#d0d1ca}.copyright{border-top:1px solid #ffffff26;padding-top:18px;display:flex;justify-content:space-between;color:#85877e;font-size:9px;letter-spacing:1px}
 .cart-panel{position:fixed;inset:0;z-index:50;pointer-events:none}.cart-panel.open{pointer-events:auto}.shade{position:absolute;inset:0;background:#0008;opacity:0;transition:.25s}.cart-panel.open .shade{opacity:1}.drawer{position:absolute;right:0;top:0;height:100%;width:min(440px,100%);background:var(--paper);padding:25px;transform:translateX(100%);transition:.3s;display:flex;flex-direction:column}.cart-panel.open .drawer{transform:none}.drawer-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:17px}.drawer-head h3{font:900 34px var(--display);margin:0}.close{background:none;border:0;font-size:24px}.cart-items{overflow:auto;flex:1;padding:15px 0}.cart-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:14px 0}.cart-row b{font:800 16px var(--display);display:block}.cart-row small{color:#777;font-size:10px}.qty{display:flex;align-items:center;gap:8px;margin-top:8px}.qty button{border:1px solid var(--line);background:none;width:23px;height:23px}.cart-bottom{border-top:1px solid var(--line);padding-top:18px}.total{display:flex;justify-content:space-between;font-weight:900;margin-bottom:15px}.checkout{width:100%;border:0;background:var(--lime);padding:16px;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase}
 .toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);background:var(--ink);color:white;padding:13px 18px;font-size:11px;z-index:70;opacity:0;transition:.25s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
-@media(max-width:850px){.navlinks{display:none}.hero{grid-template-columns:1fr}.hero-copy{padding:75px 7vw 55px}.hero-art{min-height:390px}.deck-hero{height:350px;width:115px}.category-grid,.product-grid{grid-template-columns:repeat(2,1fr)}.feature{grid-template-columns:1fr}.feature-left{padding:60px 7vw}.feature-right{min-height:300px}.footer-top{flex-direction:column}.footer-links{gap:35px}}
-@media(max-width:520px){.nav{height:66px;padding:0 5vw}.logo{font-size:29px}.navright{gap:10px}.navright>a{display:none}.hero-copy{padding-top:65px}.hero-art{min-height:330px}h1{font-size:75px}.section{padding:65px 0}.section-head{align-items:start;flex-direction:column}.category-grid{gap:8px}.cat{height:190px;padding:13px}.cat h3{font-size:29px}.cat-art{right:14px;width:66px;height:150px}.product-grid{gap:8px}.product-name{font-size:16px}.product-info{padding:12px 10px}.values{grid-template-columns:1fr}.value{border-right:0;border-bottom:1px solid var(--line);padding:22px 5px}.footer-links{gap:25px}.copyright{gap:15px;flex-direction:column}}
+
+@media(max-width:850px){
+  .navlinks{display:none}
+  .hero{grid-template-columns:1fr}
+  .hero-copy{padding:75px 7vw 55px}
+  .hero-art{min-height:390px}
+  .deck-hero{height:350px;width:115px}
+  .category-grid{grid-template-columns:repeat(2,1fr)}
+  .product-grid{column-count:2}
+  .feature{grid-template-columns:1fr}
+  .feature-left{padding:60px 7vw}
+  .feature-right{min-height:300px}
+  .footer-top{flex-direction:column}
+  .footer-links{gap:35px}
+}
+
+@media(max-width:520px){
+  .nav{height:66px;padding:0 5vw}
+  .logo{font-size:29px}
+  .navright{gap:10px}
+  .navright>a{display:none}
+  .hero-copy{padding-top:65px}
+  .hero-art{min-height:330px}
+  h1{font-size:75px}
+  .section{padding:65px 0}
+  .section-head{align-items:start;flex-direction:column}
+  .category-grid{gap:8px}
+  .cat{height:190px;padding:13px}
+  .cat h3{font-size:29px}
+  .cat-art{right:14px;width:66px;height:150px}
+  .product-grid{column-count:2;column-gap:8px}
+  .product{margin-bottom:8px}
+  .product-name{font-size:16px}
+  .product-info{padding:12px 10px}
+  .values{grid-template-columns:1fr}
+  .value{border-right:0;border-bottom:1px solid var(--line);padding:22px 5px}
+  .footer-links{gap:25px}
+  .copyright{gap:15px;flex-direction:column}
+}
 </style>
 </head>
 <body>
@@ -249,280 +300,4 @@ h1{font:900 clamp(66px,9vw,132px)/.82 var(--display);letter-spacing:-3px;text-tr
   <a class="cat" href="#shop" onclick="setFilter('Complete')"><span class="cat-no">01 / THE WHOLE SETUP</span><h3>Complete<br>boards ↗</h3><div class="cat-art"></div></a>
   <a class="cat" href="#shop" onclick="setFilter('Deck')"><span class="cat-no">02 / YOUR FOUNDATION</span><h3>Decks ↗</h3><div class="cat-art"></div></a>
   <a class="cat" href="#shop" onclick="setFilter('Trucks')"><span class="cat-no">03 / THE HARDWARE</span><h3>Trucks ↗</h3><div class="cat-art"></div></a>
-  <a class="cat" href="#shop" onclick="setFilter('Wheels')"><span class="cat-no">04 / KEEP IT ROLLING</span><h3>Wheels ↗</h3><div class="cat-art"></div></a>
- </div>
-</section>
-<section class="section catalog" id="shop"><div class="wrap">
- <div class="section-head"><div><div class="kicker">Curated gear · Ready to roll</div><h2 class="section-title">The <span>shop.</span></h2></div><div class="kicker" id="result-count">28 products</div></div>
- <div class="filters">
-  <button class="filter active" onclick="setFilter('All',this)">All gear</button>
-  <button class="filter" onclick="setFilter('Complete',this)">Completes</button>
-  <button class="filter" onclick="setFilter('Deck',this)">Decks</button>
-  <button class="filter" onclick="setFilter('Trucks',this)">Trucks</button>
-  <button class="filter" onclick="setFilter('Wheels',this)">Wheels</button>
-  <button class="filter" onclick="setFilter('2hand',this)">2hand</button>
-  <button class="filter" onclick="setFilter('New',this)">New</button>
- </div>
- <div class="product-grid" id="product-grid"></div>
-</div></section>
-<section class="feature" id="story"><div class="feature-left"><div class="kicker">More than a board</div><h2>First push.<br>Zero pressure.</h2><p>Mua ván rồi nhưng chưa biết bắt đầu từ đâu? SK82ND đồng hành cùng bạn trong buổi hướng dẫn cơ bản miễn phí — làm quen với ván, tư thế đứng và những cú đẩy đầu tiên.</p><a class="cta" href="https://www.instagram.com/sk82nd.shop/" target="_blank">Book your first session <b>↗</b></a></div><div class="feature-right"><div class="lesson-card"><div class="kicker" style="color:var(--lime)">SK82ND beginner program</div><strong>01 FREE<br>SESSION</strong><p>01 buổi hướng dẫn nhập môn miễn phí khi mua bất kỳ chiếc ván nào tại shop. Nhắn Instagram để thống nhất lịch và địa điểm.</p></div></div></section>
-<section class="section wrap" id="support"><div class="section-head"><div><div class="kicker">Why ride with us</div><h2 class="section-title">Real skate.<br><span>Real support.</span></h2></div></div>
-<div class="values"><div class="value"><b>01 / Chọn đúng ván</b><p>Tư vấn theo chiều cao, size giày, mục tiêu và ngân sách — không cố bán chiếc đắt nhất.</p></div><div class="value"><b>02 / Ride with confidence</b><p>Ván mới và 2hand được phân loại rõ ràng. Hỏi kỹ tình trạng trước khi chốt đơn.</p></div><div class="value"><b>03 / Keep the scene alive</b><p>Không chỉ giao một chiếc ván. Bọn mình muốn giúp bạn thật sự bắt đầu chơi skateboarding.</p></div></div>
-</section>
-</main>
-<footer class="footer"><div class="wrap"><div class="footer-top"><div><a class="logo" href="#">SK<span>8</span>2ND<small>SKATEBOARDS • PARTS • ACCESSORIES</small></a><p>An independent skate shop for people who want to find their own line. New & secondhand skateboards, parts and accessories.</p></div><div class="footer-links"><div><b>EXPLORE</b><a href="#shop">Shop all</a><a href="#categories">Categories</a><a href="#story">Beginner session</a></div><div><b>CONNECT</b><a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a><a href="https://www.facebook.com/" target="_blank">Facebook ↗</a><a href="#support">Contact & support</a></div></div></div><div class="copyright"><span>© 2026 SK82ND SKATESHOP. ALL RIGHTS RESERVED.</span><span>SKATEBOARDS • PARTS • ACCESSORIES</span></div></div></footer>
-<div class="cart-panel" id="cart-panel"><div class="shade" onclick="closeCart()"></div><aside class="drawer"><div class="drawer-head"><h3>YOUR BAG</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cart-items"></div><div class="cart-bottom"><div class="total"><span>SUBTOTAL</span><span id="cart-total">0₫</span></div><button class="checkout" onclick="checkout()">Send order via Instagram ↗</button><p style="font-size:9px;color:#777;line-height:1.6">Đây là giỏ hàng xem trước. Đơn hàng sẽ được gửi qua Instagram để shop xác nhận tồn kho, phí vận chuyển và thanh toán.</p></div></aside></div>
-<div class="toast" id="toast">Added to your bag</div>
-
-<div id="productModal" class="product-modal">
-  <button class="modal-close-btn" onclick="closeProductModal()">✕ ĐÓNG</button>
-  <div class="modal-layout">
-    <div id="modalGallery" class="modal-gallery"></div>
-    <div class="modal-details">
-      <div id="modalBadge" style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: #666; margin-bottom: 8px;"></div>
-      <h2 id="modalTitle" class="modal-title"></h2>
-      <p id="modalPrice" class="modal-price"></p>
-      <div id="modalSpecs" class="modal-specs"></div>
-      <div id="modalGifts" class="modal-gifts" style="display: none;"></div>
-      <button id="modalAddToBag" class="modal-buy-btn">THÊM VÀO GIỎ HÀNG</button>
-    </div>
-  </div>
-</div>
-
-<script>
-let products = [];
-let cart = {};
-let filter = "All";
-
-const grid = document.getElementById("product-grid");
-const money = value => new Intl.NumberFormat("vi-VN").format(value) + " ₫";
-const fnNormalize = str => String(str || "").trim().toLowerCase();
-
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-  }[char]));
-}
-
-async function loadProducts() {
-  grid.innerHTML = `<p style="padding:40px;color:#64748b">Loading SK82ND inventory...</p>`;
-
-  try {
-    const response = await fetch("/api/products", { cache: "no-store" });
-    if (!response.ok) throw new Error("API error: " + response.status);
-    const data = await response.json();
-    if (!data.success) throw new Error(data.error || "Cannot load products");
-
-    products = data.products || [];
-    window.allLoadedProducts = products;
-
-    for (const id of Object.keys(cart)) {
-      if (!products.some(p => p.id === id)) delete cart[id];
-    }
-
-    render();
-    updateCart();
-  } catch (error) {
-    console.error("SK82ND:", error);
-    grid.innerHTML = `<p style="padding:40px;color:#0284C7">Không thể tải kho hàng. Vui lòng thử lại sau.</p>`;
-  }
-}
-
-function render() {
-  const items = products.filter(p => {
-    const cat = fnNormalize(p.category);
-    const cond = fnNormalize(p.condition);
-
-    if (filter === "All") {
-      return cat === "complete" && (cond === "new" || cond.includes("2hand") || cond.includes("used"));
-    }
-    if (filter === "Complete") {
-      return cat === "complete";
-    }
-    if (filter === "Deck") {
-      return cat === "deck";
-    }
-    if (filter === "Trucks") {
-      return cat === "trucks" || cat === "truck";
-    }
-    if (filter === "Wheels") {
-      return cat === "wheels" || cat === "wheel";
-    }
-    if (filter === "New") {
-      return cat === "complete" && cond === "new";
-    }
-    if (filter === "2hand") {
-      return cond.includes("2hand") || cond.includes("used");
-    }
-    return true;
-  });
-
-  document.getElementById("result-count").textContent = items.length + " products · AVAILABLE NOW";
-
-  if (!items.length) {
-    grid.innerHTML = `<p style="padding:40px;color:#64748b">Hiện chưa có sản phẩm trong danh mục này.</p>`;
-    return;
-  }
-
-  grid.innerHTML = items.map(p => {
-    const id = escapeHTML(p.id);
-    const image = p.image
-      ? `<img class="product-photo" src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}" loading="lazy">`
-      : `<div style="display:grid;place-items:center;height:100%;color:#aaa;font-size:11px;">NO IMAGE</div>`;
-
-    return `
-      <article class="product" onclick="openProductModal('${id}')">
-        <div class="product-visual ${p.image ? "has-image" : ""}">
-          ${image}
-        </div>
-        <div class="product-info">
-          <h3 class="product-name">${escapeHTML(p.name)}</h3>
-          <div class="price">${money(p.price)}</div>
-        </div>
-      </article>
-    `;
-  }).join("");
-}
-
-function setFilter(value, btn) {
-  filter = value;
-  if (btn) {
-    document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-  } else {
-    document.querySelectorAll(".filter").forEach(b => {
-      if (b.textContent.toLowerCase().includes(value.toLowerCase())) {
-        b.classList.add("active");
-      } else {
-        b.classList.remove("active");
-      }
-    });
-  }
-  render();
-}
-
-function openProductModal(productId) {
-  const product = products.find(p => p.id === productId);
-  if (!product) return;
-
-  const gallery = document.getElementById('modalGallery');
-  const images = (product.images && product.images.length > 0) 
-    ? product.images 
-    : [product.image || 'https://via.placeholder.com/600x600?text=No+Image'];
-
-  gallery.className = images.length === 1 ? 'modal-gallery single-img' : 'modal-gallery';
-  gallery.innerHTML = images.map(imgUrl => `<img src="${escapeHTML(imgUrl)}" alt="${escapeHTML(product.name)}">`).join('');
-
-  document.getElementById('modalBadge').innerText = `${product.category} • ${product.condition} (Tồn: ${product.stock})`;
-  document.getElementById('modalTitle').innerText = product.name;
-  document.getElementById('modalPrice').innerText = money(product.price);
-  document.getElementById('modalSpecs').innerText = product.info || 'Đang cập nhật thông số chi tiết từ cột Thông tin ván...';
-
-  const giftsEl = document.getElementById('modalGifts');
-  if (product.gifts && product.gifts.trim() !== '') {
-    giftsEl.style.display = 'block';
-    giftsEl.innerText = `🎁 Tặng kèm: ${product.gifts}`;
-  } else {
-    giftsEl.style.display = 'none';
-  }
-
-  const buyBtn = document.getElementById('modalAddToBag');
-  buyBtn.onclick = () => {
-    addToCart(product.id);
-    closeProductModal();
-  };
-
-  document.getElementById('productModal').classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeProductModal() {
-  document.getElementById('productModal').classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-function addToCart(id) {
-  const product = products.find(p => p.id === id);
-  if (!product) return;
-
-  const quantity = cart[id] || 0;
-  if (quantity >= product.stock) {
-    alert("Số lượng sản phẩm trong kho không đủ!");
-    return;
-  }
-
-  cart[id] = quantity + 1;
-  updateCart();
-
-  const toast = document.getElementById("toast");
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 1500);
-}
-
-function updateCart() {
-  const entries = Object.entries(cart).filter(([id, qty]) => qty > 0 && products.some(p => p.id === id));
-  const count = entries.reduce((sum, [, qty]) => sum + qty, 0);
-  document.getElementById("cart-count").textContent = count;
-
-  document.getElementById("cart-items").innerHTML = entries.length
-    ? entries.map(([id, qty]) => {
-        const p = products.find(x => x.id === id);
-        return `
-          <div class="cart-row">
-            <div>
-              <b>${escapeHTML(p.name)}</b>
-              <small>${money(p.price)}</small>
-              <div class="qty">
-                <button onclick="changeQty('${id}',-1)">−</button>
-                <span>${qty}</span>
-                <button onclick="changeQty('${id}',1)">+</button>
-              </div>
-            </div>
-            <strong>${money(p.price * qty)}</strong>
-          </div>
-        `;
-      }).join("")
-    : `<p>Your bag is empty. Find your setup.</p>`;
-
-  const total = entries.reduce((sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty, 0);
-  document.getElementById("cart-total").textContent = money(total);
-}
-
-function changeQty(id, amount) {
-  const p = products.find(x => x.id === id);
-  if (!p) return;
-
-  cart[id] = (cart[id] || 0) + amount;
-  if (cart[id] <= 0) delete cart[id];
-  if (cart[id] > p.stock) {
-    cart[id] = p.stock;
-    alert("Số lượng tồn kho không đủ!");
-  }
-  updateCart();
-}
-
-function openCart() { document.getElementById("cart-panel").classList.add("open"); }
-function closeCart() { document.getElementById("cart-panel").classList.remove("open"); }
-
-function checkout() {
-  const entries = Object.entries(cart);
-  if (!entries.length) { alert("Giỏ hàng đang trống."); return; }
-
-  const lines = entries.map(([id, qty]) => {
-    const p = products.find(x => x.id === id);
-    return `${p.name} x${qty} - ${money(p.price * qty)}`;
-  });
-
-  const total = entries.reduce((sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty, 0);
-
-  const message = "Chào SK82ND! Mình muốn đặt hàng:\n" + lines.join("\n") + "\nTổng đơn: " + money(total) + "\nNhờ shop xác nhận tồn kho và phí ship.";
-
-  window.open("https://www.instagram.com/sk82nd.shop/", "_blank");
-  navigator.clipboard?.writeText(message).then(() => alert("Đã copy đơn hàng!")).catch(() => alert(message));
-}
-
-loadProducts();
-setInterval(loadProducts, 60000);
-</script>
-</body>
-</html>
+  <a class="cat" href
