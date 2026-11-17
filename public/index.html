@@ -27,7 +27,7 @@ body {
 }
 
 header {
-  background: rgba(255,255,255,.95);
+  background: rgba(255,255,255,.98);
 }
 
 .hero {
@@ -51,6 +51,24 @@ header {
 .cta, .checkout {
   background: #38BDF8;
   color: #080D16;
+}
+
+/* XỬ LÝ LOGO THÔNG MINH CHO CẢ HEADER VÀ FOOTER */
+/* Ở Header (nền trắng): Tự động đảo màu chữ thành đen và lọc bỏ hoàn toàn nền đen */
+.logo-header img {
+  height: 48px; 
+  width: auto; 
+  display: block;
+  filter: invert(1);
+  mix-blend-mode: multiply;
+}
+
+/* Ở Footer (nền đen): Giữ nguyên chữ trắng và tự động lọc bỏ nền đen */
+.logo-footer img {
+  height: 52px; 
+  width: auto; 
+  display: block;
+  mix-blend-mode: screen;
 }
 
 /* HIỂN THỊ ẢNH FULL 100% - KHÔNG CROP - KHÔNG KHOẢNG TRẮNG (MASONRY GRID) */
@@ -210,9 +228,7 @@ header {
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body)}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}
 .announce{background:var(--lime);padding:9px 18px;text-align:center;font-size:10px;letter-spacing:1.4px;font-weight:800;text-transform:uppercase}
 header{position:sticky;top:0;z-index:20;background:rgba(242,241,235,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.nav{height:76px;max-width:1400px;margin:auto;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;gap:25px}
-
-.logo-img { height: 36px; width: auto; display: block; }
+.nav{height:82px;max-width:1400px;margin:auto;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;gap:25px}
 
 .navlinks{display:flex;gap:27px;align-items:center;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:800}.navlinks a:hover{color:#758e00}
 .navright{display:flex;align-items:center;gap:18px;font-size:11px;font-weight:800;text-transform:uppercase}.cartbtn{border:1px solid var(--ink);background:transparent;padding:10px 14px;font-weight:800;font-size:10px;letter-spacing:1px}.cartbtn:hover{background:var(--ink);color:white}
@@ -281,7 +297,8 @@ h1{font:900 clamp(66px,9vw,132px)/.82 var(--display);letter-spacing:-3px;text-tr
 <body>
 <div class="announce">FREE BEGINNER SESSION WITH EVERY BOARD PURCHASE&nbsp; · &nbsp;SHIP NATIONWIDE</div>
 <header><nav class="nav">
-<a class="logo" href="#"><img src="/logo.png" alt="SK82ND" class="logo-img"></a>
+<!-- LOGO HEADER: Tự động đảo màu và xóa nền đen, kích thước lớn nổi bật -->
+<a class="logo-header" href="#"><img src="/logo.png.jfif" alt="SK82ND"></a>
 <div class="navlinks"><a href="#shop">Shop all</a><a href="#categories">Categories</a><a href="#story">Our scene</a><a href="#support">Support</a></div>
 <div class="navright"><a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a><button class="cartbtn" onclick="openCart()">BAG (<span id="cart-count">0</span>)</button></div>
 </nav></header>
@@ -319,7 +336,8 @@ h1{font:900 clamp(66px,9vw,132px)/.82 var(--display);letter-spacing:-3px;text-tr
 </section>
 </main>
 <footer class="footer"><div class="wrap"><div class="footer-top"><div>
-<a class="logo" href="#"><img src="/logo.png" alt="SK82ND" class="logo-img"></a>
+<!-- LOGO FOOTER: Tự động lọc nền đen, giữ nguyên chữ trắng nổi bật trên nền tối -->
+<a class="logo-footer" href="#"><img src="/logo.png.jfif" alt="SK82ND"></a>
 <p>An independent skate shop for people who want to find their own line. New & secondhand skateboards, parts and accessories.</p></div><div class="footer-links"><div><b>EXPLORE</b><a href="#shop">Shop all</a><a href="#categories">Categories</a><a href="#story">Beginner session</a></div><div><b>CONNECT</b><a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a><a href="https://www.facebook.com/" target="_blank">Facebook ↗</a><a href="#support">Contact & support</a></div></div></div><div class="copyright"><span>© 2026 SK82ND SKATESHOP. ALL RIGHTS RESERVED.</span><span>SKATEBOARDS • PARTS • ACCESSORIES</span></div></div></footer>
 <div class="cart-panel" id="cart-panel"><div class="shade" onclick="closeCart()"></div><aside class="drawer"><div class="drawer-head"><h3>YOUR BAG</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cart-items"></div><div class="cart-bottom"><div class="total"><span>SUBTOTAL</span><span id="cart-total">0₫</span></div><button class="checkout" onclick="checkout()">Send order via Instagram ↗</button><p style="font-size:9px;color:#777;line-height:1.6">Đây là giỏ hàng xem trước. Đơn hàng sẽ được gửi qua Instagram để shop xác nhận tồn kho, phí vận chuyển và thanh toán.</p></div></aside></div>
 <div class="toast" id="toast">Added to your bag</div>
