@@ -5,7 +5,7 @@
 <meta name="description" content="SK82ND SkateShop — Skateboards, parts & accessories. Ván trượt mới, 2hand và phụ kiện skateboarding.">
 <title>SK82ND SkateShop — Find Your Line</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 
 :root {
@@ -28,6 +28,7 @@ body {
 
 header {
   background: rgba(255,255,255,.98);
+  border-bottom: 2px solid var(--ink);
 }
 
 .hero {
@@ -53,22 +54,54 @@ header {
   color: #080D16;
 }
 
-/* XỬ LÝ LOGO THÔNG MINH CHO CẢ HEADER VÀ FOOTER */
-/* Ở Header (nền trắng): Tự động đảo màu chữ thành đen và lọc bỏ hoàn toàn nền đen */
-.logo-header img {
-  height: 48px; 
-  width: auto; 
+/* THIẾT KẾ LOGO CHUẨN STREETWEAR BRAND LỚN (NÉT CĂNG, KHÔNG BAO GIỜ LỖI) */
+.brand-logo {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 38px;
+  line-height: 0.9;
+  letter-spacing: -1.5px;
+  text-transform: uppercase;
+  color: #080D16;
+  text-decoration: none;
+  display: inline-block;
+}
+.brand-logo span {
+  color: var(--red);
+}
+.brand-logo small {
   display: block;
-  filter: invert(1);
-  mix-blend-mode: multiply;
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: 8px;
+  letter-spacing: 2.5px;
+  color: #555;
+  margin-top: 4px;
 }
 
-/* Ở Footer (nền đen): Giữ nguyên chữ trắng và tự động lọc bỏ nền đen */
-.logo-footer img {
-  height: 52px; 
-  width: auto; 
+/* Footer Logo (Nền đen) */
+.footer-logo {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 42px;
+  line-height: 0.9;
+  letter-spacing: -1.5px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  text-decoration: none;
+  display: inline-block;
+}
+.footer-logo span {
+  color: var(--lime);
+}
+.footer-logo small {
   display: block;
-  mix-blend-mode: screen;
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: 8px;
+  letter-spacing: 2.5px;
+  color: #aaa;
+  margin-top: 4px;
 }
 
 /* HIỂN THỊ ẢNH FULL 100% - KHÔNG CROP - KHÔNG KHOẢNG TRẮNG (MASONRY GRID) */
@@ -297,8 +330,8 @@ h1{font:900 clamp(66px,9vw,132px)/.82 var(--display);letter-spacing:-3px;text-tr
 <body>
 <div class="announce">FREE BEGINNER SESSION WITH EVERY BOARD PURCHASE&nbsp; · &nbsp;SHIP NATIONWIDE</div>
 <header><nav class="nav">
-<!-- LOGO HEADER: Tự động đảo màu và xóa nền đen, kích thước lớn nổi bật -->
-<a class="logo-header" href="#"><img src="/logo.png.jfif" alt="SK82ND"></a>
+<!-- LOGO HEADER CHUẨN BRAND LỚN: Nét căng, nổi bật, ko bao giờ lỗi ảnh -->
+<a class="brand-logo" href="#">SK<span>8</span>2ND<small>SKATEBOARDS • PARTS • ACCESSORIES</small></a>
 <div class="navlinks"><a href="#shop">Shop all</a><a href="#categories">Categories</a><a href="#story">Our scene</a><a href="#support">Support</a></div>
 <div class="navright"><a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a><button class="cartbtn" onclick="openCart()">BAG (<span id="cart-count">0</span>)</button></div>
 </nav></header>
@@ -336,8 +369,8 @@ h1{font:900 clamp(66px,9vw,132px)/.82 var(--display);letter-spacing:-3px;text-tr
 </section>
 </main>
 <footer class="footer"><div class="wrap"><div class="footer-top"><div>
-<!-- LOGO FOOTER: Tự động lọc nền đen, giữ nguyên chữ trắng nổi bật trên nền tối -->
-<a class="logo-footer" href="#"><img src="/logo.png.jfif" alt="SK82ND"></a>
+<!-- LOGO FOOTER -->
+<a class="footer-logo" href="#">SK<span>8</span>2ND<small>SKATEBOARDS • PARTS • ACCESSORIES</small></a>
 <p>An independent skate shop for people who want to find their own line. New & secondhand skateboards, parts and accessories.</p></div><div class="footer-links"><div><b>EXPLORE</b><a href="#shop">Shop all</a><a href="#categories">Categories</a><a href="#story">Beginner session</a></div><div><b>CONNECT</b><a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a><a href="https://www.facebook.com/" target="_blank">Facebook ↗</a><a href="#support">Contact & support</a></div></div></div><div class="copyright"><span>© 2026 SK82ND SKATESHOP. ALL RIGHTS RESERVED.</span><span>SKATEBOARDS • PARTS • ACCESSORIES</span></div></div></footer>
 <div class="cart-panel" id="cart-panel"><div class="shade" onclick="closeCart()"></div><aside class="drawer"><div class="drawer-head"><h3>YOUR BAG</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cart-items"></div><div class="cart-bottom"><div class="total"><span>SUBTOTAL</span><span id="cart-total">0₫</span></div><button class="checkout" onclick="checkout()">Send order via Instagram ↗</button><p style="font-size:9px;color:#777;line-height:1.6">Đây là giỏ hàng xem trước. Đơn hàng sẽ được gửi qua Instagram để shop xác nhận tồn kho, phí vận chuyển và thanh toán.</p></div></aside></div>
 <div class="toast" id="toast">Added to your bag</div>
