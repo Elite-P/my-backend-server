@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+
 :root {
   --ink: #080D16;
   --paper: #FFFFFF;
@@ -15,37 +16,176 @@
   --lime: #38BDF8;
   --red: #0284C7;
   --white: #FFFFFF;
+
   --display: 'Barlow Condensed', Impact, sans-serif;
   --body: 'DM Sans', Arial, sans-serif;
 }
-body { background: #FFFFFF; color: #080D16; }
-header { background: rgba(255,255,255,.95); }
-.hero { background: #080D16; }
-.announce { background: #38BDF8; color: #080D16; }
-.logo span { color: #38BDF8; }
-.navlinks a:hover { color: #0284C7; }
-.product-visual { background: #EDF7FC; }
-.filter.active { background: #080D16; color: #FFFFFF; }
-.cta, .checkout { background: #38BDF8; color: #080D16; }
-.product-photo { width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; z-index: 1; }
-.product-visual.has-image:before, .product-visual.has-image:after { display: none; }
-.product-badge { z-index: 2; }
-.quick { z-index: 3; }
 
-.product-modal { display: none; position: fixed; inset: 0; background: #ffffff; z-index: 9999; overflow-y: auto; padding: 24px 40px; }
-.product-modal.active { display: block; }
-.modal-close-btn { position: fixed; top: 20px; right: 30px; background: #111; color: #fff; border: none; padding: 10px 18px; font-weight: 700; cursor: pointer; z-index: 10000; }
-.modal-layout { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; max-width: 1300px; margin: 40px auto 0; align-items: start; }
-.modal-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-.modal-gallery img { width: 100%; height: auto; object-fit: cover; background: #f5f5f5; aspect-ratio: 1/1; }
-.modal-gallery.single-img { grid-template-columns: 1fr; }
-.modal-details { position: sticky; top: 40px; }
-.modal-title { font-size: 28px; font-weight: 800; margin: 0 0 10px 0; text-transform: uppercase; }
-.modal-price { font-size: 20px; font-weight: 600; margin: 0 0 24px 0; }
-.modal-specs { white-space: pre-line; line-height: 1.8; font-size: 15px; color: #333; border-top: 1px solid #e5e5e5; padding-top: 20px; margin-bottom: 24px; }
-.modal-gifts { background: #f8f8f8; padding: 12px 16px; font-size: 14px; font-weight: 600; margin-bottom: 24px; border-left: 3px solid #111; }
-.modal-buy-btn { width: 100%; padding: 16px; background: #111; color: #fff; font-size: 15px; font-weight: 700; text-transform: uppercase; border: none; cursor: pointer; }
-.modal-buy-btn:hover { background: #333; }
+body {
+  background: #FFFFFF;
+  color: #080D16;
+}
+
+header {
+  background: rgba(255,255,255,.95);
+}
+
+.hero {
+  background: #080D16;
+}
+
+.announce {
+  background: #38BDF8;
+  color: #080D16;
+}
+
+.logo span {
+  color: #38BDF8;
+}
+
+.navlinks a:hover {
+  color: #0284C7;
+}
+
+.product-visual {
+  background: #EDF7FC;
+}
+
+.filter.active {
+  background: #080D16;
+  color: #FFFFFF;
+}
+
+.cta, .checkout {
+  background: #38BDF8;
+  color: #080D16;
+}
+
+/* ĐIỀU CHỈNH ẢNH SẢN PHẨM THEO TỶ LỆ 4:3 */
+.product-visual {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  position: relative;
+  overflow: hidden;
+  background: #f4f4f4;
+}
+
+.product-photo {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.product-visual.has-image:before,
+.product-visual.has-image:after {
+  display: none;
+}
+
+.product-badge {
+  z-index: 2;
+}
+
+.quick {
+  z-index: 3;
+}
+
+/* MODAL CHI TIẾT SẢN PHẨM */
+.product-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  z-index: 9999;
+  overflow-y: auto;
+  padding: 24px 40px;
+}
+.product-modal.active {
+  display: block;
+}
+.modal-close-btn {
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 10000;
+}
+.modal-layout {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 48px;
+  max-width: 1300px;
+  margin: 40px auto 0;
+  align-items: start;
+}
+.modal-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.modal-gallery img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  background: #f5f5f5;
+  aspect-ratio: 4/3;
+}
+.modal-gallery.single-img {
+  grid-template-columns: 1fr;
+}
+.modal-details {
+  position: sticky;
+  top: 40px;
+}
+.modal-title {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+}
+.modal-price {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 24px 0;
+}
+.modal-specs {
+  white-space: pre-line;
+  line-height: 1.8;
+  font-size: 15px;
+  color: #333;
+  border-top: 1px solid #e5e5e5;
+  padding-top: 20px;
+  margin-bottom: 24px;
+}
+.modal-gifts {
+  background: #f8f8f8;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  border-left: 3px solid #111;
+}
+.modal-buy-btn {
+  width: 100%;
+  padding: 16px;
+  background: #111;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+}
+.modal-buy-btn:hover {
+  background: #333;
+}
 
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body)}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}
 .announce{background:var(--lime);padding:9px 18px;text-align:center;font-size:10px;letter-spacing:1.4px;font-weight:800;text-transform:uppercase}
@@ -74,7 +214,6 @@ h1{font:900 clamp(66px,9vw,132px)/.82 var(--display);letter-spacing:-3px;text-tr
 .product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
 .product{background:var(--paper);position:relative;min-width:0;cursor:pointer;transition:.2s}
 .product:hover{transform:translateY(-3px)}
-.product-visual{height:280px;display:grid;place-items:center;position:relative;overflow:hidden;background:#f4f4f4}
 .product-info{padding:15px 14px 17px;text-align:left}
 .product-name{font:800 16px/1.1 var(--display);text-transform:uppercase;margin:0 0 6px 0;color:#111;min-height:35px}
 .price{font-size:14px;font-weight:900;color:#111}
@@ -85,7 +224,7 @@ h1{font:900 clamp(66px,9vw,132px)/.82 var(--display);letter-spacing:-3px;text-tr
 .cart-panel{position:fixed;inset:0;z-index:50;pointer-events:none}.cart-panel.open{pointer-events:auto}.shade{position:absolute;inset:0;background:#0008;opacity:0;transition:.25s}.cart-panel.open .shade{opacity:1}.drawer{position:absolute;right:0;top:0;height:100%;width:min(440px,100%);background:var(--paper);padding:25px;transform:translateX(100%);transition:.3s;display:flex;flex-direction:column}.cart-panel.open .drawer{transform:none}.drawer-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:17px}.drawer-head h3{font:900 34px var(--display);margin:0}.close{background:none;border:0;font-size:24px}.cart-items{overflow:auto;flex:1;padding:15px 0}.cart-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:14px 0}.cart-row b{font:800 16px var(--display);display:block}.cart-row small{color:#777;font-size:10px}.qty{display:flex;align-items:center;gap:8px;margin-top:8px}.qty button{border:1px solid var(--line);background:none;width:23px;height:23px}.cart-bottom{border-top:1px solid var(--line);padding-top:18px}.total{display:flex;justify-content:space-between;font-weight:900;margin-bottom:15px}.checkout{width:100%;border:0;background:var(--lime);padding:16px;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase}
 .toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);background:var(--ink);color:white;padding:13px 18px;font-size:11px;z-index:70;opacity:0;transition:.25s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
 @media(max-width:850px){.navlinks{display:none}.hero{grid-template-columns:1fr}.hero-copy{padding:75px 7vw 55px}.hero-art{min-height:390px}.deck-hero{height:350px;width:115px}.category-grid,.product-grid{grid-template-columns:repeat(2,1fr)}.feature{grid-template-columns:1fr}.feature-left{padding:60px 7vw}.feature-right{min-height:300px}.footer-top{flex-direction:column}.footer-links{gap:35px}}
-@media(max-width:520px){.nav{height:66px;padding:0 5vw}.logo{font-size:29px}.navright{gap:10px}.navright>a{display:none}.hero-copy{padding-top:65px}.hero-art{min-height:330px}h1{font-size:75px}.section{padding:65px 0}.section-head{align-items:start;flex-direction:column}.category-grid{gap:8px}.cat{height:190px;padding:13px}.cat h3{font-size:29px}.cat-art{right:14px;width:66px;height:150px}.product-grid{gap:8px}.product-visual{height:190px}.product-name{font-size:16px}.product-info{padding:12px 10px}.values{grid-template-columns:1fr}.value{border-right:0;border-bottom:1px solid var(--line);padding:22px 5px}.footer-links{gap:25px}.copyright{gap:15px;flex-direction:column}}
+@media(max-width:520px){.nav{height:66px;padding:0 5vw}.logo{font-size:29px}.navright{gap:10px}.navright>a{display:none}.hero-copy{padding-top:65px}.hero-art{min-height:330px}h1{font-size:75px}.section{padding:65px 0}.section-head{align-items:start;flex-direction:column}.category-grid{gap:8px}.cat{height:190px;padding:13px}.cat h3{font-size:29px}.cat-art{right:14px;width:66px;height:150px}.product-grid{gap:8px}.product-name{font-size:16px}.product-info{padding:12px 10px}.values{grid-template-columns:1fr}.value{border-right:0;border-bottom:1px solid var(--line);padding:22px 5px}.footer-links{gap:25px}.copyright{gap:15px;flex-direction:column}}
 </style>
 </head>
 <body>
@@ -186,7 +325,6 @@ async function loadProducts() {
   }
 }
 
-// Logic lọc linh hoạt, không bị kẹt cứng chữ hoa/thường
 function render() {
   const items = products.filter(p => {
     const cat = fnNormalize(p.category);
@@ -211,7 +349,6 @@ function render() {
       return cat === "complete" && cond === "new";
     }
     if (filter === "2hand") {
-      // Nới lỏng: miễn là condition chứa chữ 2hand hoặc used là hiển thị
       return cond.includes("2hand") || cond.includes("used");
     }
     return true;
