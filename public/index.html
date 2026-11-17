@@ -1,13 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="SK82ND SkateShop — Ván trượt 2hand, custom & phụ kiện skateboarding. Find your own line.">
 <title>SK82ND SkateShop — Find Your Line</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
-<style>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+<style>
 :root {
   --ink: #080D16;
   --paper: #FFFFFF;
@@ -16,7 +20,6 @@
   --lime: #38BDF8;
   --red: #0284C7;
   --white: #FFFFFF;
-
   --display: 'Barlow Condensed', Impact, sans-serif;
   --body: 'DM Sans', Arial, sans-serif;
 }
@@ -31,18 +34,14 @@ header {
   border-bottom: 2px solid var(--ink);
 }
 
-.hero {
-  background: #080D16;
-}
+.hero { background: #080D16; }
 
 .announce {
   background: var(--lime);
   color: var(--ink);
 }
 
-.navlinks a:hover {
-  color: #0284C7;
-}
+.navlinks a:hover { color: #0284C7; }
 
 .filter.active {
   background: #080D16;
@@ -54,7 +53,7 @@ header {
   color: var(--ink);
 }
 
-/* LOGO GRAFFITI SK82ND — artwork gốc, nền trong suốt */
+/* LOGO GRAFFITI SK82ND */
 .brand-logo-text {
   display: block;
   flex: 0 0 auto;
@@ -62,29 +61,31 @@ header {
   height: 76px;
   text-decoration: none;
 }
+
 .brand-logo-text img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  /* Logo trắng chuyển thành đen để nổi bật trên header sáng */
-  filter: invert(1);
+  filter: brightness(0);
 }
+
 .footer-logo-text {
   display: block;
   width: 190px;
   height: 88px;
   text-decoration: none;
 }
+
 .footer-logo-text img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  /* Giữ logo trắng trên nền footer tối */
+  filter: none;
 }
 
-/* MASONRY GRID SẢN PHẨM (KHÔNG CROP ẢNH) */
+/* MASONRY GRID SẢN PHẨM */
 .product-grid {
   column-count: 4;
   column-gap: 14px;
@@ -101,9 +102,7 @@ header {
   width: 100%;
 }
 
-.product:hover {
-  transform: translateY(-3px);
-}
+.product:hover { transform: translateY(-3px); }
 
 .product-visual {
   width: 100%;
@@ -151,9 +150,9 @@ header {
   overflow-y: auto;
   padding: 24px 40px;
 }
-.product-modal.active {
-  display: block;
-}
+
+.product-modal.active { display: block; }
+
 .modal-close-btn {
   position: fixed;
   top: 20px;
@@ -166,6 +165,7 @@ header {
   cursor: pointer;
   z-index: 10000;
 }
+
 .modal-layout {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
@@ -174,11 +174,13 @@ header {
   margin: 40px auto 0;
   align-items: start;
 }
+
 .modal-gallery {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
 }
+
 .modal-gallery img {
   width: 100%;
   height: auto;
@@ -186,24 +188,27 @@ header {
   background: transparent;
   object-fit: cover;
 }
-.modal-gallery.single-img {
-  grid-template-columns: 1fr;
-}
+
+.modal-gallery.single-img { grid-template-columns: 1fr; }
+
 .modal-details {
   position: sticky;
   top: 40px;
 }
+
 .modal-title {
   font-size: 28px;
   font-weight: 800;
   margin: 0 0 10px 0;
   text-transform: uppercase;
 }
+
 .modal-price {
   font-size: 20px;
   font-weight: 600;
   margin: 0 0 24px 0;
 }
+
 .modal-specs {
   white-space: pre-line;
   line-height: 1.8;
@@ -213,6 +218,7 @@ header {
   padding-top: 20px;
   margin-bottom: 24px;
 }
+
 .modal-gifts {
   background: #f8f8f8;
   padding: 12px 16px;
@@ -221,6 +227,7 @@ header {
   margin-bottom: 24px;
   border-left: 3px solid #111;
 }
+
 .modal-buy-btn {
   width: 100%;
   padding: 16px;
@@ -232,139 +239,980 @@ header {
   border: none;
   cursor: pointer;
 }
-.modal-buy-btn:hover {
-  background: #333;
+
+.modal-buy-btn:hover { background: #333; }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
 }
 
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body)}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}
-.announce{background:var(--lime);padding:9px 18px;text-align:center;font-size:10px;letter-spacing:1.4px;font-weight:800;text-transform:uppercase}
-header{position:sticky;top:0;z-index:20;background:rgba(242,241,235,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.nav{height:82px;max-width:1400px;margin:auto;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;gap:25px}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
 
-.navlinks{display:flex;gap:27px;align-items:center;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:800}.navlinks a:hover{color:#758e00}
-.navright{display:flex;align-items:center;gap:18px;font-size:11px;font-weight:800;text-transform:uppercase}.cartbtn{border:1px solid var(--ink);background:transparent;padding:10px 14px;font-weight:800;font-size:10px;letter-spacing:1px}.cartbtn:hover{background:var(--ink);color:white}
-.hero{background:var(--ink);color:white;min-height:610px;position:relative;overflow:hidden;display:grid;grid-template-columns:1fr 1fr}
-.hero-copy{padding:95px 0 85px max(5vw,calc((100vw - 1300px)/2));position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center}
-.eyebrow{font-size:10px;letter-spacing:3px;font-weight:800;color:var(--lime);text-transform:uppercase;display:flex;align-items:center;gap:10px}.eyebrow:before{content:'';width:25px;height:2px;background:var(--lime)}
-h1{font:900 clamp(66px,9vw,132px)/.82 var(--display);letter-spacing:-3px;text-transform:uppercase;margin:27px 0 22px;max-width:700px}h1 em{font-style:normal;color:var(--lime);display:block}
-.hero-copy p{max-width:380px;color:#b9bbb2;font-size:13px;line-height:1.8;margin:0 0 30px}
-.cta{display:inline-flex;align-items:center;gap:24px;background:var(--lime);color:var(--ink);padding:16px 20px;font-size:10px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase;width:max-content;transition:.2s}.cta:hover{transform:translateY(-3px);box-shadow:5px 5px 0 white}.cta b{font-size:18px}
-.hero-art{position:relative;min-height:610px;background:linear-gradient(135deg,#272a22,#12140f 65%);overflow:hidden}
-.hero-art:before{content:'SKATE';position:absolute;font:900 23vw/.8 var(--display);color:rgba(255,255,255,.035);right:-30px;top:60px;writing-mode:vertical-rl;letter-spacing:-15px}
-.hero-photo{position:absolute;inset:0;background:linear-gradient(90deg,rgba(17,18,15,.4),rgba(17,18,15,.04)),url('https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&w=1400&q=85') center/cover;opacity:.8;mix-blend-mode:screen}
-.deck-hero{position:absolute;width:150px;height:490px;left:48%;top:52%;transform:translate(-50%,-50%) rotate(24deg);border:8px solid #171814;border-radius:75px;background:linear-gradient(145deg,#d6ff3e,#8fae19 48%,#e5edb9);box-shadow:30px 35px 50px #0009;display:flex;align-items:center;justify-content:center}
-.deck-hero:before{content:'82';font:900 130px/.8 var(--display);color:#151710;transform:rotate(90deg);letter-spacing:-12px}.deck-hero:after{content:'SKATEBOARDING';position:absolute;font:800 10px var(--body);letter-spacing:3px;transform:rotate(90deg);bottom:55px;color:#171814}
-.hero-stamp{position:absolute;bottom:35px;right:7%;border:1px solid #ffffff66;border-radius:50%;width:112px;height:112px;display:grid;place-items:center;text-align:center;font:800 11px/1.4 var(--display);letter-spacing:1px;transform:rotate(-12deg);color:var(--lime)}
-.ticker{background:var(--lime);overflow:hidden;white-space:nowrap;padding:13px 0;font:800 17px var(--display);letter-spacing:2px}.ticker span{padding:0 22px}.ticker i{font-style:normal;color:var(--red)}
-.wrap{max-width:1400px;margin:auto;padding:0 5vw}.section{padding:90px 0}.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:34px;gap:20px}.kicker{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:900;color:#777}.section-title{font:900 clamp(42px,6vw,72px)/.9 var(--display);text-transform:uppercase;letter-spacing:-1px;margin:10px 0 0}.section-title span{color:#92958a}.text-link{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:1px;border-bottom:2px solid var(--ink);padding-bottom:7px}
-.category-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.cat{height:250px;background:#dfe0d5;position:relative;overflow:hidden;padding:20px;display:flex;flex-direction:column;justify-content:space-between;transition:.25s}.cat:nth-child(2){background:#d6e2c6}.cat:nth-child(3){background:#d5d8d6}.cat:nth-child(4){background:#e4d5c9}.cat:hover{transform:translateY(-5px)}.cat-no{font-size:10px;font-weight:800;color:#777}.cat h3{font:900 36px/.9 var(--display);margin:0;text-transform:uppercase;position:relative;z-index:2}.cat-art{position:absolute;width:90px;height:200px;right:28px;top:20px;border:6px solid #222;border-radius:48px;transform:rotate(28deg);background:linear-gradient(160deg,#a9c92d,#222 80%);box-shadow:12px 15px 18px #0003}.cat:nth-child(2) .cat-art{background:linear-gradient(160deg,#d35d44,#f3c99e)}.cat:nth-child(3) .cat-art{height:130px;width:130px;border-radius:50%;top:55px;background:radial-gradient(circle,#d9ff3e 0 22%,#171814 24% 48%,#d9d9d0 50%)}.cat:nth-child(4) .cat-art{height:60px;width:160px;border-radius:15px;top:90px;background:linear-gradient(90deg,#111,#666,#111)}
-.catalog{background:#e8e8df}.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:25px}.filter{border:1px solid #bcbeb4;background:transparent;padding:10px 15px;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase}.filter.active,.filter:hover{background:var(--ink);color:white;border-color:var(--ink)}
-
-.feature{background:var(--lime);display:grid;grid-template-columns:1fr 1fr;min-height:420px}.feature-left{padding:75px max(5vw,calc((100vw - 650px)/2)) 75px max(5vw,calc((100vw - 1300px)/2));display:flex;flex-direction:column;justify-content:center}.feature h2{font:900 clamp(52px,7vw,90px)/.84 var(--display);text-transform:uppercase;letter-spacing:-2px;margin:22px 0}.feature p{font-size:13px;line-height:1.8;max-width:420px}.feature-right{background:var(--ink);color:white;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.feature-right:before{content:'FIRST PUSH';position:absolute;font:900 16vw var(--display);white-space:nowrap;color:#ffffff0b;transform:rotate(-90deg)}.lesson-card{border:1px solid #ffffff55;padding:32px;max-width:330px;position:relative;z-index:1}.lesson-card strong{font:900 46px var(--display);color:var(--lime)}.lesson-card p{color:#c5c6bd;font-size:12px;line-height:1.8}
-.values{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.value{padding:30px 25px;border-right:1px solid var(--line)}.value:last-child{border:0}.value b{font:900 27px var(--display);text-transform:uppercase}.value p{font-size:11px;line-height:1.7;color:#686b62;margin-bottom:0}
-.footer{background:var(--ink);color:white;padding:65px 0 25px}.footer-top{display:flex;justify-content:space-between;gap:40px;padding-bottom:55px}.footer p{font-size:11px;color:#aeb0a6;line-height:1.8;max-width:330px}.footer-links{display:flex;gap:55px}.footer-links div{display:flex;flex-direction:column;gap:13px}.footer-links b{font-size:9px;letter-spacing:2px;color:var(--lime);margin-bottom:6px}.footer-links a{font-size:11px;color:#d0d1ca}.copyright{border-top:1px solid #ffffff26;padding-top:18px;display:flex;justify-content:space-between;color:#85877e;font-size:9px;letter-spacing:1px}
-.cart-panel{position:fixed;inset:0;z-index:50;pointer-events:none}.cart-panel.open{pointer-events:auto}.shade{position:absolute;inset:0;background:#0008;opacity:0;transition:.25s}.cart-panel.open .shade{opacity:1}.drawer{position:absolute;right:0;top:0;height:100%;width:min(440px,100%);background:var(--paper);padding:25px;transform:translateX(100%);transition:.3s;display:flex;flex-direction:column}.cart-panel.open .drawer{transform:none}.drawer-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:17px}.drawer-head h3{font:900 34px var(--display);margin:0}.close{background:none;border:0;font-size:24px}.cart-items{overflow:auto;flex:1;padding:15px 0}.cart-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:14px 0}.cart-row b{font:800 16px var(--display);display:block}.cart-row small{color:#777;font-size:10px}.qty{display:flex;align-items:center;gap:8px;margin-top:8px}.qty button{border:1px solid var(--line);background:none;width:23px;height:23px}.cart-bottom{border-top:1px solid var(--line);padding-top:18px}.total{display:flex;justify-content:space-between;font-weight:900;margin-bottom:15px}.checkout{width:100%;border:0;background:var(--lime);padding:16px;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase}
-.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);background:var(--ink);color:white;padding:13px 18px;font-size:11px;z-index:70;opacity:0;transition:.25s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
-
-@media(max-width:850px){
-  .navlinks{display:none}
-  .hero{grid-template-columns:1fr}
-  .hero-copy{padding:75px 7vw 55px}
-  .hero-art{min-height:390px}
-  .deck-hero{height:350px;width:115px}
-  .category-grid{grid-template-columns:repeat(2,1fr)}
-  .product-grid{column-count:2}
-  .feature{grid-template-columns:1fr}
-  .feature-left{padding:60px 7vw}
-  .feature-right{min-height:300px}
-  .footer-top{flex-direction:column}
-  .footer-links{gap:35px}
+.announce {
+  background: var(--lime);
+  padding: 9px 18px;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
-@media(max-width:520px){
-  .brand-logo-text{width:128px;height:60px}
-  .footer-logo-text{width:165px;height:76px}
-  .nav{height:66px;padding:0 5vw}
-  .navright{gap:10px}
-  .navright>a{display:none}
-  .hero-copy{padding-top:65px}
-  .hero-art{min-height:330px}
-  h1{font-size:75px}
-  .section{padding:65px 0}
-  .section-head{align-items:start;flex-direction:column}
-  .category-grid{gap:8px}
-  .cat{height:190px;padding:13px}
-  .cat h3{font-size:29px}
-  .cat-art{right:14px;width:66px;height:150px}
-  .product-grid{column-count:2;column-gap:8px}
-  .product{margin-bottom:8px}
-  .product-name{font-size:16px}
-  .product-info{padding:12px 10px}
-  .values{grid-template-columns:1fr}
-  .value{border-right:0;border-bottom:1px solid var(--line);padding:22px 5px}
-  .footer-links{gap:25px}
-  .copyright{gap:15px;flex-direction:column}
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(242,241,235,.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav {
+  height: 82px;
+  max-width: 1400px;
+  margin: auto;
+  padding: 0 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.navlinks {
+  display: flex;
+  gap: 27px;
+  align-items: center;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 800;
+}
+
+.navlinks a:hover { color: #758e00; }
+
+.navright {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.cartbtn {
+  border: 1px solid var(--ink);
+  background: transparent;
+  padding: 10px 14px;
+  font-weight: 800;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.cartbtn:hover {
+  background: var(--ink);
+  color: white;
+}
+
+.hero {
+  background: var(--ink);
+  color: white;
+  min-height: 610px;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.hero-copy {
+  padding: 95px 0 85px max(5vw,calc((100vw - 1300px)/2));
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 3px;
+  font-weight: 800;
+  color: var(--lime);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.eyebrow:before {
+  content: '';
+  width: 25px;
+  height: 2px;
+  background: var(--lime);
+}
+
+h1 {
+  font: 900 clamp(66px,9vw,132px)/.82 var(--display);
+  letter-spacing: -3px;
+  text-transform: uppercase;
+  margin: 27px 0 22px;
+  max-width: 700px;
+}
+
+h1 em {
+  font-style: normal;
+  color: var(--lime);
+  display: block;
+}
+
+.hero-copy p {
+  max-width: 380px;
+  color: #b9bbb2;
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 0 0 30px;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  background: var(--lime);
+  color: var(--ink);
+  padding: 16px 20px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  width: max-content;
+  transition: .2s;
+}
+
+.cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 5px 5px 0 white;
+}
+
+.cta b { font-size: 18px; }
+
+.hero-art {
+  position: relative;
+  min-height: 610px;
+  background: linear-gradient(135deg,#272a22,#12140f 65%);
+  overflow: hidden;
+}
+
+.hero-art:before {
+  content: 'SKATE';
+  position: absolute;
+  font: 900 23vw/.8 var(--display);
+  color: rgba(255,255,255,.035);
+  right: -30px;
+  top: 60px;
+  writing-mode: vertical-rl;
+  letter-spacing: -15px;
+}
+
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,rgba(17,18,15,.4),rgba(17,18,15,.04)),url('https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&w=1400&q=85') center/cover;
+  opacity: .8;
+  mix-blend-mode: screen;
+}
+
+.deck-hero {
+  position: absolute;
+  width: 150px;
+  height: 490px;
+  left: 48%;
+  top: 52%;
+  transform: translate(-50%,-50%) rotate(24deg);
+  border: 8px solid #171814;
+  border-radius: 75px;
+  background: linear-gradient(145deg,#d6ff3e,#8fae19 48%,#e5edb9);
+  box-shadow: 30px 35px 50px #0009;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deck-hero:before {
+  content: '82';
+  font: 900 130px/.8 var(--display);
+  color: #151710;
+  transform: rotate(90deg);
+  letter-spacing: -12px;
+}
+
+.deck-hero:after {
+  content: 'SKATEBOARDING';
+  position: absolute;
+  font: 800 10px var(--body);
+  letter-spacing: 3px;
+  transform: rotate(90deg);
+  bottom: 55px;
+  color: #171814;
+}
+
+.hero-stamp {
+  position: absolute;
+  bottom: 35px;
+  right: 7%;
+  border: 1px solid #ffffff66;
+  border-radius: 50%;
+  width: 112px;
+  height: 112px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font: 800 11px/1.4 var(--display);
+  letter-spacing: 1px;
+  transform: rotate(-12deg);
+  color: var(--lime);
+}
+
+.ticker {
+  background: var(--lime);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 13px 0;
+  font: 800 17px var(--display);
+  letter-spacing: 2px;
+}
+
+.ticker span { padding: 0 22px; }
+.ticker i { font-style: normal; color: var(--red); }
+
+.wrap {
+  max-width: 1400px;
+  margin: auto;
+  padding: 0 5vw;
+}
+
+.section { padding: 90px 0; }
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 34px;
+  gap: 20px;
+}
+
+.kicker {
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: #777;
+}
+
+.section-title {
+  font: 900 clamp(42px,6vw,72px)/.9 var(--display);
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  margin: 10px 0 0;
+}
+
+.section-title span { color: #92958a; }
+
+.text-link {
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 7px;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 12px;
+}
+
+.cat {
+  height: 250px;
+  background: #dfe0d5;
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: .25s;
+}
+
+.cat:nth-child(2) { background: #d6e2c6; }
+.cat:nth-child(3) { background: #d5d8d6; }
+.cat:nth-child(4) { background: #e4d5c9; }
+.cat:hover { transform: translateY(-5px); }
+
+.cat-no {
+  font-size: 10px;
+  font-weight: 800;
+  color: #777;
+}
+
+.cat h3 {
+  font: 900 36px/.9 var(--display);
+  margin: 0;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+}
+
+.cat-art {
+  position: absolute;
+  width: 90px;
+  height: 200px;
+  right: 28px;
+  top: 20px;
+  border: 6px solid #222;
+  border-radius: 48px;
+  transform: rotate(28deg);
+  background: linear-gradient(160deg,#a9c92d,#222 80%);
+  box-shadow: 12px 15px 18px #0003;
+}
+
+.cat:nth-child(2) .cat-art {
+  background: linear-gradient(160deg,#d35d44,#f3c99e);
+}
+
+.cat:nth-child(3) .cat-art {
+  height: 130px;
+  width: 130px;
+  border-radius: 50%;
+  top: 55px;
+  background: radial-gradient(circle,#d9ff3e 0 22%,#171814 24% 48%,#d9d9d0 50%);
+}
+
+.cat:nth-child(4) .cat-art {
+  height: 60px;
+  width: 160px;
+  border-radius: 15px;
+  top: 90px;
+  background: linear-gradient(90deg,#111,#666,#111);
+}
+
+.catalog { background: #e8e8df; }
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 25px;
+}
+
+.filter {
+  border: 1px solid #bcbeb4;
+  background: transparent;
+  padding: 10px 15px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.filter.active,.filter:hover {
+  background: var(--ink);
+  color: white;
+  border-color: var(--ink);
+}
+
+.feature {
+  background: var(--lime);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 420px;
+}
+
+.feature-left {
+  padding: 75px max(5vw,calc((100vw - 650px)/2)) 75px max(5vw,calc((100vw - 1300px)/2));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.feature h2 {
+  font: 900 clamp(52px,7vw,90px)/.84 var(--display);
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  margin: 22px 0;
+}
+
+.feature p {
+  font-size: 13px;
+  line-height: 1.8;
+  max-width: 420px;
+}
+
+.feature-right {
+  background: var(--ink);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-right:before {
+  content: 'FIRST PUSH';
+  position: absolute;
+  font: 900 16vw var(--display);
+  white-space: nowrap;
+  color: #ffffff0b;
+  transform: rotate(-90deg);
+}
+
+.lesson-card {
+  border: 1px solid #ffffff55;
+  padding: 32px;
+  max-width: 330px;
+  position: relative;
+  z-index: 1;
+}
+
+.lesson-card strong {
+  font: 900 46px var(--display);
+  color: var(--lime);
+}
+
+.lesson-card p {
+  color: #c5c6bd;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.values {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.value {
+  padding: 30px 25px;
+  border-right: 1px solid var(--line);
+}
+
+.value:last-child { border: 0; }
+
+.value b {
+  font: 900 27px var(--display);
+  text-transform: uppercase;
+}
+
+.value p {
+  font-size: 11px;
+  line-height: 1.7;
+  color: #686b62;
+  margin-bottom: 0;
+}
+
+.footer {
+  background: var(--ink);
+  color: white;
+  padding: 65px 0 25px;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  padding-bottom: 55px;
+}
+
+.footer p {
+  font-size: 11px;
+  color: #aeb0a6;
+  line-height: 1.8;
+  max-width: 330px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 55px;
+}
+
+.footer-links div {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.footer-links b {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--lime);
+  margin-bottom: 6px;
+}
+
+.footer-links a {
+  font-size: 11px;
+  color: #d0d1ca;
+}
+
+.copyright {
+  border-top: 1px solid #ffffff26;
+  padding-top: 18px;
+  display: flex;
+  justify-content: space-between;
+  color: #85877e;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.cart-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.cart-panel.open { pointer-events: auto; }
+
+.shade {
+  position: absolute;
+  inset: 0;
+  background: #0008;
+  opacity: 0;
+  transition: .25s;
+}
+
+.cart-panel.open .shade { opacity: 1; }
+
+.drawer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: min(440px,100%);
+  background: var(--paper);
+  padding: 25px;
+  transform: translateX(100%);
+  transition: .3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-panel.open .drawer { transform: none; }
+
+.drawer-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 17px;
+}
+
+.drawer-head h3 {
+  font: 900 34px var(--display);
+  margin: 0;
+}
+
+.close {
+  background: none;
+  border: 0;
+  font-size: 24px;
+}
+
+.cart-items {
+  overflow: auto;
+  flex: 1;
+  padding: 15px 0;
+}
+
+.cart-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+  padding: 14px 0;
+}
+
+.cart-row b {
+  font: 800 16px var(--display);
+  display: block;
+}
+
+.cart-row small {
+  color: #777;
+  font-size: 10px;
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.qty button {
+  border: 1px solid var(--line);
+  background: none;
+  width: 23px;
+  height: 23px;
+}
+
+.cart-bottom {
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 900;
+  margin-bottom: 15px;
+}
+
+.checkout {
+  width: 100%;
+  border: 0;
+  background: var(--lime);
+  padding: 16px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translate(-50%,20px);
+  background: var(--ink);
+  color: white;
+  padding: 13px 18px;
+  font-size: 11px;
+  z-index: 70;
+  opacity: 0;
+  transition: .25s;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%,0);
+}
+
+@media(max-width:850px) {
+  .navlinks { display: none; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-copy { padding: 75px 7vw 55px; }
+  .hero-art { min-height: 390px; }
+  .deck-hero { height: 350px; width: 115px; }
+  .category-grid { grid-template-columns: repeat(2,1fr); }
+  .product-grid { column-count: 2; }
+  .feature { grid-template-columns: 1fr; }
+  .feature-left { padding: 60px 7vw; }
+  .feature-right { min-height: 300px; }
+  .footer-top { flex-direction: column; }
+  .footer-links { gap: 35px; }
+}
+
+@media(max-width:520px) {
+  .brand-logo-text { width: 128px; height: 60px; }
+  .footer-logo-text { width: 165px; height: 76px; }
+  .nav { height: 66px; padding: 0 5vw; }
+  .navright { gap: 10px; }
+  .navright>a { display: none; }
+  .hero-copy { padding-top: 65px; }
+  .hero-art { min-height: 330px; }
+  h1 { font-size: 75px; }
+  .section { padding: 65px 0; }
+  .section-head {
+    align-items: start;
+    flex-direction: column;
+  }
+  .category-grid { gap: 8px; }
+  .cat { height: 190px; padding: 13px; }
+  .cat h3 { font-size: 29px; }
+  .cat-art { right: 14px; width: 66px; height: 150px; }
+  .product-grid { column-count: 2; column-gap: 8px; }
+  .product { margin-bottom: 8px; }
+  .product-name { font-size: 16px; }
+  .product-info { padding: 12px 10px; }
+  .values { grid-template-columns: 1fr; }
+  .value {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 22px 5px;
+  }
+  .footer-links { gap: 25px; }
+  .copyright {
+    gap: 15px;
+    flex-direction: column;
+  }
 }
 </style>
 </head>
+
 <body>
-<div class="announce">SECONDHAND & CUSTOM SKATEBOARDING &nbsp;· &nbsp;FIND YOUR OWN LINE</div>
-<header><nav class="nav">
+
+<div class="announce">
+  SECONDHAND & CUSTOM SKATEBOARDING &nbsp;· &nbsp;FIND YOUR OWN LINE
+</div>
+
+<header>
+<nav class="nav">
+
 <!-- LOGO GRAFFITI SK82ND -->
-<a class="brand-logo-text" href="#" aria-label="SK82ND SkateShop"><img src="[GIỮ_NGUYÊN_MÃ_BASE64_LOGO]" alt="SK82ND graffiti logo"></a>
-<div class="navlinks"><a href="#shop">Shop all</a><a href="#categories">Categories</a><a href="#story">Our scene</a><a href="#support">Support</a></div>
-<div class="navright"><a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a><button class="cartbtn" onclick="openCart()">BAG (<span id="cart-count">0</span>)</button></div>
-</nav></header>
+<a class="brand-logo-text" href="#" aria-label="SK82ND SkateShop">
+  <img
+    src="./assets/sk82nd-graffiti.png"
+    alt="SK82ND graffiti logo"
+    width="1435"
+    height="596"
+    loading="eager"
+    decoding="async"
+    fetchpriority="high"
+  >
+</a>
+
+<div class="navlinks">
+  <a href="#shop">Shop all</a>
+  <a href="#categories">Categories</a>
+  <a href="#story">Our scene</a>
+  <a href="#support">Support</a>
+</div>
+
+<div class="navright">
+  <a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a>
+  <button class="cartbtn" onclick="openCart()">
+    BAG (<span id="cart-count">0</span>)
+  </button>
+</div>
+
+</nav>
+</header>
+
 <main>
+
 <section class="hero">
- <div class="hero-copy"><div class="eyebrow">Independent skate shop · Vietnam</div><h1>Find your <em>own line.</em></h1><p>Không có một cách trượt ván đúng cho tất cả. Chuyên ván 2hand, custom và setup theo cá tính riêng của bạn.</p><a class="cta" href="#shop">Explore the shop <b>↗</b></a></div>
- <div class="hero-art"><div class="hero-photo"></div><div class="deck-hero"></div><div class="hero-stamp">BUILT FOR<br>THE STREETS<br>— SK82ND —</div></div>
+  <div class="hero-copy">
+    <div class="eyebrow">Independent skate shop · Vietnam</div>
+    <h1>Find your <em>own line.</em></h1>
+    <p>Không có một cách trượt ván đúng cho tất cả. Chuyên ván 2hand, custom và setup theo cá tính riêng của bạn.</p>
+    <a class="cta" href="#shop">Explore the shop <b>↗</b></a>
+  </div>
+
+  <div class="hero-art">
+    <div class="hero-photo"></div>
+    <div class="deck-hero"></div>
+    <div class="hero-stamp">BUILT FOR<br>THE STREETS<br>— SK82ND —</div>
+  </div>
 </section>
-<div class="ticker"><span>SKATEBOARDS</span><i>✳</i><span>2HAND FINDS</span><i>✳</i><span>CUSTOM SETUPS</span><i>✳</i><span>FIND YOUR OWN LINE</span><i>✳</i><span>SKATEBOARDS</span></div>
+
+<div class="ticker">
+  <span>SKATEBOARDS</span><i>✳</i>
+  <span>2HAND FINDS</span><i>✳</i>
+  <span>CUSTOM SETUPS</span><i>✳</i>
+  <span>FIND YOUR OWN LINE</span><i>✳</i>
+  <span>SKATEBOARDS</span>
+</div>
+
 <section class="section wrap" id="categories">
- <div class="section-head"><div><div class="kicker">Pick your setup</div><h2 class="section-title">Shop by <span>category.</span></h2></div><a class="text-link" href="#shop">View all products ↗</a></div>
- <div class="category-grid">
-  <a class="cat" href="#shop" onclick="setFilter('Complete')"><span class="cat-no">01 / THE WHOLE SETUP</span><h3>Complete<br>boards ↗</h3><div class="cat-art"></div></a>
-  <a class="cat" href="#shop" onclick="setFilter('Deck')"><span class="cat-no">02 / YOUR FOUNDATION</span><h3>Decks ↗</h3><div class="cat-art"></div></a>
-  <a class="cat" href="#shop" onclick="setFilter('Trucks')"><span class="cat-no">03 / THE HARDWARE</span><h3>Trucks ↗</h3><div class="cat-art"></div></a>
-  <a class="cat" href="#shop" onclick="setFilter('Wheels')"><span class="cat-no">04 / KEEP IT ROLLING</span><h3>Wheels ↗</h3><div class="cat-art"></div></a>
- </div>
+  <div class="section-head">
+    <div>
+      <div class="kicker">Pick your setup</div>
+      <h2 class="section-title">Shop by <span>category.</span></h2>
+    </div>
+    <a class="text-link" href="#shop">View all products ↗</a>
+  </div>
+
+  <div class="category-grid">
+    <a class="cat" href="#shop" onclick="setFilter('Complete')">
+      <span class="cat-no">01 / THE WHOLE SETUP</span>
+      <h3>Complete<br>boards ↗</h3>
+      <div class="cat-art"></div>
+    </a>
+
+    <a class="cat" href="#shop" onclick="setFilter('Deck')">
+      <span class="cat-no">02 / YOUR FOUNDATION</span>
+      <h3>Decks ↗</h3>
+      <div class="cat-art"></div>
+    </a>
+
+    <a class="cat" href="#shop" onclick="setFilter('Trucks')">
+      <span class="cat-no">03 / THE HARDWARE</span>
+      <h3>Trucks ↗</h3>
+      <div class="cat-art"></div>
+    </a>
+
+    <a class="cat" href="#shop" onclick="setFilter('Wheels')">
+      <span class="cat-no">04 / KEEP IT ROLLING</span>
+      <h3>Wheels ↗</h3>
+      <div class="cat-art"></div>
+    </a>
+  </div>
 </section>
-<section class="section catalog" id="shop"><div class="wrap">
- <div class="section-head"><div><div class="kicker">Curated gear · Ready to roll</div><h2 class="section-title">The <span>shop..</span></h2></div><div class="kicker" id="result-count">28 products</div></div>
- <div class="filters">
-  <button class="filter active" onclick="setFilter('All',this)">All gear</button>
-  <button class="filter" onclick="setFilter('Complete',this)">Completes</button>
-  <button class="filter" onclick="setFilter('Deck',this)">Decks</button>
-  <button class="filter" onclick="setFilter('Trucks',this)">Trucks</button>
-  <button class="filter" onclick="setFilter('Wheels',this)">Wheels</button>
-  <button class="filter" onclick="setFilter('2hand',this)">2hand</button>
-  <button class="filter" onclick="setFilter('New',this)">New</button>
- </div>
- <div class="product-grid" id="product-grid"></div>
-</div></section>
-<section class="feature" id="story"><div class="feature-left"><div class="kicker">More than a board</div><h2>First push.<br>Zero pressure.</h2><p>Mua ván rồi nhưng chưa biết bắt đầu từ đâu? SK82ND đồng hành cùng bạn trong buổi hướng dẫn cơ bản miễn phí — làm quen với ván, tư thế đứng và những cú đẩy đầu tiên.</p><a class="cta" href="https://www.instagram.com/sk82nd.shop/" target="_blank">Book your first session <b>↗</b></a></div><div class="feature-right"><div class="lesson-card"><div class="kicker" style="color:var(--lime)">SK82ND beginner program</div><strong>01 FREE<br>SESSION</strong><p>01 buổi hướng dẫn nhập môn miễn phí khi mua bất kỳ chiếc ván nào tại shop. Nhắn Instagram để thống nhất lịch và địa điểm.</p></div></div></section>
-<section class="section wrap" id="support"><div class="section-head"><div><div class="kicker">Why ride with us</div><h2 class="section-title">Real skate.<br><span>Real support.</span></h2></div></div>
-<div class="values"><div class="value"><b>01 / Ván 2hand chất lượng</b><p>Sản phẩm tuyển chọn kỹ càng, thông số rõ ràng, tiết kiệm chi phí cho anh em chơi lâu dài.</p></div><div class="value"><b>02 / Ride with confidence</b><p>Tư vấn thật tình theo chiều cao, size giày và phong cách thực tế — không cố bán hàng tồn.</p></div><div class="value"><b>03 / Keep the scene alive</b><p>Không chỉ giao một chiếc ván. Bọn mình muốn xây dựng một cộng đồng trượt ván thực thụ.</p></div></div>
+
+<section class="section catalog" id="shop">
+<div class="wrap">
+
+  <div class="section-head">
+    <div>
+      <div class="kicker">Curated gear · Ready to roll</div>
+      <h2 class="section-title">The <span>shop..</span></h2>
+    </div>
+    <div class="kicker" id="result-count">28 products</div>
+  </div>
+
+  <div class="filters">
+    <button class="filter active" onclick="setFilter('All',this)">All gear</button>
+    <button class="filter" onclick="setFilter('Complete',this)">Completes</button>
+    <button class="filter" onclick="setFilter('Deck',this)">Decks</button>
+    <button class="filter" onclick="setFilter('Trucks',this)">Trucks</button>
+    <button class="filter" onclick="setFilter('Wheels',this)">Wheels</button>
+    <button class="filter" onclick="setFilter('2hand',this)">2hand</button>
+    <button class="filter" onclick="setFilter('New',this)">New</button>
+  </div>
+
+  <div class="product-grid" id="product-grid"></div>
+
+</div>
 </section>
+
+<section class="feature" id="story">
+  <div class="feature-left">
+    <div class="kicker">More than a board</div>
+    <h2>First push.<br>Zero pressure.</h2>
+    <p>Mua ván rồi nhưng chưa biết bắt đầu từ đâu? SK82ND đồng hành cùng bạn trong buổi hướng dẫn cơ bản miễn phí — làm quen với ván, tư thế đứng và những cú đẩy đầu tiên.</p>
+    <a class="cta" href="https://www.instagram.com/sk82nd.shop/" target="_blank">Book your first session <b>↗</b></a>
+  </div>
+
+  <div class="feature-right">
+    <div class="lesson-card">
+      <div class="kicker" style="color:var(--lime)">SK82ND beginner program</div>
+      <strong>01 FREE<br>SESSION</strong>
+      <p>01 buổi hướng dẫn nhập môn miễn phí khi mua bất kỳ chiếc ván nào tại shop. Nhắn Instagram để thống nhất lịch và địa điểm.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap" id="support">
+  <div class="section-head">
+    <div>
+      <div class="kicker">Why ride with us</div>
+      <h2 class="section-title">Real skate.<br><span>Real support.</span></h2>
+    </div>
+  </div>
+
+  <div class="values">
+    <div class="value">
+      <b>01 / Ván 2hand chất lượng</b>
+      <p>Sản phẩm tuyển chọn kỹ càng, thông số rõ ràng, tiết kiệm chi phí cho anh em chơi lâu dài.</p>
+    </div>
+
+    <div class="value">
+      <b>02 / Ride with confidence</b>
+      <p>Tư vấn thật tình theo chiều cao, size giày và phong cách thực tế — không cố bán hàng tồn.</p>
+    </div>
+
+    <div class="value">
+      <b>03 / Keep the scene alive</b>
+      <p>Không chỉ giao một chiếc ván. Bọn mình muốn xây dựng một cộng đồng trượt ván thực thụ.</p>
+    </div>
+  </div>
+</section>
+
 </main>
-<footer class="footer"><div class="wrap"><div class="footer-top"><div>
-<!-- LOGO GRAFFITI SK82ND -->
-<a class="footer-logo-text" href="#" aria-label="SK82ND SkateShop"><img src="[GIỮ_NGUYÊN_MÃ_BASE64_LOGO]" alt="SK82ND graffiti logo"></a>
-<p>An independent skate shop for people who want to find their own line. New & secondhand skateboards, parts and accessories.</p></div><div class="footer-links"><div><b>EXPLORE</b><a href="#shop">Shop all</a><a href="#categories">Categories</a><a href="#story">Beginner session</a></div><div><b>CONNECT</b><a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a><a href="https://www.facebook.com/" target="_blank">Facebook ↗</a><a href="#support">Contact & support</a></div></div></div><div class="copyright"><span>© 2026 SK82ND SKATESHOP. ALL RIGHTS RESERVED.</span><span>SKATEBOARDS • PARTS • ACCESSORIES</span></div></div></footer>
-<div class="cart-panel" id="cart-panel"><div class="shade" onclick="closeCart()"></div><aside class="drawer"><div class="drawer-head"><h3>YOUR BAG</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cart-items"></div><div class="cart-bottom"><div class="total"><span>SUBTOTAL</span><span id="cart-total">0₫</span></div><button class="checkout" onclick="checkout()">Send order via Instagram ↗</button><p style="font-size:9px;color:#777;line-height:1.6">Đây là giỏ hàng xem trước. Đơn hàng sẽ được gửi qua Instagram để shop xác nhận tồn kho, phí vận chuyển và thanh toán.</p></div></aside></div>
+
+<footer class="footer">
+<div class="wrap">
+  <div class="footer-top">
+    <div>
+
+      <!-- LOGO GRAFFITI SK82ND -->
+      <a class="footer-logo-text" href="#" aria-label="SK82ND SkateShop">
+        <img
+          src="./assets/sk82nd-graffiti.png"
+          alt="SK82ND graffiti logo"
+          width="1435"
+          height="596"
+          loading="lazy"
+          decoding="async"
+        >
+      </a>
+
+      <p>An independent skate shop for people who want to find their own line. New & secondhand skateboards, parts and accessories.</p>
+    </div>
+
+    <div class="footer-links">
+      <div>
+        <b>EXPLORE</b>
+        <a href="#shop">Shop all</a>
+        <a href="#categories">Categories</a>
+        <a href="#story">Beginner session</a>
+      </div>
+
+      <div>
+        <b>CONNECT</b>
+        <a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a>
+        <a href="https://www.facebook.com/" target="_blank">Facebook ↗</a>
+        <a href="#support">Contact & support</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="copyright">
+    <span>© 2026 SK82ND SKATESHOP. ALL RIGHTS RESERVED.</span>
+    <span>SKATEBOARDS • PARTS • ACCESSORIES</span>
+  </div>
+</div>
+</footer>
+
+<div class="cart-panel" id="cart-panel">
+  <div class="shade" onclick="closeCart()"></div>
+
+  <aside class="drawer">
+    <div class="drawer-head">
+      <h3>YOUR BAG</h3>
+      <button class="close" onclick="closeCart()">×</button>
+    </div>
+
+    <div class="cart-items" id="cart-items"></div>
+
+    <div class="cart-bottom">
+      <div class="total">
+        <span>SUBTOTAL</span>
+        <span id="cart-total">0₫</span>
+      </div>
+
+      <button class="checkout" onclick="checkout()">Send order via Instagram ↗</button>
+
+      <p style="font-size:9px;color:#777;line-height:1.6">
+        Đây là giỏ hàng xem trước. Đơn hàng sẽ được gửi qua Instagram để shop xác nhận tồn kho, phí vận chuyển và thanh toán.
+      </p>
+    </div>
+  </aside>
+</div>
+
 <div class="toast" id="toast">Added to your bag</div>
 
 <div id="productModal" class="product-modal">
   <button class="modal-close-btn" onclick="closeProductModal()">✕ ĐÓNG</button>
+
   <div class="modal-layout">
     <div id="modalGallery" class="modal-gallery"></div>
+
     <div class="modal-details">
-      <div id="modalBadge" style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: #666; margin-bottom: 8px;"></div>
+      <div id="modalBadge" style="font-size:12px;font-weight:700;text-transform:uppercase;color:#666;margin-bottom:8px;"></div>
       <h2 id="modalTitle" class="modal-title"></h2>
       <p id="modalPrice" class="modal-price"></p>
       <div id="modalSpecs" class="modal-specs"></div>
-      <div id="modalGifts" class="modal-gifts" style="display: none;"></div>
+      <div id="modalGifts" class="modal-gifts" style="display:none;"></div>
       <button id="modalAddToBag" class="modal-buy-btn">THÊM VÀO GIỎ HÀNG</button>
     </div>
   </div>
@@ -381,7 +1229,11 @@ const fnNormalize = str => String(str || "").trim().toLowerCase();
 
 function escapeHTML(value) {
   return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
   }[char]));
 }
 
@@ -391,6 +1243,7 @@ async function loadProducts() {
   try {
     const response = await fetch("/api/products", { cache: "no-store" });
     if (!response.ok) throw new Error("API error: " + response.status);
+
     const data = await response.json();
     if (!data.success) throw new Error(data.error || "Cannot load products");
 
@@ -403,6 +1256,7 @@ async function loadProducts() {
 
     render();
     updateCart();
+
   } catch (error) {
     console.error("SK82ND:", error);
     grid.innerHTML = `<p style="padding:40px;color:#0284C7">Không thể tải kho hàng. Vui lòng thử lại sau.</p>`;
@@ -417,28 +1271,19 @@ function render() {
     if (filter === "All") {
       return cat === "complete" && (cond === "new" || cond.includes("2hand") || cond.includes("used"));
     }
-    if (filter === "Complete") {
-      return cat === "complete";
-    }
-    if (filter === "Deck") {
-      return cat === "deck";
-    }
-    if (filter === "Trucks") {
-      return cat === "trucks" || cat === "truck";
-    }
-    if (filter === "Wheels") {
-      return cat === "wheels" || cat === "wheel";
-    }
-    if (filter === "New") {
-      return cat === "complete" && cond === "new";
-    }
-    if (filter === "2hand") {
-      return cond.includes("2hand") || cond.includes("used");
-    }
+
+    if (filter === "Complete") return cat === "complete";
+    if (filter === "Deck") return cat === "deck";
+    if (filter === "Trucks") return cat === "trucks" || cat === "truck";
+    if (filter === "Wheels") return cat === "wheels" || cat === "wheel";
+    if (filter === "New") return cat === "complete" && cond === "new";
+    if (filter === "2hand") return cond.includes("2hand") || cond.includes("used");
+
     return true;
   });
 
-  document.getElementById("result-count").textContent = items.length + " products · AVAILABLE NOW";
+  document.getElementById("result-count").textContent =
+    items.length + " products · AVAILABLE NOW";
 
   if (!items.length) {
     grid.innerHTML = `<p style="padding:40px;color:#64748b">Hiện chưa có sản phẩm trong danh mục này.</p>`;
@@ -447,6 +1292,7 @@ function render() {
 
   grid.innerHTML = items.map(p => {
     const id = escapeHTML(p.id);
+
     const image = p.image
       ? `<img class="product-photo" src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}" loading="lazy">`
       : `<div style="display:grid;place-items:center;height:250px;color:#aaa;font-size:11px;">NO IMAGE</div>`;
@@ -456,6 +1302,7 @@ function render() {
         <div class="product-visual ${p.image ? "has-image" : ""}">
           ${image}
         </div>
+
         <div class="product-info">
           <h3 class="product-name">${escapeHTML(p.name)}</h3>
           <div class="price">${money(p.price)}</div>
@@ -467,6 +1314,7 @@ function render() {
 
 function setFilter(value, btn) {
   filter = value;
+
   if (btn) {
     document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
@@ -479,6 +1327,7 @@ function setFilter(value, btn) {
       }
     });
   }
+
   render();
 }
 
@@ -487,19 +1336,30 @@ function openProductModal(productId) {
   if (!product) return;
 
   const gallery = document.getElementById('modalGallery');
-  const images = (product.images && product.images.length > 0) 
-    ? product.images 
+
+  const images = (product.images && product.images.length > 0)
+    ? product.images
     : [product.image || 'https://via.placeholder.com/600x600?text=No+Image'];
 
-  gallery.className = images.length === 1 ? 'modal-gallery single-img' : 'modal-gallery';
-  gallery.innerHTML = images.map(imgUrl => `<img src="${escapeHTML(imgUrl)}" alt="${escapeHTML(product.name)}">`).join('');
+  gallery.className = images.length === 1
+    ? 'modal-gallery single-img'
+    : 'modal-gallery';
 
-  document.getElementById('modalBadge').innerText = `${product.category} • ${product.condition} (Tồn: ${product.stock})`;
+  gallery.innerHTML = images.map(imgUrl =>
+    `<img src="${escapeHTML(imgUrl)}" alt="${escapeHTML(product.name)}">`
+  ).join('');
+
+  document.getElementById('modalBadge').innerText =
+    `${product.category} • ${product.condition} (Tồn: ${product.stock})`;
+
   document.getElementById('modalTitle').innerText = product.name;
   document.getElementById('modalPrice').innerText = money(product.price);
-  document.getElementById('modalSpecs').innerText = product.info || 'Đang cập nhật thông số chi tiết từ cột Thông tin ván...';
+
+  document.getElementById('modalSpecs').innerText =
+    product.info || 'Đang cập nhật thông số chi tiết từ cột Thông tin ván...';
 
   const giftsEl = document.getElementById('modalGifts');
+
   if (product.gifts && product.gifts.trim() !== '') {
     giftsEl.style.display = 'block';
     giftsEl.innerText = `🎁 Tặng kèm: ${product.gifts}`;
@@ -508,6 +1368,7 @@ function openProductModal(productId) {
   }
 
   const buyBtn = document.getElementById('modalAddToBag');
+
   buyBtn.onclick = () => {
     addToCart(product.id);
     closeProductModal();
@@ -527,6 +1388,7 @@ function addToCart(id) {
   if (!product) return;
 
   const quantity = cart[id] || 0;
+
   if (quantity >= product.stock) {
     alert("Số lượng sản phẩm trong kho không đủ!");
     return;
@@ -541,31 +1403,41 @@ function addToCart(id) {
 }
 
 function updateCart() {
-  const entries = Object.entries(cart).filter(([id, qty]) => qty > 0 && products.some(p => p.id === id));
+  const entries = Object.entries(cart).filter(
+    ([id, qty]) => qty > 0 && products.some(p => p.id === id)
+  );
+
   const count = entries.reduce((sum, [, qty]) => sum + qty, 0);
   document.getElementById("cart-count").textContent = count;
 
   document.getElementById("cart-items").innerHTML = entries.length
     ? entries.map(([id, qty]) => {
         const p = products.find(x => x.id === id);
+
         return `
           <div class="cart-row">
             <div>
               <b>${escapeHTML(p.name)}</b>
               <small>${money(p.price)}</small>
+
               <div class="qty">
                 <button onclick="changeQty('${id}',-1)">−</button>
                 <span>${qty}</span>
                 <button onclick="changeQty('${id}',1)">+</button>
               </div>
             </div>
+
             <strong>${money(p.price * qty)}</strong>
           </div>
         `;
       }).join("")
     : `<p>Your bag is empty. Find your setup.</p>`;
 
-  const total = entries.reduce((sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty, 0);
+  const total = entries.reduce(
+    (sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty,
+    0
+  );
+
   document.getElementById("cart-total").textContent = money(total);
 }
 
@@ -574,36 +1446,59 @@ function changeQty(id, amount) {
   if (!p) return;
 
   cart[id] = (cart[id] || 0) + amount;
+
   if (cart[id] <= 0) delete cart[id];
+
   if (cart[id] > p.stock) {
     cart[id] = p.stock;
     alert("Số lượng tồn kho không đủ!");
   }
+
   updateCart();
 }
 
-function openCart() { document.getElementById("cart-panel").classList.add("open"); }
-function closeCart() { document.getElementById("cart-panel").classList.remove("open"); }
+function openCart() {
+  document.getElementById("cart-panel").classList.add("open");
+}
+
+function closeCart() {
+  document.getElementById("cart-panel").classList.remove("open");
+}
 
 function checkout() {
   const entries = Object.entries(cart);
-  if (!entries.length) { alert("Giỏ hàng đang trống."); return; }
+
+  if (!entries.length) {
+    alert("Giỏ hàng đang trống.");
+    return;
+  }
 
   const lines = entries.map(([id, qty]) => {
     const p = products.find(x => x.id === id);
     return `${p.name} x${qty} - ${money(p.price * qty)}`;
   });
 
-  const total = entries.reduce((sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty, 0);
+  const total = entries.reduce(
+    (sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty,
+    0
+  );
 
-  const message = "Chào SK82ND! Mình muốn đặt hàng:\n" + lines.join("\n") + "\nTổng đơn: " + money(total) + "\nNhờ shop xác nhận tồn kho và phí ship.";
+  const message =
+    "Chào SK82ND! Mình muốn đặt hàng:\n" +
+    lines.join("\n") +
+    "\nTổng đơn: " + money(total) +
+    "\nNhờ shop xác nhận tồn kho và phí ship.";
 
   window.open("https://www.instagram.com/sk82nd.shop/", "_blank");
-  navigator.clipboard?.writeText(message).then(() => alert("Đã copy đơn hàng!")).catch(() => alert(message));
+
+  navigator.clipboard?.writeText(message)
+    .then(() => alert("Đã copy đơn hàng!"))
+    .catch(() => alert(message));
 }
 
 loadProducts();
 setInterval(loadProducts, 60000);
 </script>
+
 </body>
 </html>
