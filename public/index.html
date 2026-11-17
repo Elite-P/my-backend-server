@@ -64,10 +64,13 @@ header {
 /* ĐIỀU CHỈNH ẢNH SẢN PHẨM THEO TỶ LỆ 4:3 */
 .product-visual {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 3; /* Hoặc có thể đổi thành 3 / 4 nếu muốn khung dọc dài hơn, nhưng để 4:3 chuẩn e-commerce */
   position: relative;
   overflow: hidden;
-  background: #f4f4f4;
+  background: #f4f4f4; /* Màu nền lót khi ảnh không lấp đầy khung */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .product-photo {
@@ -75,7 +78,7 @@ header {
   height: 100%;
   position: absolute;
   inset: 0;
-  object-fit: cover;
+  object-fit: contain; /* Đổi từ cover sang contain để hiện trọn vẹn cây ván, không bị khuất */
   z-index: 1;
 }
 
