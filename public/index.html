@@ -212,7 +212,6 @@ header {
 header{position:sticky;top:0;z-index:20;background:rgba(242,241,235,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav{height:76px;max-width:1400px;margin:auto;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;gap:25px}
 
-/* CSS CHO LOGO ẢNH */
 .logo-img { height: 36px; width: auto; display: block; }
 
 .navlinks{display:flex;gap:27px;align-items:center;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:800}.navlinks a:hover{color:#758e00}
@@ -282,7 +281,6 @@ h1{font:900 clamp(66px,9vw,132px)/.82 var(--display);letter-spacing:-3px;text-tr
 <body>
 <div class="announce">FREE BEGINNER SESSION WITH EVERY BOARD PURCHASE&nbsp; · &nbsp;SHIP NATIONWIDE</div>
 <header><nav class="nav">
-<!-- LOGO ẢNH Ở HEADER -->
 <a class="logo" href="#"><img src="/logo.png" alt="SK82ND" class="logo-img"></a>
 <div class="navlinks"><a href="#shop">Shop all</a><a href="#categories">Categories</a><a href="#story">Our scene</a><a href="#support">Support</a></div>
 <div class="navright"><a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a><button class="cartbtn" onclick="openCart()">BAG (<span id="cart-count">0</span>)</button></div>
@@ -321,7 +319,6 @@ h1{font:900 clamp(66px,9vw,132px)/.82 var(--display);letter-spacing:-3px;text-tr
 </section>
 </main>
 <footer class="footer"><div class="wrap"><div class="footer-top"><div>
-<!-- LOGO ẢNH Ở FOOTER -->
 <a class="logo" href="#"><img src="/logo.png" alt="SK82ND" class="logo-img"></a>
 <p>An independent skate shop for people who want to find their own line. New & secondhand skateboards, parts and accessories.</p></div><div class="footer-links"><div><b>EXPLORE</b><a href="#shop">Shop all</a><a href="#categories">Categories</a><a href="#story">Beginner session</a></div><div><b>CONNECT</b><a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a><a href="https://www.facebook.com/" target="_blank">Facebook ↗</a><a href="#support">Contact & support</a></div></div></div><div class="copyright"><span>© 2026 SK82ND SKATESHOP. ALL RIGHTS RESERVED.</span><span>SKATEBOARDS • PARTS • ACCESSORIES</span></div></div></footer>
 <div class="cart-panel" id="cart-panel"><div class="shade" onclick="closeCart()"></div><aside class="drawer"><div class="drawer-head"><h3>YOUR BAG</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cart-items"></div><div class="cart-bottom"><div class="total"><span>SUBTOTAL</span><span id="cart-total">0₫</span></div><button class="checkout" onclick="checkout()">Send order via Instagram ↗</button><p style="font-size:9px;color:#777;line-height:1.6">Đây là giỏ hàng xem trước. Đơn hàng sẽ được gửi qua Instagram để shop xác nhận tồn kho, phí vận chuyển và thanh toán.</p></div></aside></div>
@@ -504,4 +501,78 @@ function addToCart(id) {
     return;
   }
 
-  cart[id] = quantity +
+  cart[id] = quantity + 1;
+  updateCart();
+
+  const toast = document.getElementById("toast");
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 1500);
+}
+
+function updateCart() {
+  const entries = Object.entries(cart).filter(([id, qty]) => qty > 0 && products.some(p => p.id === id));
+  const count = entries.reduce((sum, [, qty]) => sum + qty, 0);
+  document.getElementById("cart-count").textContent = count;
+
+  document.getElementById("cart-items").innerHTML = entries.length
+    ? entries.map(([id, qty]) => {
+        const p = products.find(x => x.id === id);
+        return `
+          <div class="cart-row">
+            <div>
+              <b>${escapeHTML(p.name)}</b>
+              <small>${money(p.price)}</small>
+              <div class="qty">
+                <button onclick="changeQty('${id}',-1)">−</button>
+                <span>${qty}</span>
+                <button onclick="changeQty('${id}',1)">+</button>
+              </div>
+            </div>
+            <strong>${money(p.price * qty)}</strong>
+          </div>
+        `;
+      }).join("")
+    : `<p>Your bag is empty. Find your setup.</p>`;
+
+  const total = entries.reduce((sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty, 0);
+  document.getElementById("cart-total").textContent = money(total);
+}
+
+function changeQty(id, amount) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+
+  cart[id] = (cart[id] || 0) + amount;
+  if (cart[id] <= 0) delete cart[id];
+  if (cart[id] > p.stock) {
+    cart[id] = p.stock;
+    alert("Số lượng tồn kho không đủ!");
+  }
+  updateCart();
+}
+
+function openCart() { document.getElementById("cart-panel").classList.add("open"); }
+function closeCart() { document.getElementById("cart-panel").classList.remove("open"); }
+
+function checkout() {
+  const entries = Object.entries(cart);
+  if (!entries.length) { alert("Giỏ hàng đang trống."); return; }
+
+  const lines = entries.map(([id, qty]) => {
+    const p = products.find(x => x.id === id);
+    return `${p.name} x${qty} - ${money(p.price * qty)}`;
+  });
+
+  const total = entries.reduce((sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty, 0);
+
+  const message = "Chào SK82ND! Mình muốn đặt hàng:\n" + lines.join("\n") + "\nTổng đơn: " + money(total) + "\nNhờ shop xác nhận tồn kho và phí ship.";
+
+  window.open("https://www.instagram.com/sk82nd.shop/", "_blank");
+  navigator.clipboard?.writeText(message).then(() => alert("Đã copy đơn hàng!")).catch(() => alert(message));
+}
+
+loadProducts();
+setInterval(loadProducts, 60000);
+</script>
+</body>
+</html>
