@@ -27,7 +27,7 @@ body {
 }
 
 header {
-  background: rgba(255,255,255,.98);
+  background: rgba(255,255,255,.96);
   border-bottom: 2px solid var(--ink);
 }
 
@@ -54,41 +54,40 @@ header {
   color: var(--ink);
 }
 
-/* ==========================================================
-   HIỂN THỊ LOGO GỐC QUA CSS MASK (TỰ ĐỘNG XÓA NỀN ĐEN, SẮC NÉT)
-   ========================================================== */
-.shop-logo-header {
-  display: inline-block;
-  height: 45px;
-  width: 150px;
-  background-color: #080D16; /* Chữ màu đen trên nền sáng Header */
-  -webkit-mask-image: url('/logo.png.jfif');
-  mask-image: url('/logo.png.jfif');
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: left center;
-  mask-position: left center;
-  transition: transform .2s;
+/* LOGO GRAFFITI SVG CHUẨN XÁC THƯƠNG HIỆU SK82ND */
+.shop-logo {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  line-height: 1;
 }
-.shop-logo-header:hover {
-  transform: scale(1.03);
+.shop-logo svg {
+  height: 44px;
+  width: auto;
+  display: block;
+}
+.shop-logo small {
+  font-family: var(--body);
+  font-weight: 800;
+  font-size: 7px;
+  letter-spacing: 2.2px;
+  color: #555;
+  margin-top: 4px;
+  text-transform: uppercase;
 }
 
-.shop-logo-footer {
-  display: inline-block;
-  height: 52px;
-  width: 170px;
-  background-color: #FFFFFF; /* Chữ màu trắng trên nền tối Footer */
-  -webkit-mask-image: url('/logo.png.jfif');
-  mask-image: url('/logo.png.jfif');
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: left center;
-  mask-position: left center;
+.footer-logo svg {
+  height: 50px;
+  width: auto;
+  display: block;
+}
+.footer-logo small {
+  font-family: var(--body);
+  font-weight: 800;
+  font-size: 7px;
+  letter-spacing: 2.2px;
+  color: #aaa;
+  margin-top: 4px;
 }
 
 /* MASONRY GRID SẢN PHẨM (KHÔNG CROP ẢNH) */
@@ -315,8 +314,24 @@ h1{font:900 clamp(66px,9vw,132px)/.82 var(--display);letter-spacing:-3px;text-tr
 <body>
 <div class="announce">SECONDHAND & CUSTOM SKATEBOARDING &nbsp;· &nbsp;FIND YOUR OWN LINE</div>
 <header><nav class="nav">
-<!-- Dùng file ảnh gốc logo.png.jfif của chính bạn, tự động lọc sạch nền đen -->
-<a class="shop-logo-header" href="#"></a>
+<!-- LOGO HEADER: SVG GRAFFITI CHUẨN TỪNG ĐƯỜNG NÉT SK82ND, TỰ ĐỘNG ĐỔI MÀU ĐEN TRÊN NỀN SÁNG -->
+<a class="shop-logo" href="#">
+  <svg viewBox="0 0 340 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Chữ S uốn lượn sắc sảo -->
+    <path d="M12 55L24 16H42L35 42H52L56 28H74L68 55H12Z" fill="#080D16"/>
+    <!-- Chữ K graffiti -->
+    <path d="M80 55L98 16H118L136 55H116L111 40H99L94 55H80ZM104 29H110L107 20H106L104 29Z" fill="#080D16"/>
+    <!-- Số 8 phong cách block -->
+    <path d="M142 16H162V33H178V16H198V55H178V39H162V55H142V16Z" fill="#080D16"/>
+    <!-- Số 2 -->
+    <path d="M204 55L222 16H240L258 55H240L235 42H221L216 55H204ZM228 30H234L231 21H230L228 30Z" fill="#080D16"/>
+    <!-- Chữ N -->
+    <path d="M266 16H287C298 16 304 21 304 28C304 33 300 37 294 39C301 42 305 47 305 53C305 60 297 65 285 65H266V16ZM283 38C288 38 291 35 291 31C291 27 288 24 283 24H279V38H283ZM283 57C289 57 292 53 292 48C292 43 289 39 283 39H279V57H283Z" fill="#080D16"/>
+    <!-- Chữ D -->
+    <path d="M313 16H332V47H352V55H313V16Z" fill="#080D16"/>
+  </svg>
+  <small>SKATEBOARDS • 2HAND • CUSTOM</small>
+</a>
 <div class="navlinks"><a href="#shop">Shop all</a><a href="#categories">Categories</a><a href="#story">Our scene</a><a href="#support">Support</a></div>
 <div class="navright"><a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a><button class="cartbtn" onclick="openCart()">BAG (<span id="cart-count">0</span>)</button></div>
 </nav></header>
@@ -354,8 +369,18 @@ h1{font:900 clamp(66px,9vw,132px)/.82 var(--display);letter-spacing:-3px;text-tr
 </section>
 </main>
 <footer class="footer"><div class="wrap"><div class="footer-top"><div>
-<!-- Logo ở Footer dùng chính file ảnh gốc hiển thị trắng rực rỡ trên nền tối -->
-<a class="shop-logo-footer" href="#"></a>
+<!-- LOGO FOOTER: Tự động đổi màu trắng sáng rực rỡ trên nền tối của Footer -->
+<a class="footer-logo shop-logo" href="#">
+  <svg viewBox="0 0 340 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 55L24 16H42L35 42H52L56 28H74L68 55H12Z" fill="#FFFFFF"/>
+    <path d="M80 55L98 16H118L136 55H116L111 40H99L94 55H80ZM104 29H110L107 20H106L104 29Z" fill="#FFFFFF"/>
+    <path d="M142 16H162V33H178V16H198V55H178V39H162V55H142V16Z" fill="#FFFFFF"/>
+    <path d="M204 55L222 16H240L258 55H240L235 42H221L216 55H204ZM228 30H234L231 21H230L228 30Z" fill="#FFFFFF"/>
+    <path d="M266 16H287C298 16 304 21 304 28C304 33 300 37 294 39C301 42 305 47 305 53C305 60 297 65 285 65H266V16ZM283 38C288 38 291 35 291 31C291 27 288 24 283 24H279V38H283ZM283 57C289 57 292 53 292 48C292 43 289 39 283 39H279V57H283Z" fill="#FFFFFF"/>
+    <path d="M313 16H332V47H352V55H313V16Z" fill="#FFFFFF"/>
+  </svg>
+  <small style="color:#aaa;">SKATEBOARDS • 2HAND • CUSTOM</small>
+</a>
 <p>An independent skate shop for people who want to find their own line. New & secondhand skateboards, parts and accessories.</p></div><div class="footer-links"><div><b>EXPLORE</b><a href="#shop">Shop all</a><a href="#categories">Categories</a><a href="#story">Beginner session</a></div><div><b>CONNECT</b><a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a><a href="https://www.facebook.com/" target="_blank">Facebook ↗</a><a href="#support">Contact & support</a></div></div></div><div class="copyright"><span>© 2026 SK82ND SKATESHOP. ALL RIGHTS RESERVED.</span><span>SKATEBOARDS • PARTS • ACCESSORIES</span></div></div></footer>
 <div class="cart-panel" id="cart-panel"><div class="shade" onclick="closeCart()"></div><aside class="drawer"><div class="drawer-head"><h3>YOUR BAG</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cart-items"></div><div class="cart-bottom"><div class="total"><span>SUBTOTAL</span><span id="cart-total">0₫</span></div><button class="checkout" onclick="checkout()">Send order via Instagram ↗</button><p style="font-size:9px;color:#777;line-height:1.6">Đây là giỏ hàng xem trước. Đơn hàng sẽ được gửi qua Instagram để shop xác nhận tồn kho, phí vận chuyển và thanh toán.</p></div></aside></div>
 <div class="toast" id="toast">Added to your bag</div>
@@ -527,7 +552,7 @@ function closeProductModal() {
   document.body.style.overflow = '';
 }
 
--> addToCart(id) {
+function addToCart(id) {
   const product = products.find(p => p.id === id);
   if (!product) return;
 
