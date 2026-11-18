@@ -80,7 +80,7 @@ header {
   gap: 12px;
 }
 
-/* NÚT MENU / ĐĂNG NHẬP GỌN GÀNG TRÊN HEADER */
+/* NÚT MENU / ĐĂNG NHẬP TRÊN HEADER */
 .menu-toggle-btn {
   background: var(--ink);
   color: #fff;
@@ -122,10 +122,14 @@ header {
   text-transform: uppercase;
 }
 
-.navlinks-ig, .cartbtn {
+.navlinks-ig {
+  display: none; /* Mặc định ẩn trên điện thoại theo yêu cầu */
+}
+
+.cartbtn {
   border: 1px solid var(--ink);
   background: transparent;
-  padding: 7px 10px;
+  padding: 7px 12px;
   font-weight: 800;
   font-size: 10px;
   letter-spacing: 0.5px;
@@ -133,9 +137,24 @@ header {
   border-radius: 4px;
 }
 
-.navlinks-ig:hover, .cartbtn:hover {
+.cartbtn:hover, .navlinks-ig:hover {
   background: var(--ink);
   color: white;
+}
+
+/* HIỂN THỊ INSTAGRAM TRÊN MÁY TÍNH (DESKTOP) */
+@media (min-width: 1024px) {
+  .navlinks-ig {
+    display: inline-block;
+    border: 1px solid var(--ink);
+    background: transparent;
+    padding: 7px 10px;
+    font-weight: 800;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    border-radius: 4px;
+  }
 }
 
 /* LOGO THU NHỎ VỪA KHUNG */
@@ -164,7 +183,7 @@ header {
 }
 .footer-logo-text img { display: none; }
 
-/* FLOATING MENU BUTTON (LUÔN ĐI THEO KHI CUỘN TRANG TRÊN MỌI THIẾT BỊ) */
+/* FLOATING MENU BUTTON (LUÔN ĐI THEO KHI CUỘN TRANG) */
 .floating-menu-btn {
   position: fixed;
   bottom: 24px;
@@ -189,7 +208,7 @@ header {
   color: var(--ink);
 }
 
-/* SIDEBAR MENU BÊN TRÁI (DẠNG TRƯỢT ẨN, BẤM MỚI HIỆN TRÊN CẢ PC VÀ MOBILE) */
+/* SIDEBAR MENU BÊN TRÁI (DẠNG TRƯỢT ẨN TRÊN TẤT CẢ THIẾT BỊ) */
 .sidebar-panel {
   position: fixed;
   inset: 0;
@@ -856,7 +875,7 @@ header {
   margin-top: auto;
 }
 
-/* RESPONSIVE DI ĐỘNG & MÁY TÍNH */
+/* RESPONSIVE DI ĐỘNG */
 @media (max-width: 768px) {
   .nav { height: 52px; padding: 0 10px; }
   .navlinks { display: none; }
@@ -897,7 +916,6 @@ header {
 <header>
 <nav class="nav">
   <div class="nav-left">
-    <!-- NÚT MENU / ĐĂNG NHẬP TRÊN HEADER -->
     <button class="menu-toggle-btn" onclick="toggleSidebar()">
       ☰ MENU / ĐĂNG NHẬP
     </button>
@@ -925,7 +943,7 @@ header {
   ☰ MENU & ĐĂNG NHẬP
 </button>
 
-<!-- SIDEBAR MENU BÊN TRÁI (DẠNG TRƯỢT ẨN TRÊN TẤT CẢ THIẾT BỊ) -->
+<!-- SIDEBAR MENU BÊN TRÁI -->
 <div class="sidebar-panel" id="sidebar-panel">
   <div class="sidebar-shade" onclick="toggleSidebar()"></div>
   <aside class="sidebar-drawer">
