@@ -123,7 +123,7 @@ header {
 }
 .brand-logo-text img { display:none; }
 
-/* HERO TỐI GIẢN - ĐẬP VÀO MẮT LÀ SỰ CHUYÊN NGHIỆP VÀ GỌN GÀNG */
+/* HERO TỐI GIẢN */
 .hero {
   background: var(--ink);
   color: white;
@@ -190,22 +190,41 @@ header {
   background: #fff;
 }
 
-/* TICKER SÁT GỌN */
+/* THANH TICKER TƯƠNG TÁC (CLICK ĐỂ CHUYỂN DANH MỤC) */
 .ticker {
   background: var(--lime);
   width: 100%;
   max-width: 100vw;
-  overflow: hidden;
+  overflow-x: auto;
   white-space: nowrap;
-  padding: 8px 0;
+  padding: 10px 16px;
   font: 800 12px var(--display);
   letter-spacing: 1.5px;
   box-sizing: border-box;
   color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.ticker::-webkit-scrollbar { display: none; }
+
+.ticker-item {
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.3);
+  transition: .2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.ticker span { padding: 0 8px; }
-.ticker i { font-style: normal; color: var(--ink); margin: 0 4px; }
+.ticker-item:hover {
+  background: var(--ink);
+  color: #fff;
+}
 
 .wrap {
   max-width: 1400px;
@@ -231,18 +250,9 @@ header {
   color: #777;
 }
 
-.section-title {
-  font: 900 clamp(32px, 4vw, 54px)/.9 var(--display);
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  margin: 6px 0 0;
-}
-
-.section-title span { color: #92958a; }
-
 .catalog { background: #f4f4ee; }
 
-/* BỘ LỌC DANH MỤC TRUNG TÂM (1 DANH MỤC + MŨI TÊN ĐIỀU HƯỚNG) */
+/* BỘ LỌC 1 DANH MỤC TRUNG TÂM + MŨI TÊN ĐIỀU HƯỚNG */
 .filters-wrapper {
   margin-bottom: 20px;
 }
@@ -738,7 +748,7 @@ header {
 
 <main>
 
-<!-- HERO TỐI GIẢN - ĐẬP VÀO MẮT LÀ THƯƠNG HIỆU VÀ NÚT XEM VÁN NGAY -->
+<!-- HERO TỐI GIẢN -->
 <section class="hero">
   <div class="hero-inner">
     <div class="eyebrow">Independent Skate Shop · Vietnam</div>
@@ -748,16 +758,20 @@ header {
   </div>
 </section>
 
+<!-- THANH ĐIỀU HƯỚNG TƯƠNG TÁC (CLICK ĐỂ ĐỔI DANH MỤC HOẶC TỚI PHẦN VỀ SHOP) -->
 <div class="ticker">
-  <span>SKATEBOARDS</span><i>•</i>
-  <span>2HAND FINDS</span><i>•</i>
-  <span>CUSTOM SETUPS</span><i>•</i>
-  <span>FIND YOUR OWN LINE</span><i>•</i>
-  <span>SKATEBOARDS</span><i>•</i>
-  <span>2HAND FINDS</span>
+  <div class="ticker-item" onclick="filterByTicker('new')">⚡ NEW SETUPS</div>
+  <span>•</span>
+  <div class="ticker-item" onclick="filterByTicker('2hand')">🛹 2HAND FINDS</div>
+  <span>•</span>
+  <div class="ticker-item" onclick="selectCategoryDirect('Complete')">🛠️ CUSTOM SETUPS</div>
+  <span>•</span>
+  <div class="ticker-item" onclick="scrollToSection('story')">📖 VỀ SK82ND SHOP</div>
+  <span>•</span>
+  <div class="ticker-item" onclick="scrollToSection('support')">🤝 CAM KẾT UY TÍN</div>
 </div>
 
-<!-- KHU VỰC CỬA HÀNG ĐƯA LÊN SỚM, GỌN GÀNG NHƯ SAIGON SKATESHOP -->
+<!-- KHU VỰC CỬA HÀNG -->
 <section class="section catalog" id="shop">
 <div class="wrap">
 
@@ -768,7 +782,7 @@ header {
     <div class="kicker" id="result-count">0 products</div>
   </div>
 
-  <!-- BỘ LỌC 1 DANH MỤC TRUNG TÂM + MŨI TÊN ĐIỀU HƯỚNG MƯỢT MÀ -->
+  <!-- BỘ LỌC 1 DANH MỤC TRUNG TÂM + MŨI TÊN ĐIỀU HƯỚNG -->
   <div class="filters-wrapper">
     <div class="category-center-selector">
       <button class="cat-arrow-btn" onclick="changeCategoryStep(-1)">‹</button>
@@ -805,7 +819,7 @@ header {
   </div>
 </section>
 
-<section class="wrap" style="padding: 0;">
+<section class="wrap" style="padding: 0;" id="support">
   <div class="values">
     <div class="value">
       <b>01 / Ván 2hand chất lượng</b>
@@ -925,23 +939,48 @@ function escapeHTML(value) {
   }[char]));
 }
 
+// Hàm chuyển danh mục theo mũi tên
 function changeCategoryStep(step) {
   currentCategoryIndex = (currentCategoryIndex + step + categoriesList.length) % categoriesList.length;
   updateCategoryDisplay();
+}
+
+function selectCategoryDirect(catName) {
+  const index = categoriesList.indexOf(catName);
+  if (index !== -1) {
+    currentCategoryIndex = index;
+    updateCategoryDisplay();
+    document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+// Hàm click trực tiếp từ thanh ticker để lọc nhanh hàng New hoặc 2hand
+function filterByTicker(subType) {
+  currentCategoryIndex = 0; // Đưa về Complete (nơi chứa New & 2hand)
+  currentSubFilter = subType;
+  updateCategoryDisplay();
+  document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
+}
+
+function scrollToSection(sectionId) {
+  document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
 }
 
 function updateCategoryDisplay() {
   const catKey = categoriesList[currentCategoryIndex];
   document.getElementById("currentCategoryTitle").textContent = categoryDisplayNames[catKey];
   
-  currentSubFilter = "new"; 
-
   const subFiltersEl = document.getElementById("completeSubFilters");
   if (catKey === "Complete") {
     subFiltersEl.classList.add("show");
     const subBtns = subFiltersEl.querySelectorAll(".sub-filter");
-    subBtns.forEach(b => b.classList.remove("active"));
-    subBtns[0].classList.add("active");
+    subBtns.forEach(b => {
+      if (b.textContent.toLowerCase().includes(currentSubFilter)) {
+        b.classList.add("active");
+      } else {
+        b.classList.remove("active");
+      }
+    });
   } else {
     subFiltersEl.classList.remove("show");
   }
