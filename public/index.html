@@ -190,7 +190,7 @@ header {
   background: #fff;
 }
 
-/* THANH TICKER TƯƠNG TÁC (CLICK ĐỂ CHUYỂN DANH MỤC) */
+/* THANH TICKER: KHÔNG Ô TRẮNG, KHÔNG ICON, CỐT GỌN TRONG 1 KHUNG, CANH GIỮA TRÊN DESKTOP */
 .ticker {
   background: var(--lime);
   width: 100%;
@@ -204,26 +204,34 @@ header {
   color: var(--ink);
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: flex-start;
+  gap: 16px;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
 .ticker::-webkit-scrollbar { display: none; }
 
+@media (min-width: 769px) {
+  .ticker {
+    justify-content: center;
+  }
+}
+
 .ticker-item {
   cursor: pointer;
-  padding: 4px 10px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.3);
+  padding: 2px 4px;
+  background: transparent;
   transition: .2s;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
 }
 
 .ticker-item:hover {
-  background: var(--ink);
-  color: #fff;
+  color: var(--white);
+}
+
+.ticker-sep {
+  opacity: 0.6;
 }
 
 .wrap {
@@ -242,6 +250,13 @@ header {
   gap: 15px;
 }
 
+@media (min-width: 769px) {
+  .section-head {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
 .kicker {
   font-size: 10px;
   letter-spacing: 2.5px;
@@ -252,9 +267,12 @@ header {
 
 .catalog { background: #f4f4ee; }
 
-/* BỘ LỌC 1 DANH MỤC TRUNG TÂM + MŨI TÊN ĐIỀU HƯỚNG */
+/* BỘ LỌC 1 DANH MỤC TRUNG TÂM + MŨI TÊN ĐIỀU HƯỚNG (LUÔN CANH GIỮA) */
 .filters-wrapper {
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .category-center-selector {
@@ -758,17 +776,15 @@ header {
   </div>
 </section>
 
-<!-- THANH ĐIỀU HƯỚNG TƯƠNG TÁC (CLICK ĐỂ ĐỔI DANH MỤC HOẶC TỚI PHẦN VỀ SHOP) -->
+<!-- THANH TICKER GỌN TRONG 1 KHUNG, KHÔNG ICON, KHÔNG VIỀN TRẮNG, GỘP 2HAND & CUSTOM -->
 <div class="ticker">
-  <div class="ticker-item" onclick="filterByTicker('new')">⚡ NEW SETUPS</div>
-  <span>•</span>
-  <div class="ticker-item" onclick="filterByTicker('2hand')">🛹 2HAND FINDS</div>
-  <span>•</span>
-  <div class="ticker-item" onclick="selectCategoryDirect('Complete')">🛠️ CUSTOM SETUPS</div>
-  <span>•</span>
-  <div class="ticker-item" onclick="scrollToSection('story')">📖 VỀ SK82ND SHOP</div>
-  <span>•</span>
-  <div class="ticker-item" onclick="scrollToSection('support')">🤝 CAM KẾT UY TÍN</div>
+  <div class="ticker-item" onclick="filterByTicker('new')">NEW SETUPS</div>
+  <span class="ticker-sep">•</span>
+  <div class="ticker-item" onclick="filterByTicker('2hand')">2HAND & CUSTOM</div>
+  <span class="ticker-sep">•</span>
+  <div class="ticker-item" onclick="scrollToSection('story')">VỀ SK82ND SHOP</div>
+  <span class="ticker-sep">•</span>
+  <div class="ticker-item" onclick="scrollToSection('support')">CAM KẾT UY TÍN</div>
 </div>
 
 <!-- KHU VỰC CỬA HÀNG -->
@@ -790,10 +806,10 @@ header {
       <button class="cat-arrow-btn" onclick="changeCategoryStep(1)">›</button>
     </div>
 
-    <!-- MENU CON CỦA COMPLETE: NEW VÀ 2HAND -->
+    <!-- MENU CON CỦA COMPLETE: NEW VÀ 2HAND / CUSTOM -->
     <div class="sub-filters" id="completeSubFilters">
       <button class="sub-filter active" onclick="setSubFilter('new', this)">New Setup</button>
-      <button class="sub-filter" onclick="setSubFilter('2hand', this)">2hand / Iconic</button>
+      <button class="sub-filter" onclick="setSubFilter('2hand', this)">2hand / Custom</button>
     </div>
   </div>
 
@@ -939,7 +955,6 @@ function escapeHTML(value) {
   }[char]));
 }
 
-// Hàm chuyển danh mục theo mũi tên
 function changeCategoryStep(step) {
   currentCategoryIndex = (currentCategoryIndex + step + categoriesList.length) % categoriesList.length;
   updateCategoryDisplay();
@@ -954,9 +969,8 @@ function selectCategoryDirect(catName) {
   }
 }
 
-// Hàm click trực tiếp từ thanh ticker để lọc nhanh hàng New hoặc 2hand
 function filterByTicker(subType) {
-  currentCategoryIndex = 0; // Đưa về Complete (nơi chứa New & 2hand)
+  currentCategoryIndex = 0; // Complete
   currentSubFilter = subType;
   updateCategoryDisplay();
   document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
@@ -1024,7 +1038,7 @@ function render() {
     if (catKey === "Complete") {
       if (cat !== "complete") return false;
       if (currentSubFilter === "new") return cond === "new";
-      if (currentSubFilter === "2hand") return cond.includes("2hand") || cond.includes("used");
+      if (currentSubFilter === "2hand") return cond.includes("2hand") || cond.includes("used") || cond.includes("custom");
       return cond === "new";
     }
 
