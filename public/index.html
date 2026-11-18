@@ -292,21 +292,21 @@ h1 em {
   color: var(--lime);
 }
 
-/* FIX TRIỆT ĐỂ DẢI TICKER KHÔNG BỊ TRÀN & CẮT CỤT */
+/* DẢI TICKER THAY DẤU NGĂN CÁCH GỌN GÀNG, SÁT SẠT NHAU */
 .ticker {
   background: var(--lime);
   width: 100%;
   max-width: 100vw;
   overflow: hidden;
   white-space: nowrap;
-  padding: 12px 0;
-  font: 800 14px var(--display);
-  letter-spacing: 2px;
+  padding: 10px 0;
+  font: 800 13px var(--display);
+  letter-spacing: 1.5px;
   box-sizing: border-box;
 }
 
-.ticker span { padding: 0 15px; }
-.ticker i { font-style: normal; color: var(--red); }
+.ticker span { padding: 0 8px; }
+.ticker i { font-style: normal; color: var(--ink); margin: 0 4px; }
 
 .wrap {
   max-width: 1400px;
@@ -1193,12 +1193,14 @@ h1 em {
   </div>
 </section>
 
+<!-- DẢI TICKER THAY DẤU NGĂN CÁCH THÀNH CHẤM BI ĐẬM VÀ KHOẢNG CÁCH SÁT GỌN -->
 <div class="ticker">
-  <span>SKATEBOARDS</span><i>✳</i>
-  <span>2HAND FINDS</span><i>✳</i>
-  <span>CUSTOM SETUPS</span><i>✳</i>
-  <span>FIND YOUR OWN LINE</span><i>✳</i>
-  <span>SKATEBOARDS</span>
+  <span>SKATEBOARDS</span><i>•</i>
+  <span>2HAND FINDS</span><i>•</i>
+  <span>CUSTOM SETUPS</span><i>•</i>
+  <span>FIND YOUR OWN LINE</span><i>•</i>
+  <span>SKATEBOARDS</span><i>•</i>
+  <span>2HAND FINDS</span>
 </div>
 
 <section class="section wrap" id="categories">
