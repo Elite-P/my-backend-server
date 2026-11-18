@@ -29,6 +29,7 @@ html, body {
   margin: 0; 
   padding: 0;
   width: 100%;
+  max-width: 100vw;
   overflow-x: hidden;
 }
 
@@ -291,22 +292,26 @@ h1 em {
   color: var(--lime);
 }
 
+/* FIX TRIỆT ĐỂ DẢI TICKER KHÔNG BỊ TRÀN & CẮT CỤT */
 .ticker {
   background: var(--lime);
+  width: 100%;
+  max-width: 100vw;
   overflow: hidden;
   white-space: nowrap;
   padding: 12px 0;
-  font: 800 15px var(--display);
+  font: 800 14px var(--display);
   letter-spacing: 2px;
+  box-sizing: border-box;
 }
 
-.ticker span { padding: 0 20px; }
+.ticker span { padding: 0 15px; }
 .ticker i { font-style: normal; color: var(--red); }
 
 .wrap {
   max-width: 1400px;
   margin: auto;
-  padding: 0 20px; /* Đảm bảo lề trái phải an toàn cho mọi thiết bị */
+  padding: 0 16px;
 }
 
 .section { padding: 70px 0; }
@@ -969,7 +974,7 @@ h1 em {
 
 .modal-buy-btn:hover { background: var(--red); }
 
-/* RESPONSIVE DI ĐỘNG - ĐÃ TỐI ƯU CĂN LỀ TRÁI PHẢI */
+/* RESPONSIVE DI ĐỘNG */
 @media (max-width: 768px) {
   .nav {
     height: 62px;
@@ -983,13 +988,12 @@ h1 em {
     height: 50px;
   }
 
-  /* Căn lề an toàn cho phần Hero (Ảnh 1) */
   .hero-copy {
-    padding: 40px 20px;
+    padding: 40px 16px;
   }
 
   h1 {
-    font-size: 46px;
+    font-size: 44px;
     letter-spacing: -1px;
   }
 
@@ -1016,7 +1020,6 @@ h1 em {
     padding: 45px 0;
   }
 
-  /* Căn lề lọt lòng cho toàn bộ các section bên dưới (Ảnh 2 & 3) */
   .wrap {
     padding: 0 16px !important;
   }
