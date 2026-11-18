@@ -1153,7 +1153,7 @@ h1 em {
     <div class="kicker" id="result-count">0 products</div>
   </div>
 
-  <!-- BỘ LỌC ĐÃ ĐƯỢC TÙY CHỈNH THEO YÊU CẦU -->
+  <!-- BỘ LỌC ĐÃ TỐI ƯU: ĐẨY NEW LÊN ĐẦU, 2HAND LÀ SUB-OPTION -->
   <div class="filters-wrapper">
     <div class="filters">
       <button class="filter active" onclick="setMainFilter('Complete', this)">Completes</button>
@@ -1162,11 +1162,10 @@ h1 em {
       <button class="filter" onclick="setMainFilter('Wheels', this)">Wheels</button>
     </div>
 
-    <!-- MENU CON CỦA COMPLETE (HIỆN KHI BẤM COMPLETE) -->
+    <!-- MENU CON CỦA COMPLETE: NEW (MẶC ĐỊNH) VÀ 2HAND -->
     <div class="sub-filters" id="completeSubFilters">
-      <button class="sub-filter active" onclick="setSubFilter('all', this)">Tất cả Completes</button>
-      <button class="sub-filter" onclick="setSubFilter('new', this)">New</button>
-      <button class="sub-filter" onclick="setSubFilter('2hand', this)">2hand</button>
+      <button class="sub-filter active" onclick="setSubFilter('new', this)">New Setup</button>
+      <button class="sub-filter" onclick="setSubFilter('2hand', this)">2hand / Iconic</button>
     </div>
   </div>
 
@@ -1306,7 +1305,7 @@ h1 em {
 let products = [];
 let cart = {};
 let currentCategory = "Complete"; // Mặc định hiển thị Completes
-let currentSubFilter = "all";    // Mặc định xem tất cả (new + 2hand) trong completes
+let currentSubFilter = "new";     // Mặc định hiển thị hàng NEW để chuyên nghiệp và cao cấp
 
 const grid = document.getElementById("product-grid");
 const money = value => new Intl.NumberFormat("vi-VN").format(value) + " ₫";
@@ -1357,7 +1356,7 @@ function render() {
       if (cat !== "complete") return false;
       if (currentSubFilter === "new") return cond === "new";
       if (currentSubFilter === "2hand") return cond.includes("2hand") || cond.includes("used");
-      return true; // "all"
+      return cond === "new";
     }
 
     if (currentCategory === "Deck") return cat === "deck";
@@ -1399,7 +1398,7 @@ function render() {
 
 function setMainFilter(categoryName, btn) {
   currentCategory = categoryName;
-  currentSubFilter = "all"; // Reset subfilter về all khi đổi danh mục chính
+  currentSubFilter = "new"; // Mặc định tab con luôn là 'new' khi chuyển danh mục chính
 
   // Active button chính
   document.querySelectorAll(".filters .filter").forEach(b => b.classList.remove("active"));
@@ -1409,10 +1408,9 @@ function setMainFilter(categoryName, btn) {
   const subFiltersEl = document.getElementById("completeSubFilters");
   if (categoryName === "Complete") {
     subFiltersEl.classList.add("show");
-    // Reset active cho sub filter về "Tất cả"
     const subBtns = subFiltersEl.querySelectorAll(".sub-filter");
     subBtns.forEach(b => b.classList.remove("active"));
-    subBtns[0].classList.add("active");
+    subBtns[0].classList.add("active"); // Active nút New Setup đầu tiên
   } else {
     subFiltersEl.classList.remove("show");
   }
@@ -1602,7 +1600,7 @@ function checkout() {
     .catch(() => alert(message));
 }
 
-// Khởi chạy khi tải trang, mặc định hiển thị tab Completes và mở sẵn menu con
+// Khởi chạy khi tải trang, mặc định hiển thị tab Completes và menu con New Setup sáng đèn
 document.getElementById('completeSubFilters').classList.add('show');
 loadProducts();
 setInterval(loadProducts, 60000);
