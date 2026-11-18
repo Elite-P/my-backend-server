@@ -402,89 +402,65 @@ h1 em {
 .catalog { background: #e8e8df; }
 
 /* ==========================================
-   BỘ LỌC KIỂU SAIGON SKATESHOP: CÓ MŨI TÊN BẤM TRÁI/PHẢI
+   STYLE SELECTOR DẠNG 1 TÊN DANH MỤC Ở GIỮA + NÚT MŨI TÊN HAI BÊN
    ========================================== */
 .filters-wrapper {
   margin-bottom: 24px;
 }
 
-.category-slider-container {
+.category-center-selector {
   display: flex;
   align-items: center;
-  position: relative;
-  gap: 8px;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 12px;
 }
 
-.cat-nav-btn {
+.cat-arrow-btn {
   background: #ffffff;
   border: 1px solid #bcbeb4;
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 900;
   cursor: pointer;
-  flex-shrink: 0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
   transition: .2s;
-  z-index: 2;
+  color: var(--ink);
 }
 
-.cat-nav-btn:hover {
+.cat-arrow-btn:hover {
   background: var(--ink);
   color: #fff;
   border-color: var(--ink);
+  transform: scale(1.05);
 }
 
-.filters {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  gap: 8px;
-  padding: 4px 2px;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  flex: 1;
-}
-.filters::-webkit-scrollbar { display: none; }
-
-.filter {
-  border: 1px solid #bcbeb4;
+.current-category-box {
   background: #ffffff;
-  padding: 9px 20px;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 1px;
+  border: 1px solid var(--ink);
+  padding: 12px 36px;
+  border-radius: 40px;
+  font: 900 15px/1 var(--display);
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  transition: .2s;
-  border-radius: 30px;
-  white-space: nowrap;
-  flex-shrink: 0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  color: var(--ink);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  min-width: 200px;
+  text-align: center;
 }
 
-.filter.active, .filter:hover {
-  background: var(--ink);
-  color: white;
-  border-color: var(--ink);
-}
-
-/* MENU CON CỦA COMPLETE */
+/* MENU CON CỦA COMPLETE (HIỆN KHI ĐANG Ở MỤC COMPLETES) */
 .sub-filters {
   display: none;
-  gap: 6px;
-  margin-top: 10px;
-  padding-left: 2px;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
   animation: fadeIn 0.2s ease-in-out;
-  overflow-x: auto;
-  white-space: nowrap;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
 }
-.sub-filters::-webkit-scrollbar { display: none; }
 
 .sub-filters.show {
   display: flex;
@@ -493,14 +469,14 @@ h1 em {
 .sub-filter {
   border: 1px dashed #777;
   background: #f4f4ee;
-  padding: 6px 14px;
-  font-size: 9px;
+  padding: 6px 16px;
+  font-size: 10px;
   font-weight: 800;
   letter-spacing: 1px;
   text-transform: uppercase;
   border-radius: 20px;
-  white-space: nowrap;
-  flex-shrink: 0;
+  cursor: pointer;
+  transition: .2s;
 }
 
 .sub-filter.active, .sub-filter:hover {
@@ -1234,25 +1210,25 @@ h1 em {
   </div>
 
   <div class="category-grid">
-    <a class="cat" href="#shop" onclick="selectCategory('Complete')">
+    <a class="cat" href="#shop" onclick="selectCategoryDirect('Complete')">
       <span class="cat-no">01 / THE WHOLE SETUP</span>
       <h3>Complete<br>boards ↗</h3>
       <div class="cat-art"></div>
     </a>
 
-    <a class="cat" href="#shop" onclick="selectCategory('Deck')">
+    <a class="cat" href="#shop" onclick="selectCategoryDirect('Deck')">
       <span class="cat-no">02 / YOUR FOUNDATION</span>
       <h3>Decks ↗</h3>
       <div class="cat-art"></div>
     </a>
 
-    <a class="cat" href="#shop" onclick="selectCategory('Trucks')">
+    <a class="cat" href="#shop" onclick="selectCategoryDirect('Trucks')">
       <span class="cat-no">03 / THE HARDWARE</span>
       <h3>Trucks ↗</h3>
       <div class="cat-art"></div>
     </a>
 
-    <a class="cat" href="#shop" onclick="selectCategory('Wheels')">
+    <a class="cat" href="#shop" onclick="selectCategoryDirect('Wheels')">
       <span class="cat-no">04 / KEEP IT ROLLING</span>
       <h3>Wheels ↗</h3>
       <div class="cat-art"></div>
@@ -1271,19 +1247,12 @@ h1 em {
     <div class="kicker" id="result-count">0 products</div>
   </div>
 
-  <!-- BỘ LỌC CÓ NÚT MŨI TÊN TRÁI / PHẢI GIAO DIỆN CHUẨN SAIGON SKATESHOP -->
+  <!-- BỘ LỌC 1 TÊN DANH MỤC Ở GIỮA + NÚT MŨI TÊN TRÁI / PHẢI -->
   <div class="filters-wrapper">
-    <div class="category-slider-container">
-      <button class="cat-nav-btn" onclick="scrollCategories(-1)">‹</button>
-      
-      <div class="filters" id="categoryFiltersScroll">
-        <button class="filter active" onclick="setMainFilter('Complete', this)">Completes</button>
-        <button class="filter" onclick="setMainFilter('Deck', this)">Decks</button>
-        <button class="filter" onclick="setMainFilter('Trucks', this)">Trucks</button>
-        <button class="filter" onclick="setMainFilter('Wheels', this)">Wheels</button>
-      </div>
-
-      <button class="cat-nav-btn" onclick="scrollCategories(1)">›</button>
+    <div class="category-center-selector">
+      <button class="cat-arrow-btn" onclick="changeCategoryStep(-1)">‹</button>
+      <div class="current-category-box" id="currentCategoryTitle">Completes</div>
+      <button class="cat-arrow-btn" onclick="changeCategoryStep(1)">›</button>
     </div>
 
     <!-- MENU CON CỦA COMPLETE: NEW VÀ 2HAND -->
@@ -1428,7 +1397,17 @@ h1 em {
 <script>
 let products = [];
 let cart = {};
-let currentCategory = "Complete"; 
+
+// Danh sách các danh mục chính theo thứ tự để bấm mũi tên trái/phải
+const categoriesList = ["Complete", "Deck", "Trucks", "Wheels"];
+const categoryDisplayNames = {
+  "Complete": "Completes",
+  "Deck": "Decks",
+  "Trucks": "Trucks",
+  "Wheels": "Wheels"
+};
+
+let currentCategoryIndex = 0; // Mặc định là 0 (Complete)
 let currentSubFilter = "new";     
 
 const grid = document.getElementById("product-grid");
@@ -1445,10 +1424,37 @@ function escapeHTML(value) {
   }[char]));
 }
 
-// Hàm bấm nút mũi tên trái/phải trượt thanh danh mục
-function scrollCategories(direction) {
-  const container = document.getElementById("categoryFiltersScroll");
-  container.scrollBy({ left: direction * 150, behavior: 'smooth' });
+// Hàm bấm nút mũi tên trái/phải để chuyển danh mục đơn độc lập
+function changeCategoryStep(step) {
+  currentCategoryIndex = (currentCategoryIndex + step + categoriesList.length) % categoriesList.length;
+  updateCategoryDisplay();
+}
+
+function selectCategoryDirect(catName) {
+  const index = categoriesList.indexOf(catName);
+  if (index !== -1) {
+    currentCategoryIndex = index;
+    updateCategoryDisplay();
+  }
+}
+
+function updateCategoryDisplay() {
+  const catKey = categoriesList[currentCategoryIndex];
+  document.getElementById("currentCategoryTitle").textContent = categoryDisplayNames[catKey];
+  
+  currentSubFilter = "new"; // Reset subfilter về new khi đổi danh mục
+
+  const subFiltersEl = document.getElementById("completeSubFilters");
+  if (catKey === "Complete") {
+    subFiltersEl.classList.add("show");
+    const subBtns = subFiltersEl.querySelectorAll(".sub-filter");
+    subBtns.forEach(b => b.classList.remove("active"));
+    subBtns[0].classList.add("active");
+  } else {
+    subFiltersEl.classList.remove("show");
+  }
+
+  render();
 }
 
 async function loadProducts() {
@@ -1478,20 +1484,22 @@ async function loadProducts() {
 }
 
 function render() {
+  const catKey = categoriesList[currentCategoryIndex];
+  
   const items = products.filter(p => {
     const cat = fnNormalize(p.category);
     const cond = fnNormalize(p.condition);
 
-    if (currentCategory === "Complete") {
+    if (catKey === "Complete") {
       if (cat !== "complete") return false;
       if (currentSubFilter === "new") return cond === "new";
       if (currentSubFilter === "2hand") return cond.includes("2hand") || cond.includes("used");
       return cond === "new";
     }
 
-    if (currentCategory === "Deck") return cat === "deck";
-    if (currentCategory === "Trucks") return cat === "trucks" || cat === "truck";
-    if (currentCategory === "Wheels") return cat === "wheels" || cat === "wheel";
+    if (catKey === "Deck") return cat === "deck";
+    if (catKey === "Trucks") return cat === "trucks" || cat === "truck";
+    if (catKey === "Wheels") return cat === "wheels" || cat === "wheel";
 
     return true;
   });
@@ -1524,36 +1532,6 @@ function render() {
       </article>
     `;
   }).join("");
-}
-
-function setMainFilter(categoryName, btn) {
-  currentCategory = categoryName;
-  currentSubFilter = "new"; 
-
-  document.querySelectorAll(".filters .filter").forEach(b => b.classList.remove("active"));
-  if (btn) btn.classList.add("active");
-
-  const subFiltersEl = document.getElementById("completeSubFilters");
-  if (categoryName === "Complete") {
-    subFiltersEl.classList.add("show");
-    const subBtns = subFiltersEl.querySelectorAll(".sub-filter");
-    subBtns.forEach(b => b.classList.remove("active"));
-    subBtns[0].classList.add("active");
-  } else {
-    subFiltersEl.classList.remove("show");
-  }
-
-  render();
-}
-
-function selectCategory(categoryName) {
-  const btnMap = {
-    'Complete': document.querySelector('.filters .filter:nth-child(1)'),
-    'Deck': document.querySelector('.filters .filter:nth-child(2)'),
-    'Trucks': document.querySelector('.filters .filter:nth-child(3)'),
-    'Wheels': document.querySelector('.filters .filter:nth-child(4)')
-  };
-  setMainFilter(categoryName, btnMap[categoryName]);
 }
 
 function setSubFilter(subType, btn) {
@@ -1716,7 +1694,7 @@ function checkout() {
   );
 
   const message =
-    "Chào SK82ND! Mình muốn đặt hàng:\n" +
+    "Chào SK82ND! Mind muốn đặt hàng:\n" +
     lines.join("\n") +
     "\nTổng đơn: " + money(total) +
     "\nNhờ shop xác nhận tồn kho và phí ship.";
@@ -1728,7 +1706,8 @@ function checkout() {
     .catch(() => alert(message));
 }
 
-document.getElementById('completeSubFilters').classList.add('show');
+// Khởi chạy khi tải trang
+updateCategoryDisplay();
 loadProducts();
 setInterval(loadProducts, 60000);
 </script>
