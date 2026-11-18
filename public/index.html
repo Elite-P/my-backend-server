@@ -29,7 +29,7 @@ html, body {
   margin: 0; 
   padding: 0;
   width: 100%;
-  overflow-x: hidden; /* Chặn tuyệt đối lỗi tràn màn hình ngang */
+  overflow-x: hidden;
 }
 
 body {
@@ -108,7 +108,7 @@ header {
   color: white;
 }
 
-/* LOGO GRAFFITI  */
+/* LOGO GRAFFITI */
 .brand-logo-text {
     display: flex;
     align-items: center;
@@ -123,7 +123,7 @@ header {
 
 .brand-logo-text img { display:none; }
 
-/* FOOTER - nền đen, chữ trắng */
+/* FOOTER */
 .footer-logo-text {
     display: flex;
     align-items: center;
@@ -402,10 +402,40 @@ h1 em {
 .catalog { background: #e8e8df; }
 
 /* ==========================================
-   BỘ LỌC CHUẨN KIỂU SAIGON SKATESHOP (CHIPS NGANG)
+   BỘ LỌC KIỂU SAIGON SKATESHOP: CÓ MŨI TÊN BẤM TRÁI/PHẢI
    ========================================== */
 .filters-wrapper {
   margin-bottom: 24px;
+}
+
+.category-slider-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  gap: 8px;
+}
+
+.cat-nav-btn {
+  background: #ffffff;
+  border: 1px solid #bcbeb4;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  transition: .2s;
+  z-index: 2;
+}
+
+.cat-nav-btn:hover {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
 }
 
 .filters {
@@ -413,17 +443,19 @@ h1 em {
   flex-wrap: nowrap;
   overflow-x: auto;
   gap: 8px;
-  padding-bottom: 6px;
+  padding: 4px 2px;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  flex: 1;
 }
 .filters::-webkit-scrollbar { display: none; }
 
 .filter {
   border: 1px solid #bcbeb4;
-  background: transparent;
-  padding: 9px 18px;
-  font-size: 10px;
+  background: #ffffff;
+  padding: 9px 20px;
+  font-size: 11px;
   font-weight: 900;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -431,6 +463,7 @@ h1 em {
   border-radius: 30px;
   white-space: nowrap;
   flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
 .filter.active, .filter:hover {
@@ -439,7 +472,7 @@ h1 em {
   border-color: var(--ink);
 }
 
-/* MENU CON CỦA COMPLETE (CŨNG LƯỚT NGANG MƯỢT MÀ) */
+/* MENU CON CỦA COMPLETE */
 .sub-filters {
   display: none;
   gap: 6px;
@@ -963,16 +996,14 @@ h1 em {
 
 .modal-buy-btn:hover { background: var(--red); }
 
-/* ==========================================
-   TỐI ƯU HOÀN HẢO CHO ĐIỆN THOẠI (MOBILE RESPONSIVE)
-   ========================================== */
+/* RESPONSIVE DI ĐỘNG */
 @media (max-width: 768px) {
   .nav {
     height: 62px;
     padding: 0 12px;
   }
 
-  .navlinks { display: none; } /* Ẩn menu desktop trên di động, giữ lại nút Bag gọn gàng */
+  .navlinks { display: none; }
   
   .brand-logo-text {
     width: 130px;
@@ -1037,7 +1068,6 @@ h1 em {
     top: 10px;
   }
 
-  /* Lưới sản phẩm 2 cột đều tăm tắp, cân đối */
   .product-grid {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 10px !important;
@@ -1056,7 +1086,6 @@ h1 em {
     font-size: 12px !important;
   }
 
-  /* Feature section trên mobile */
   .feature {
     grid-template-columns: 1fr;
   }
@@ -1094,7 +1123,6 @@ h1 em {
     text-align: center;
   }
 
-  /* Modal trên mobile */
   .product-modal {
     padding: 0;
     align-items: flex-end;
@@ -1149,7 +1177,7 @@ h1 em {
 <header>
 <nav class="nav">
 
-<!-- LOGO GRAFFITI  -->
+<!-- LOGO GRAFFITI -->
 <a class="brand-logo-text" href="#" aria-label="SkateShop">
   <img src="./logo.png" alt="graffiti logo" width="1435" height="596" loading="eager" decoding="async">
 </a>
@@ -1243,16 +1271,22 @@ h1 em {
     <div class="kicker" id="result-count">0 products</div>
   </div>
 
-  <!-- BỘ LỌC CHUẨN KIỂU SAIGON SKATESHOP: VUỐT NGANG MƯỢT MÀ TRÊN ĐIỆN THOẠI -->
+  <!-- BỘ LỌC CÓ NÚT MŨI TÊN TRÁI / PHẢI GIAO DIỆN CHUẨN SAIGON SKATESHOP -->
   <div class="filters-wrapper">
-    <div class="filters">
-      <button class="filter active" onclick="setMainFilter('Complete', this)">Completes</button>
-      <button class="filter" onclick="setMainFilter('Deck', this)">Decks</button>
-      <button class="filter" onclick="setMainFilter('Trucks', this)">Trucks</button>
-      <button class="filter" onclick="setMainFilter('Wheels', this)">Wheels</button>
+    <div class="category-slider-container">
+      <button class="cat-nav-btn" onclick="scrollCategories(-1)">‹</button>
+      
+      <div class="filters" id="categoryFiltersScroll">
+        <button class="filter active" onclick="setMainFilter('Complete', this)">Completes</button>
+        <button class="filter" onclick="setMainFilter('Deck', this)">Decks</button>
+        <button class="filter" onclick="setMainFilter('Trucks', this)">Trucks</button>
+        <button class="filter" onclick="setMainFilter('Wheels', this)">Wheels</button>
+      </div>
+
+      <button class="cat-nav-btn" onclick="scrollCategories(1)">›</button>
     </div>
 
-    <!-- MENU CON CỦA COMPLETE: NEW (MẶC ĐỊNH) VÀ 2HAND -->
+    <!-- MENU CON CỦA COMPLETE: NEW VÀ 2HAND -->
     <div class="sub-filters" id="completeSubFilters">
       <button class="sub-filter active" onclick="setSubFilter('new', this)">New Setup</button>
       <button class="sub-filter" onclick="setSubFilter('2hand', this)">2hand / Iconic</button>
@@ -1409,6 +1443,12 @@ function escapeHTML(value) {
     '"': "&quot;",
     "'": "&#39;"
   }[char]));
+}
+
+// Hàm bấm nút mũi tên trái/phải trượt thanh danh mục
+function scrollCategories(direction) {
+  const container = document.getElementById("categoryFiltersScroll");
+  container.scrollBy({ left: direction * 150, behavior: 'smooth' });
 }
 
 async function loadProducts() {
