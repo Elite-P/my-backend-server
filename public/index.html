@@ -64,37 +64,38 @@ header {
 }
 
 .nav {
-  height: 65px;
+  height: 60px;
   max-width: 1400px;
   margin: auto;
-  padding: 0 16px;
+  padding: 0 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 6px;
 }
 
 .nav-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
-/* NÚT MENU CÓ KÈM CHỮ ĐỂ KHÁCH DỄ NHẬN BIẾT */
+/* NÚT MENU GỌN GÀNG, KHÔNG BỊ TRÀN */
 .menu-toggle-btn {
   background: var(--ink);
   color: #fff;
   border: none;
-  padding: 7px 12px;
+  padding: 6px 10px;
   font-weight: 800;
-  font-size: 11px;
-  letter-spacing: 1px;
+  font-size: 10px;
+  letter-spacing: 0.5px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   border-radius: 4px;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 .menu-toggle-btn:hover {
   background: var(--red);
@@ -102,7 +103,7 @@ header {
 
 .navlinks {
   display: flex;
-  gap: 20px;
+  gap: 15px;
   align-items: center;
   font-size: 11px;
   text-transform: uppercase;
@@ -115,36 +116,24 @@ header {
 .navright {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 11px;
+  gap: 6px;
+  font-size: 10px;
   font-weight: 800;
   text-transform: uppercase;
 }
 
-.nav-login-btn {
+.nav-login-btn, .navlinks-ig, .cartbtn {
   border: 1px solid var(--ink);
   background: transparent;
-  padding: 8px 12px;
+  padding: 6px 8px;
   font-weight: 800;
-  font-size: 10px;
-  letter-spacing: 1px;
-  cursor: pointer;
-}
-.nav-login-btn:hover {
-  background: var(--ink);
-  color: white;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  border-radius: 4px;
 }
 
-.cartbtn {
-  border: 1px solid var(--ink);
-  background: transparent;
-  padding: 8px 12px;
-  font-weight: 800;
-  font-size: 10px;
-  letter-spacing: 1px;
-}
-
-.cartbtn:hover {
+.nav-login-btn:hover, .navlinks-ig:hover, .cartbtn:hover {
   background: var(--ink);
   color: white;
 }
@@ -154,8 +143,8 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 110px;
-    height: 40px;
+    width: 90px;
+    height: 35px;
     flex-shrink: 0;
     overflow: hidden;
     background: url('assets/logo.png') no-repeat center / contain;
@@ -175,7 +164,36 @@ header {
 }
 .footer-logo-text img { display: none; }
 
-/* SIDEBAR MENU TRƯỢT TỪ TRÁI RA (LUÔN ẨN, BẤM MỚI HIỆN) */
+/* FLOATING MENU BUTTON (LUÔN ĐI THEO KHI CUỘN TRANG TRÊN MOBILE) */
+.floating-menu-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: var(--ink);
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 30px;
+  font: 900 11px var(--display);
+  letter-spacing: 1px;
+  z-index: 90;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid var(--lime);
+  cursor: pointer;
+  transition: .2s;
+}
+.floating-menu-btn:hover {
+  background: var(--lime);
+  color: var(--ink);
+}
+
+@media (min-width: 1024px) {
+  .floating-menu-btn { display: none; } /* Trên PC dùng sidebar cố định */
+}
+
+/* SIDEBAR MENU BÊN TRÁI */
 .sidebar-panel {
   position: fixed;
   inset: 0;
@@ -202,7 +220,7 @@ header {
   left: 0;
   top: 0;
   height: 100%;
-  width: min(340px, 85%);
+  width: min(320px, 85%);
   background: var(--paper);
   padding: 24px;
   transform: translateX(-100%);
@@ -210,6 +228,7 @@ header {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  z-index: 101;
 }
 .sidebar-panel.open .sidebar-drawer { transform: none; }
 
@@ -677,6 +696,37 @@ header {
   letter-spacing: 1px;
 }
 
+/* STICKY DESKTOP SIDEBAR */
+@media (min-width: 1024px) {
+  .sidebar-panel {
+    position: sticky;
+    top: 67px;
+    height: calc(100vh - 67px);
+    z-index: 10;
+    pointer-events: auto;
+    visibility: visible;
+    width: 280px;
+    float: left;
+    background: var(--paper);
+    border-right: 1px solid var(--line);
+  }
+  .sidebar-shade { display: none; }
+  .sidebar-drawer {
+    position: static;
+    width: 100%;
+    height: 100%;
+    transform: none !important;
+    padding: 20px;
+    box-shadow: none;
+    border: none;
+  }
+  .sidebar-head .close { display: none; }
+  main {
+    margin-left: 280px;
+  }
+  .floating-menu-btn { display: none; }
+}
+
 /* CART DRAWER */
 .cart-panel {
   position: fixed;
@@ -842,9 +892,9 @@ header {
 
 /* RESPONSIVE DI ĐỘNG */
 @media (max-width: 768px) {
-  .nav { height: 56px; padding: 0 16px; }
+  .nav { height: 52px; padding: 0 8px; }
   .navlinks { display: none; }
-  .brand-logo-text { width: 100px; height: 35px; }
+  .brand-logo-text { width: 85px; height: 32px; }
   
   .hero { padding: 32px 16px; }
   .hero h1 { font-size: 38px; }
@@ -881,7 +931,6 @@ header {
 <header>
 <nav class="nav">
   <div class="nav-left">
-    <!-- NÚT MENU CÓ CHỮ ĐỂ KHÁCH DỄ NHẬN BIẾT -->
     <button class="menu-toggle-btn" onclick="toggleSidebar()">
       ☰ MENU / ĐĂNG NHẬP
     </button>
@@ -896,9 +945,8 @@ header {
   </div>
 
   <div class="navright">
-    <!-- NÚT ĐĂNG NHẬP THÊM KẾ BÊN INSTAGRAM -->
-    <button class="nav-login-btn" onclick="toggleSidebar()">Đăng Nhập</button>
-    <a class="navlinks-ig" href="https://www.instagram.com/sk82nd.shop/" target="_blank" style="font-size:10px;">Instagram ↗</a>
+    <button class="nav-login-btn" onclick="toggleSidebar()">ĐĂNG NHẬP</button>
+    <a class="navlinks-ig" href="https://www.instagram.com/sk82nd.shop/" target="_blank">IG ↗</a>
     <button class="cartbtn" onclick="openCart()">
       BAG (<span id="cart-count">0</span>)
     </button>
@@ -906,7 +954,12 @@ header {
 </nav>
 </header>
 
-<!-- SIDEBAR MENU BÊN TRÁI (TRƯỢT RA KHI BẤM, DÙNG TRÊN CẢ PC VÀ MOBILE) -->
+<!-- NÚT NỔI LUÔN ĐI THEO KHI CUỘN TRANG TRÊN DI ĐỘNG -->
+<button class="floating-menu-btn" onclick="toggleSidebar()">
+  ☰ MENU & ĐĂNG NHẬP
+</button>
+
+<!-- SIDEBAR MENU BÊN TRÁI -->
 <div class="sidebar-panel" id="sidebar-panel">
   <div class="sidebar-shade" onclick="toggleSidebar()"></div>
   <aside class="sidebar-drawer">
