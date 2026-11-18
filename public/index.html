@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -24,247 +23,6 @@
   --body: 'DM Sans', Arial, sans-serif;
 }
 
-body {
-  background: #FFFFFF;
-  color: #080D16;
-}
-
-header {
-  background: rgba(255,255,255,.98);
-  border-bottom: 2px solid var(--ink);
-}
-
-.hero { background: #080D16; }
-
-.announce {
-  background: var(--lime);
-  color: var(--ink);
-}
-
-.navlinks a:hover { color: #0284C7; }
-
-.filter.active {
-  background: #080D16;
-  color: #FFFFFF;
-}
-
-.cta, .checkout {
-  background: var(--lime);
-  color: var(--ink);
-}
-
-/* LOGO GRAFFITI  */
-.brand-logo-text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 190px;
-    height: 76px;
-    flex-shrink: 0;
-    overflow: hidden;
-    background: url('assets/logo.png') no-repeat center / contain;
-  /* Đồng bộ màu nền của khuyết điểm ảnh trùng tuyệt đối với màu nền Header (#ffffff) */
-  background-color: #ffffff;
-}
-
-.brand-logo-text img {
-    display:none;
-    
-}
-/* FOOTER - nền đen, chữ trắng */
-.footer-logo-text {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 370px;
-    height: 305px;
-    overflow: visible;
-    text-decoration: none;
-}
-
-.footer-logo-text img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    filter: invert(1);
-    /* Loại bỏ nền đen, giữ chữ trắng */
-    mix-blend-mode: screen;
-
-    transform: scale(1.15);
-}
-
-
-/* RESPONSIVE */
-@media (max-width: 520px) {
-    .brand-logo-text {
-        width: 165px;
-        height: 75px;
-    }
-
-    .footer-logo-text {
-        width: 190px;
-        height: 90px;
-    }
-}
-
-/* MASONRY GRID SẢN PHẨM */
-.product-grid {
-  column-count: 4;
-  column-gap: 14px;
-}
-
-.product {
-  break-inside: avoid;
-  margin-bottom: 14px;
-  background: var(--paper);
-  position: relative;
-  cursor: pointer;
-  transition: .2s;
-  display: inline-block;
-  width: 100%;
-}
-
-.product:hover { transform: translateY(-3px); }
-
-.product-visual {
-  width: 100%;
-  height: auto;
-  position: relative;
-  overflow: hidden;
-  background: transparent;
-  display: block;
-}
-
-.product-photo {
-  width: 100%;
-  height: auto;
-  position: relative;
-  display: block;
-  object-fit: cover;
-  z-index: 1;
-}
-
-.product-info {
-  padding: 14px;
-  text-align: left;
-}
-
-.product-name {
-  font: 800 16px/1.2 var(--display);
-  text-transform: uppercase;
-  margin: 0 0 6px 0;
-  color: #111;
-}
-
-.price {
-  font-size: 14px;
-  font-weight: 900;
-  color: #111;
-}
-
-/* MODAL CHI TIẾT SẢN PHẨM */
-.product-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: #ffffff;
-  z-index: 9999;
-  overflow-y: auto;
-  padding: 24px 40px;
-}
-
-.product-modal.active { display: block; }
-
-.modal-close-btn {
-  position: fixed;
-  top: 20px;
-  right: 30px;
-  background: #111;
-  color: #fff;
-  border: none;
-  padding: 10px 18px;
-  font-weight: 700;
-  cursor: pointer;
-  z-index: 10000;
-}
-
-.modal-layout {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 48px;
-  max-width: 1300px;
-  margin: 40px auto 0;
-  align-items: start;
-}
-
-.modal-gallery {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-
-.modal-gallery img {
-  width: 100%;
-  height: auto;
-  display: block;
-  background: transparent;
-  object-fit: cover;
-}
-
-.modal-gallery.single-img { grid-template-columns: 1fr; }
-
-.modal-details {
-  position: sticky;
-  top: 40px;
-}
-
-.modal-title {
-  font-size: 28px;
-  font-weight: 800;
-  margin: 0 0 10px 0;
-  text-transform: uppercase;
-}
-
-.modal-price {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 0 0 24px 0;
-}
-
-.modal-specs {
-  white-space: pre-line;
-  line-height: 1.8;
-  font-size: 15px;
-  color: #333;
-  border-top: 1px solid #e5e5e5;
-  padding-top: 20px;
-  margin-bottom: 24px;
-}
-
-.modal-gifts {
-  background: #f8f8f8;
-  padding: 12px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 24px;
-  border-left: 3px solid #111;
-}
-
-.modal-buy-btn {
-  width: 100%;
-  padding: 16px;
-  background: #111;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 700;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-}
-
-.modal-buy-btn:hover { background: #333; }
-
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
@@ -278,23 +36,24 @@ body {
 a { color: inherit; text-decoration: none; }
 button { font: inherit; cursor: pointer; }
 
+header {
+  background: rgba(255,255,255,.98);
+  border-bottom: 2px solid var(--ink);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(12px);
+}
+
 .announce {
   background: var(--lime);
+  color: var(--ink);
   padding: 9px 18px;
   text-align: center;
   font-size: 10px;
   letter-spacing: 1.4px;
   font-weight: 800;
   text-transform: uppercase;
-}
-
-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: rgba(242,241,235,.94);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line);
 }
 
 .nav {
@@ -318,7 +77,7 @@ header {
   font-weight: 800;
 }
 
-.navlinks a:hover { color: #758e00; }
+.navlinks a:hover { color: #0284C7; }
 
 .navright {
   display: flex;
@@ -341,6 +100,44 @@ header {
 .cartbtn:hover {
   background: var(--ink);
   color: white;
+}
+
+/* LOGO GRAFFITI  */
+.brand-logo-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 190px;
+    height: 76px;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: url('assets/logo.png') no-repeat center / contain;
+    background-color: #ffffff;
+}
+
+.brand-logo-text img {
+    display:none;
+}
+
+/* FOOTER - nền đen, chữ trắng */
+.footer-logo-text {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 370px;
+    height: 305px;
+    overflow: visible;
+    text-decoration: none;
+}
+
+.footer-logo-text img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: invert(1);
+    mix-blend-mode: screen;
+    transform: scale(1.15);
 }
 
 .hero {
@@ -429,17 +226,6 @@ h1 em {
   min-height: 610px;
   background: linear-gradient(135deg,#272a22,#12140f 65%);
   overflow: hidden;
-}
-
-.hero-art:before {
-  content: 'SKATE';
-  position: absolute;
-  font: 900 23vw/.8 var(--display);
-  color: rgba(255,255,255,.035);
-  right: -30px;
-  top: 60px;
-  writing-mode: vertical-rl;
-  letter-spacing: -15px;
 }
 
 .hero-photo {
@@ -627,11 +413,15 @@ h1 em {
 
 .catalog { background: #e8e8df; }
 
+/* HỆ THỐNG FILTER MỚI */
+.filters-wrapper {
+  margin-bottom: 25px;
+}
+
 .filters {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 25px;
 }
 
 .filter {
@@ -642,12 +432,111 @@ h1 em {
   font-weight: 900;
   letter-spacing: 1px;
   text-transform: uppercase;
+  transition: .2s;
 }
 
-.filter.active,.filter:hover {
+.filter.active, .filter:hover {
   background: var(--ink);
   color: white;
   border-color: var(--ink);
+}
+
+/* MENU CON CỦA COMPLETE */
+.sub-filters {
+  display: none;
+  gap: 6px;
+  margin-top: 10px;
+  padding-left: 4px;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.sub-filters.show {
+  display: flex;
+}
+
+.sub-filter {
+  border: 1px dashed #777;
+  background: #f4f4ee;
+  padding: 6px 12px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.sub-filter.active, .sub-filter:hover {
+  background: var(--red);
+  color: white;
+  border-color: var(--red);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* LƯỚI SẢN PHẨM NẰM NGANG (RESPONSIVE GRID) */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.product {
+  background: var(--paper);
+  position: relative;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+}
+
+.product:hover { 
+  transform: translateY(-4px); 
+  box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+}
+
+.product-visual {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  position: relative;
+  overflow: hidden;
+  background: #f4f4f4;
+  display: block;
+}
+
+.product-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.product-info {
+  padding: 14px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.product-name {
+  font: 800 15px/1.3 var(--display);
+  text-transform: uppercase;
+  margin: 0 0 8px 0;
+  color: #111;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.price {
+  font-size: 14px;
+  font-weight: 900;
+  color: #0284C7;
 }
 
 .feature {
@@ -929,88 +818,202 @@ h1 em {
   transform: translate(-50%,0);
 }
 
+/* MODAL CHI TIẾT SẢN PHẨM CỰC KỲ XỊN XÒ TRÊN MOBILE */
+.product-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  overflow-y: auto;
+  padding: 40px 20px;
+}
+
+.product-modal.active { display: flex; align-items: center; justify-content: center; }
+
+.modal-content-wrap {
+  background: #ffffff;
+  width: 100%;
+  max-width: 1100px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  transition: .2s;
+}
+
+.modal-close-btn:hover { background: var(--red); }
+
+.modal-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  overflow-y: auto;
+  max-height: calc(90vh - 0px);
+}
+
+.modal-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 30px;
+  background: #f8fafc;
+  align-content: start;
+}
+
+.modal-gallery img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: block;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+
+.modal-gallery.single-img { grid-template-columns: 1fr; }
+.modal-gallery.single-img img { aspect-ratio: 4 / 5; }
+
+.modal-details {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-title {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 6px 0 12px 0;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.modal-price {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--red);
+  margin-bottom: 20px;
+}
+
+.modal-specs {
+  white-space: pre-line;
+  line-height: 1.8;
+  font-size: 14px;
+  color: #334155;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 16px 0;
+  margin-bottom: 24px;
+}
+
+.modal-gifts {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  border-radius: 6px;
+}
+
+.modal-buy-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .2s;
+  margin-top: auto;
+}
+
+.modal-buy-btn:hover { background: var(--red); }
+
 /* TỐI ƯU GIAO DIỆN ĐIỆN THOẠI (MOBILE RESPONSIVE) */
 @media (max-width: 768px) {
-  /* 1. Khung Modal tràn viền đẹp mắt, cuộn mượt */
-  .modal-content, .product-modal-body, .detail-grid {
-    display: flex !important;
-    flex-direction: column !important; /* Xếp dọc: Ảnh trên, chữ dưới */
-    width: 94vw !important;
-    max-width: 100% !important;
-    max-height: 88vh !important;
-    overflow-y: auto !important;
-    padding: 16px !important;
-    gap: 16px !important;
-    border-radius: 12px !important;
-    position: relative !important;
+  .product-modal {
+    padding: 0;
+    align-items: flex-end;
   }
 
-  /* 2. Khu vực hình ảnh: Chuyển thành dải cuộn ngang to rõ hoặc lưới 2 cột rộng rãi */
-  .modal-images, .product-gallery {
-    width: 100% !important;
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important; /* 2 ảnh 1 hàng to rõ */
+  .modal-content-wrap {
+    max-height: 94vh;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+
+  .modal-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-gallery {
+    padding: 16px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .modal-gallery img {
+    aspect-ratio: 4 / 3;
+  }
+
+  .modal-details {
+    padding: 20px;
+  }
+
+  .modal-close-btn {
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
     gap: 8px !important;
-    margin-top: 36px !important; /* Chừa khoảng trống bên trên cho nút ĐÓNG */
   }
 
-  /* Ảnh đầu tiên cho to hẳn ra chiếm trọn chiều ngang để làm ảnh đại diện chính */
-  .modal-images img:first-child, .product-gallery img:first-child {
-    grid-column: span 2 !important;
-    width: 100% !important;
-    height: 260px !important;
-    object-fit: cover !important;
-    border-radius: 8px !important;
+  .product-info {
+    padding: 10px;
   }
 
-  .modal-images img, .product-gallery img {
-    width: 100% !important;
-    height: 140px !important;
-    object-fit: cover !important;
-    border-radius: 6px !important;
-  }
-
-  /* 3. Nút ĐÓNG: Ghim gọn gàng góc trên bên phải, không bao giờ đè lên chữ */
-  .modal-close, .close-btn, button[onclick*="close"] {
-    position: fixed !important;
-    top: 24px !important;
-    right: 24px !important;
-    z-index: 9999 !important;
-    padding: 8px 14px !important;
+  .product-name {
     font-size: 13px !important;
-    border-radius: 6px !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25) !important;
   }
 
-  /* 4. Khu vực thông tin chữ: Rộng rãi, dễ đọc */
-  .modal-info, .product-details {
-    width: 100% !important;
-    padding: 0 !important;
-  }
-
-  .modal-info h2, .product-title {
-    font-size: 20px !important;
-    line-height: 1.3 !important;
-    margin-bottom: 8px !important;
-  }
-
-  .product-price {
-    font-size: 18px !important;
-    font-weight: 800 !important;
-    margin-bottom: 12px !important;
-  }
-
-  /* 5. Nút THÊM VÀO GIỎ HÀNG: To, full chiều ngang, ghim dưới cùng dễ bấm */
-  .add-to-cart-btn, .cta {
-    width: 100% !important;
-    padding: 15px !important;
-    font-size: 15px !important;
-    font-weight: 700 !important;
-    text-align: center !important;
-    border-radius: 8px !important;
-    position: sticky !important;
-    bottom: 0 !important;
-    margin-top: 16px !important;
+  .price {
+    font-size: 12px !important;
   }
 }
 
@@ -1022,8 +1025,8 @@ h1 em {
   .navright>a { display: none; }
   .hero-copy { padding-top: 65px; }
   .hero-art { min-height: 330px; }
-  h1 { font-size: 75px; }
-  .section { padding: 65px 0; }
+  h1 { font-size: 65px; }
+  .section { padding: 50px 0; }
   .section-head {
     align-items: start;
     flex-direction: column;
@@ -1032,10 +1035,6 @@ h1 em {
   .cat { height: 190px; padding: 13px; }
   .cat h3 { font-size: 29px; }
   .cat-art { right: 14px; width: 66px; height: 150px; }
-  .product-grid { column-count: 2; column-gap: 8px; }
-  .product { margin-bottom: 8px; }
-  .product-name { font-size: 16px; }
-  .product-info { padding: 12px 10px; }
   .values { grid-template-columns: 1fr; }
   .value {
     border-right: 0;
@@ -1061,16 +1060,8 @@ h1 em {
 <nav class="nav">
 
 <!-- LOGO GRAFFITI  -->
-<a class="brand-logo-text" href="#" aria-label=" SkateShop">
-  <img
-    src="./logo.png"
-    alt=" graffiti logo"
-    width="1435"
-    height="596"
-    loading="eager"
-    decoding="async"
-    fetchpriority="high"
-  >
+<a class="brand-logo-text" href="#" aria-label="SkateShop">
+  <img src="./logo.png" alt="graffiti logo" width="1435" height="596" loading="eager" decoding="async">
 </a>
 
 <div class="navlinks">
@@ -1125,25 +1116,25 @@ h1 em {
   </div>
 
   <div class="category-grid">
-    <a class="cat" href="#shop" onclick="setFilter('Complete')">
+    <a class="cat" href="#shop" onclick="selectCategory('Complete')">
       <span class="cat-no">01 / THE WHOLE SETUP</span>
       <h3>Complete<br>boards ↗</h3>
       <div class="cat-art"></div>
     </a>
 
-    <a class="cat" href="#shop" onclick="setFilter('Deck')">
+    <a class="cat" href="#shop" onclick="selectCategory('Deck')">
       <span class="cat-no">02 / YOUR FOUNDATION</span>
       <h3>Decks ↗</h3>
       <div class="cat-art"></div>
     </a>
 
-    <a class="cat" href="#shop" onclick="setFilter('Trucks')">
+    <a class="cat" href="#shop" onclick="selectCategory('Trucks')">
       <span class="cat-no">03 / THE HARDWARE</span>
       <h3>Trucks ↗</h3>
       <div class="cat-art"></div>
     </a>
 
-    <a class="cat" href="#shop" onclick="setFilter('Wheels')">
+    <a class="cat" href="#shop" onclick="selectCategory('Wheels')">
       <span class="cat-no">04 / KEEP IT ROLLING</span>
       <h3>Wheels ↗</h3>
       <div class="cat-art"></div>
@@ -1159,17 +1150,24 @@ h1 em {
       <div class="kicker">Curated gear · Ready to roll</div>
       <h2 class="section-title">The <span>shop..</span></h2>
     </div>
-    <div class="kicker" id="result-count">28 products</div>
+    <div class="kicker" id="result-count">0 products</div>
   </div>
 
-  <div class="filters">
-    <button class="filter active" onclick="setFilter('All',this)">All gear</button>
-    <button class="filter" onclick="setFilter('Complete',this)">Completes</button>
-    <button class="filter" onclick="setFilter('Deck',this)">Decks</button>
-    <button class="filter" onclick="setFilter('Trucks',this)">Trucks</button>
-    <button class="filter" onclick="setFilter('Wheels',this)">Wheels</button>
-    <button class="filter" onclick="setFilter('2hand',this)">2hand</button>
-    <button class="filter" onclick="setFilter('New',this)">New</button>
+  <!-- BỘ LỌC ĐÃ ĐƯỢC TÙY CHỈNH THEO YÊU CẦU -->
+  <div class="filters-wrapper">
+    <div class="filters">
+      <button class="filter active" onclick="setMainFilter('Complete', this)">Completes</button>
+      <button class="filter" onclick="setMainFilter('Deck', this)">Decks</button>
+      <button class="filter" onclick="setMainFilter('Trucks', this)">Trucks</button>
+      <button class="filter" onclick="setMainFilter('Wheels', this)">Wheels</button>
+    </div>
+
+    <!-- MENU CON CỦA COMPLETE (HIỆN KHI BẤM COMPLETE) -->
+    <div class="sub-filters" id="completeSubFilters">
+      <button class="sub-filter active" onclick="setSubFilter('all', this)">Tất cả Completes</button>
+      <button class="sub-filter" onclick="setSubFilter('new', this)">New</button>
+      <button class="sub-filter" onclick="setSubFilter('2hand', this)">2hand</button>
+    </div>
   </div>
 
   <div class="product-grid" id="product-grid"></div>
@@ -1226,19 +1224,9 @@ h1 em {
 <div class="wrap">
   <div class="footer-top">
     <div>
-
-      <!-- LOGO GRAFFITI SK82ND -->
       <a class="footer-logo-text" href="#" aria-label="SK82ND SkateShop">
-        <img
-          src="./logo.png"
-          alt="SK82ND graffiti logo"
-          width="1435"
-          height="596"
-          loading="lazy"
-          decoding="async"
-        >
+        <img src="./logo.png" alt="SK82ND graffiti logo" width="1435" height="596" loading="lazy" decoding="async">
       </a>
-
       <p>An independent skate shop for people who want to find their own line. New & secondhand skateboards, parts and accessories.</p>
     </div>
 
@@ -1253,8 +1241,7 @@ h1 em {
       <div>
         <b>CONNECT</b>
         <a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a>
-        <a href="https://www.facebook.com/sk82nd.shop?utm_source=ig&utm_medium=social&utm_content=link_in_bio" target="_blank">Facebook ↗</a>
-        <a href="https://www.facebook.com/sk82ndskateshop" target="_blank">Facebook ↗</a>
+        <a href="https://www.facebook.com/sk82nd.shop" target="_blank">Facebook ↗</a>
         <a href="tel:0333 501 537">0333 501 537 (Zalo/Call)</a>
         <a href="#support">Contact & support</a>
       </div>
@@ -1287,7 +1274,7 @@ h1 em {
 
       <button class="checkout" onclick="checkout()">Send order via Instagram ↗</button>
 
-      <p style="font-size:9px;color:#777;line-height:1.6">
+      <p style="font-size:9px;color:#777;line-height:1.6; margin-top:10px;">
         Đây là giỏ hàng xem trước. Đơn hàng sẽ được gửi qua Instagram để shop xác nhận tồn kho, phí vận chuyển và thanh toán.
       </p>
     </div>
@@ -1297,18 +1284,20 @@ h1 em {
 <div class="toast" id="toast">Added to your bag</div>
 
 <div id="productModal" class="product-modal">
-  <button class="modal-close-btn" onclick="closeProductModal()">✕ ĐÓNG</button>
+  <div class="modal-content-wrap">
+    <button class="modal-close-btn" onclick="closeProductModal()">✕</button>
 
-  <div class="modal-layout">
-    <div id="modalGallery" class="modal-gallery"></div>
+    <div class="modal-layout">
+      <div id="modalGallery" class="modal-gallery"></div>
 
-    <div class="modal-details">
-      <div id="modalBadge" style="font-size:12px;font-weight:700;text-transform:uppercase;color:#666;margin-bottom:8px;"></div>
-      <h2 id="modalTitle" class="modal-title"></h2>
-      <p id="modalPrice" class="modal-price"></p>
-      <div id="modalSpecs" class="modal-specs"></div>
-      <div id="modalGifts" class="modal-gifts" style="display:none;"></div>
-      <button id="modalAddToBag" class="modal-buy-btn">THÊM VÀO GIỎ HÀNG</button>
+      <div class="modal-details">
+        <div id="modalBadge" style="font-size:11px;font-weight:700;text-transform:uppercase;color:#0284C7;margin-bottom:6px;letter-spacing:1px;"></div>
+        <h2 id="modalTitle" class="modal-title"></h2>
+        <p id="modalPrice" class="modal-price"></p>
+        <div id="modalSpecs" class="modal-specs"></div>
+        <div id="modalGifts" class="modal-gifts" style="display:none;"></div>
+        <button id="modalAddToBag" class="modal-buy-btn">THÊM VÀO GIỎ HÀNG</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1316,7 +1305,8 @@ h1 em {
 <script>
 let products = [];
 let cart = {};
-let filter = "All";
+let currentCategory = "Complete"; // Mặc định hiển thị Completes
+let currentSubFilter = "all";    // Mặc định xem tất cả (new + 2hand) trong completes
 
 const grid = document.getElementById("product-grid");
 const money = value => new Intl.NumberFormat("vi-VN").format(value) + " ₫";
@@ -1333,7 +1323,7 @@ function escapeHTML(value) {
 }
 
 async function loadProducts() {
-  grid.innerHTML = `<p style="padding:40px;color:#64748b">Loading SK82ND inventory...</p>`;
+  grid.innerHTML = `<p style="padding:40px;color:#64748b;grid-column: span 4;text-align:center;">Loading SK82ND inventory...</p>`;
 
   try {
     const response = await fetch("/api/products", { cache: "no-store" });
@@ -1354,7 +1344,7 @@ async function loadProducts() {
 
   } catch (error) {
     console.error("SK82ND:", error);
-    grid.innerHTML = `<p style="padding:40px;color:#0284C7">Không thể tải kho hàng. Vui lòng thử lại sau.</p>`;
+    grid.innerHTML = `<p style="padding:40px;color:#0284C7;grid-column: span 4;text-align:center;">Không thể tải kho hàng. Vui lòng thử lại sau.</p>`;
   }
 }
 
@@ -1363,16 +1353,16 @@ function render() {
     const cat = fnNormalize(p.category);
     const cond = fnNormalize(p.condition);
 
-    if (filter === "All") {
-      return cat === "complete" && (cond === "new" || cond.includes("2hand") || cond.includes("used"));
+    if (currentCategory === "Complete") {
+      if (cat !== "complete") return false;
+      if (currentSubFilter === "new") return cond === "new";
+      if (currentSubFilter === "2hand") return cond.includes("2hand") || cond.includes("used");
+      return true; // "all"
     }
 
-    if (filter === "Complete") return cat === "complete";
-    if (filter === "Deck") return cat === "deck";
-    if (filter === "Trucks") return cat === "trucks" || cat === "truck";
-    if (filter === "Wheels") return cat === "wheels" || cat === "wheel";
-    if (filter === "New") return cat === "complete" && cond === "new";
-    if (filter === "2hand") return cond.includes("2hand") || cond.includes("used");
+    if (currentCategory === "Deck") return cat === "deck";
+    if (currentCategory === "Trucks") return cat === "trucks" || cat === "truck";
+    if (currentCategory === "Wheels") return cat === "wheels" || cat === "wheel";
 
     return true;
   });
@@ -1381,7 +1371,7 @@ function render() {
     items.length + " products · AVAILABLE NOW";
 
   if (!items.length) {
-    grid.innerHTML = `<p style="padding:40px;color:#64748b">Hiện chưa có sản phẩm trong danh mục này.</p>`;
+    grid.innerHTML = `<p style="padding:40px;color:#64748b;grid-column: span 4;text-align:center;">Hiện chưa có sản phẩm trong danh mục này.</p>`;
     return;
   }
 
@@ -1390,11 +1380,11 @@ function render() {
 
     const image = p.image
       ? `<img class="product-photo" src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}" loading="lazy">`
-      : `<div style="display:grid;place-items:center;height:250px;color:#aaa;font-size:11px;">NO IMAGE</div>`;
+      : `<div style="display:grid;place-items:center;height:100%;color:#aaa;font-size:11px;">NO IMAGE</div>`;
 
     return `
       <article class="product" onclick="openProductModal('${id}')">
-        <div class="product-visual ${p.image ? "has-image" : ""}">
+        <div class="product-visual">
           ${image}
         </div>
 
@@ -1407,22 +1397,43 @@ function render() {
   }).join("");
 }
 
-function setFilter(value, btn) {
-  filter = value;
+function setMainFilter(categoryName, btn) {
+  currentCategory = categoryName;
+  currentSubFilter = "all"; // Reset subfilter về all khi đổi danh mục chính
 
-  if (btn) {
-    document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
+  // Active button chính
+  document.querySelectorAll(".filters .filter").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+
+  // Hiển thị hoặc ẩn menu con (New / 2hand)
+  const subFiltersEl = document.getElementById("completeSubFilters");
+  if (categoryName === "Complete") {
+    subFiltersEl.classList.add("show");
+    // Reset active cho sub filter về "Tất cả"
+    const subBtns = subFiltersEl.querySelectorAll(".sub-filter");
+    subBtns.forEach(b => b.classList.remove("active"));
+    subBtns[0].classList.add("active");
   } else {
-    document.querySelectorAll(".filter").forEach(b => {
-      if (b.textContent.toLowerCase().includes(value.toLowerCase())) {
-        b.classList.add("active");
-      } else {
-        b.classList.remove("active");
-      }
-    });
+    subFiltersEl.classList.remove("show");
   }
 
+  render();
+}
+
+function selectCategory(categoryName) {
+  const btnMap = {
+    'Complete': document.querySelector('.filters .filter:nth-child(1)'),
+    'Deck': document.querySelector('.filters .filter:nth-child(2)'),
+    'Trucks': document.querySelector('.filters .filter:nth-child(3)'),
+    'Wheels': document.querySelector('.filters .filter:nth-child(4)')
+  };
+  setMainFilter(categoryName, btnMap[categoryName]);
+}
+
+function setSubFilter(subType, btn) {
+  currentSubFilter = subType;
+  document.querySelectorAll(".sub-filter").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
   render();
 }
 
@@ -1526,7 +1537,7 @@ function updateCart() {
           </div>
         `;
       }).join("")
-    : `<p>Your bag is empty. Find your setup.</p>`;
+    : `<p style="color:#64748b;font-size:13px;">Your bag is empty. Find your setup.</p>`;
 
   const total = entries.reduce(
     (sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty,
@@ -1591,6 +1602,8 @@ function checkout() {
     .catch(() => alert(message));
 }
 
+// Khởi chạy khi tải trang, mặc định hiển thị tab Completes và mở sẵn menu con
+document.getElementById('completeSubFilters').classList.add('show');
 loadProducts();
 setInterval(loadProducts, 60000);
 </script>
