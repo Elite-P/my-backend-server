@@ -80,21 +80,24 @@ header {
   gap: 12px;
 }
 
+/* NÚT MENU CÓ KÈM CHỮ ĐỂ KHÁCH DỄ NHẬN BIẾT */
 .menu-toggle-btn {
-  background: none;
-  border: 1px solid var(--ink);
-  padding: 6px 10px;
-  font-weight: 900;
-  font-size: 14px;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  padding: 7px 12px;
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 1px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 6px;
   border-radius: 4px;
+  text-transform: uppercase;
 }
 .menu-toggle-btn:hover {
-  background: var(--ink);
-  color: #fff;
+  background: var(--red);
 }
 
 .navlinks {
@@ -112,10 +115,24 @@ header {
 .navright {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
+}
+
+.nav-login-btn {
+  border: 1px solid var(--ink);
+  background: transparent;
+  padding: 8px 12px;
+  font-weight: 800;
+  font-size: 10px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.nav-login-btn:hover {
+  background: var(--ink);
+  color: white;
 }
 
 .cartbtn {
@@ -158,7 +175,7 @@ header {
 }
 .footer-logo-text img { display: none; }
 
-/* SIDEBAR MENU BÊN TRÁI (TÍCH HỢP STICKY TRÊN DESKTOP) */
+/* SIDEBAR MENU TRƯỢT TỪ TRÁI RA (LUÔN ẨN, BẤM MỚI HIỆN) */
 .sidebar-panel {
   position: fixed;
   inset: 0;
@@ -660,36 +677,6 @@ header {
   letter-spacing: 1px;
 }
 
-/* STICKY DESKTOP SIDEBAR */
-@media (min-width: 1024px) {
-  .sidebar-panel {
-    position: sticky;
-    top: 67px;
-    height: calc(100vh - 67px);
-    z-index: 10;
-    pointer-events: auto;
-    visibility: visible;
-    width: 280px;
-    float: left;
-    background: var(--paper);
-    border-right: 1px solid var(--line);
-  }
-  .sidebar-shade { display: none; }
-  .sidebar-drawer {
-    position: static;
-    width: 100%;
-    height: 100%;
-    transform: none !important;
-    padding: 20px;
-    box-shadow: none;
-    border: none;
-  }
-  .sidebar-head .close { display: none; }
-  main {
-    margin-left: 280px;
-  }
-}
-
 /* CART DRAWER */
 .cart-panel {
   position: fixed;
@@ -854,15 +841,6 @@ header {
 }
 
 /* RESPONSIVE DI ĐỘNG */
-@media (max-width: 1023px) {
-  main { margin-left: 0 !important; }
-  .menu-toggle-btn { display: flex; }
-}
-
-@media (min-width: 1024px) {
-  .menu-toggle-btn { display: none; }
-}
-
 @media (max-width: 768px) {
   .nav { height: 56px; padding: 0 16px; }
   .navlinks { display: none; }
@@ -903,7 +881,10 @@ header {
 <header>
 <nav class="nav">
   <div class="nav-left">
-    <button class="menu-toggle-btn" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+    <!-- NÚT MENU CÓ CHỮ ĐỂ KHÁCH DỄ NHẬN BIẾT -->
+    <button class="menu-toggle-btn" onclick="toggleSidebar()">
+      ☰ MENU / ĐĂNG NHẬP
+    </button>
     <a class="brand-logo-text" href="#" aria-label="SkateShop">
       <img src="./logo.png" alt="graffiti logo" width="1435" height="596" loading="eager" decoding="async">
     </a>
@@ -915,6 +896,8 @@ header {
   </div>
 
   <div class="navright">
+    <!-- NÚT ĐĂNG NHẬP THÊM KẾ BÊN INSTAGRAM -->
+    <button class="nav-login-btn" onclick="toggleSidebar()">Đăng Nhập</button>
     <a class="navlinks-ig" href="https://www.instagram.com/sk82nd.shop/" target="_blank" style="font-size:10px;">Instagram ↗</a>
     <button class="cartbtn" onclick="openCart()">
       BAG (<span id="cart-count">0</span>)
@@ -923,7 +906,7 @@ header {
 </nav>
 </header>
 
-<!-- SIDEBAR MENU BÊN TRÁI (STICKY TRÊN DESKTOP, MỞ RỘNG TRÊN MOBILE) -->
+<!-- SIDEBAR MENU BÊN TRÁI (TRƯỢT RA KHI BẤM, DÙNG TRÊN CẢ PC VÀ MOBILE) -->
 <div class="sidebar-panel" id="sidebar-panel">
   <div class="sidebar-shade" onclick="toggleSidebar()"></div>
   <aside class="sidebar-drawer">
@@ -937,7 +920,7 @@ header {
       <h4>Nhận ưu đãi thành viên</h4>
       <p>Đăng nhập để nhận mã giảm giá và theo dõi đơn hàng dễ dàng.</p>
       <input type="text" class="login-input" placeholder="Nhập số điện thoại hoặc Email...">
-      <button class="login-btn" onclick="alert('Đã gửi mã xác nhận hoặc đăng nhập thành công!')">Đăng nhập / Đăng ký</button>
+      <button class="login-btn" onclick="alert('Đăng nhập thành công!')">Đăng nhập / Đăng ký</button>
       <div class="social-login">
         <button onclick="alert('Đăng nhập Google thành công!')">Google</button>
         <button onclick="alert('Đăng nhập Facebook thành công!')">Facebook</button>
