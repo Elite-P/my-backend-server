@@ -929,19 +929,89 @@ h1 em {
   transform: translate(-50%,0);
 }
 
-@media(max-width:850px) {
-  .navlinks { display: none; }
-  .hero { grid-template-columns: 1fr; }
-  .hero-copy { padding: 75px 7vw 55px; }
-  .hero-art { min-height: 390px; }
-  .deck-hero { height: 350px; width: 115px; }
-  .category-grid { grid-template-columns: repeat(2,1fr); }
-  .product-grid { column-count: 2; }
-  .feature { grid-template-columns: 1fr; }
-  .feature-left { padding: 60px 7vw; }
-  .feature-right { min-height: 300px; }
-  .footer-top { flex-direction: column; }
-  .footer-links { gap: 35px; }
+/* TỐI ƯU GIAO DIỆN ĐIỆN THOẠI (MOBILE RESPONSIVE) */
+@media (max-width: 768px) {
+  /* 1. Khung Modal tràn viền đẹp mắt, cuộn mượt */
+  .modal-content, .product-modal-body, .detail-grid {
+    display: flex !important;
+    flex-direction: column !important; /* Xếp dọc: Ảnh trên, chữ dưới */
+    width: 94vw !important;
+    max-width: 100% !important;
+    max-height: 88vh !important;
+    overflow-y: auto !important;
+    padding: 16px !important;
+    gap: 16px !important;
+    border-radius: 12px !important;
+    position: relative !important;
+  }
+
+  /* 2. Khu vực hình ảnh: Chuyển thành dải cuộn ngang to rõ hoặc lưới 2 cột rộng rãi */
+  .modal-images, .product-gallery {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important; /* 2 ảnh 1 hàng to rõ */
+    gap: 8px !important;
+    margin-top: 36px !important; /* Chừa khoảng trống bên trên cho nút ĐÓNG */
+  }
+
+  /* Ảnh đầu tiên cho to hẳn ra chiếm trọn chiều ngang để làm ảnh đại diện chính */
+  .modal-images img:first-child, .product-gallery img:first-child {
+    grid-column: span 2 !important;
+    width: 100% !important;
+    height: 260px !important;
+    object-fit: cover !important;
+    border-radius: 8px !important;
+  }
+
+  .modal-images img, .product-gallery img {
+    width: 100% !important;
+    height: 140px !important;
+    object-fit: cover !important;
+    border-radius: 6px !important;
+  }
+
+  /* 3. Nút ĐÓNG: Ghim gọn gàng góc trên bên phải, không bao giờ đè lên chữ */
+  .modal-close, .close-btn, button[onclick*="close"] {
+    position: fixed !important;
+    top: 24px !important;
+    right: 24px !important;
+    z-index: 9999 !important;
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25) !important;
+  }
+
+  /* 4. Khu vực thông tin chữ: Rộng rãi, dễ đọc */
+  .modal-info, .product-details {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .modal-info h2, .product-title {
+    font-size: 20px !important;
+    line-height: 1.3 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .product-price {
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* 5. Nút THÊM VÀO GIỎ HÀNG: To, full chiều ngang, ghim dưới cùng dễ bấm */
+  .add-to-cart-btn, .cta {
+    width: 100% !important;
+    padding: 15px !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    border-radius: 8px !important;
+    position: sticky !important;
+    bottom: 0 !important;
+    margin-top: 16px !important;
+  }
 }
 
 @media(max-width:520px) {
