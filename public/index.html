@@ -132,7 +132,7 @@ header {
   color: white;
 }
 
-/* LOGO ĐÃ THU NHỎ VỪA KHUNG, KHÔNG BỊ TRÀN */
+/* LOGO THU NHỎ VỪA KHUNG */
 .brand-logo-text {
     display: flex;
     align-items: center;
@@ -145,25 +145,20 @@ header {
 }
 .brand-logo-text img { display: none; }
 
-/* FOOTER LOGO VỪA VẶN KHUNG */
+/* FOOTER LOGO ĐỒNG BỘ */
 .footer-logo-text {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    width: 160px;
-    height: 60px;
+    width: 140px;
+    height: 45px;
     overflow: hidden;
     text-decoration: none;
+    background: url('assets/logo.png') no-repeat center / contain;
 }
-.footer-logo-text img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    filter: invert(1);
-}
+.footer-logo-text img { display: none; }
 
-/* SIDEBAR MENU BÊN TRÁI */
+/* SIDEBAR MENU BÊN TRÁI (TÍCH HỢP STICKY TRÊN DESKTOP) */
 .sidebar-panel {
   position: fixed;
   inset: 0;
@@ -221,21 +216,22 @@ header {
 .login-box h4 {
   font: 800 12px var(--display);
   text-transform: uppercase;
-  margin: 0 0 8px 0;
+  margin: 0 0 6px 0;
   color: var(--ink);
 }
 .login-box p {
   font-size: 11px;
   color: #64748b;
-  margin: 0 0 12px 0;
+  margin: 0 0 10px 0;
 }
 .login-input {
   width: 100%;
-  padding: 10px;
+  padding: 9px 12px;
   border: 1px solid var(--line);
   font-size: 12px;
   margin-bottom: 8px;
   border-radius: 4px;
+  background: #fff;
 }
 .login-btn {
   width: 100%;
@@ -248,7 +244,7 @@ header {
   text-transform: uppercase;
   border-radius: 4px;
   cursor: pointer;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 .social-login {
   display: flex;
@@ -256,7 +252,7 @@ header {
 }
 .social-login button {
   flex: 1;
-  padding: 8px;
+  padding: 7px;
   font-size: 10px;
   font-weight: 700;
   border: 1px solid var(--line);
@@ -361,7 +357,7 @@ header {
   background: #fff;
 }
 
-/* THANH 3 MỤC CỐ ĐỊNH, NẰM IM, CANH GIỮA TRÊN DESKTOP */
+/* THANH 3 MỤC CỐ ĐỊNH, NẰM IM */
 .fixed-nav-bar {
   background: var(--lime);
   width: 100%;
@@ -664,6 +660,36 @@ header {
   letter-spacing: 1px;
 }
 
+/* STICKY DESKTOP SIDEBAR */
+@media (min-width: 1024px) {
+  .sidebar-panel {
+    position: sticky;
+    top: 67px;
+    height: calc(100vh - 67px);
+    z-index: 10;
+    pointer-events: auto;
+    visibility: visible;
+    width: 280px;
+    float: left;
+    background: var(--paper);
+    border-right: 1px solid var(--line);
+  }
+  .sidebar-shade { display: none; }
+  .sidebar-drawer {
+    position: static;
+    width: 100%;
+    height: 100%;
+    transform: none !important;
+    padding: 20px;
+    box-shadow: none;
+    border: none;
+  }
+  .sidebar-head .close { display: none; }
+  main {
+    margin-left: 280px;
+  }
+}
+
 /* CART DRAWER */
 .cart-panel {
   position: fixed;
@@ -828,6 +854,15 @@ header {
 }
 
 /* RESPONSIVE DI ĐỘNG */
+@media (max-width: 1023px) {
+  main { margin-left: 0 !important; }
+  .menu-toggle-btn { display: flex; }
+}
+
+@media (min-width: 1024px) {
+  .menu-toggle-btn { display: none; }
+}
+
 @media (max-width: 768px) {
   .nav { height: 56px; padding: 0 16px; }
   .navlinks { display: none; }
@@ -888,7 +923,7 @@ header {
 </nav>
 </header>
 
-<!-- SIDEBAR MENU BÊN TRÁI (ĐĂNG NHẬP, LIÊN KẾT, DANH MỤC) -->
+<!-- SIDEBAR MENU BÊN TRÁI (STICKY TRÊN DESKTOP, MỞ RỘNG TRÊN MOBILE) -->
 <div class="sidebar-panel" id="sidebar-panel">
   <div class="sidebar-shade" onclick="toggleSidebar()"></div>
   <aside class="sidebar-drawer">
@@ -909,15 +944,15 @@ header {
       </div>
     </div>
 
-    <!-- DANH MỤC SẢN PHẨM -->
+    <!-- DANH MỤC SẢN PHẨM KHÔNG ICON -->
     <div class="sidebar-links-group">
       <b>Danh mục sản phẩm</b>
       <ul>
-        <li><a href="#shop" onclick="filterByTicker('new'); toggleSidebar();">⚡ New Setups</a></li>
-        <li><a href="#shop" onclick="filterByTicker('2hand'); toggleSidebar();">🛹 2hand & Custom</a></li>
-        <li><a href="#shop" onclick="selectCategoryDirect('Deck'); toggleSidebar();">🪵 Decks (Mặt ván)</a></li>
-        <li><a href="#shop" onclick="selectCategoryDirect('Trucks'); toggleSidebar();">⚙️ Trucks (Trục ván)</a></li>
-        <li><a href="#shop" onclick="selectCategoryDirect('Wheels'); toggleSidebar();">⚪ Wheels (Bánh xe)</a></li>
+        <li><a href="#shop" onclick="filterByTicker('new'); toggleSidebar();">NEW SETUPS (COMPLETE)</a></li>
+        <li><a href="#shop" onclick="filterByTicker('2hand'); toggleSidebar();">2HAND & CUSTOM</a></li>
+        <li><a href="#shop" onclick="selectCategoryDirect('Deck'); toggleSidebar();">DECKS (MẶT VÁN)</a></li>
+        <li><a href="#shop" onclick="selectCategoryDirect('Trucks'); toggleSidebar();">TRUCKS (TRỤC VÁN)</a></li>
+        <li><a href="#shop" onclick="selectCategoryDirect('Wheels'); toggleSidebar();">WHEELS (BÁNH XE)</a></li>
       </ul>
     </div>
 
@@ -945,7 +980,7 @@ header {
   </div>
 </section>
 
-<!-- THANH 3 MỤC CỐ ĐỊNH, NẰM IM, KHÔNG TRƯỢT -->
+<!-- THANH 3 MỤC CỐ ĐỊNH, NẰM IM -->
 <div class="fixed-nav-bar">
   <div class="fixed-nav-item" onclick="filterByTicker('new')">NEW SETUPS</div>
   <span class="fixed-nav-sep">•</span>
@@ -1020,9 +1055,7 @@ header {
 <div class="wrap">
   <div class="footer-top">
     <div>
-      <a class="footer-logo-text" href="#" aria-label="SK82ND SkateShop">
-        <img src="./logo.png" alt="SK82ND graffiti logo" width="1435" height="596" loading="lazy" decoding="async">
-      </a>
+      <a class="footer-logo-text" href="#" aria-label="SK82ND SkateShop"></a>
       <p>An independent skate shop for people who want to find their own line. New & secondhand skateboards, parts and accessories.</p>
     </div>
 
