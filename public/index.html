@@ -74,6 +74,29 @@ header {
   gap: 10px;
 }
 
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menu-toggle-btn {
+  background: none;
+  border: 1px solid var(--ink);
+  padding: 6px 10px;
+  font-weight: 900;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+.menu-toggle-btn:hover {
+  background: var(--ink);
+  color: #fff;
+}
+
 .navlinks {
   display: flex;
   gap: 20px;
@@ -109,19 +132,167 @@ header {
   color: white;
 }
 
-/* LOGO GRAFFITI */
+/* LOGO ĐÃ THU NHỎ VỪA KHUNG, KHÔNG BỊ TRÀN */
 .brand-logo-text {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 140px;
-    height: 50px;
+    width: 110px;
+    height: 40px;
     flex-shrink: 0;
     overflow: hidden;
     background: url('assets/logo.png') no-repeat center / contain;
-    background-color: #ffffff;
 }
-.brand-logo-text img { display:none; }
+.brand-logo-text img { display: none; }
+
+/* FOOTER LOGO VỪA VẶN KHUNG */
+.footer-logo-text {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 160px;
+    height: 60px;
+    overflow: hidden;
+    text-decoration: none;
+}
+.footer-logo-text img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: invert(1);
+}
+
+/* SIDEBAR MENU BÊN TRÁI */
+.sidebar-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  visibility: hidden;
+  transition: .3s;
+}
+.sidebar-panel.open {
+  pointer-events: auto;
+  visibility: visible;
+}
+.sidebar-shade {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  opacity: 0;
+  transition: .3s;
+}
+.sidebar-panel.open .sidebar-shade { opacity: 1; }
+
+.sidebar-drawer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: min(340px, 85%);
+  background: var(--paper);
+  padding: 24px;
+  transform: translateX(-100%);
+  transition: .3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.sidebar-panel.open .sidebar-drawer { transform: none; }
+
+.sidebar-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+.sidebar-head h3 { font: 900 20px var(--display); margin: 0; }
+
+.login-box {
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+.login-box h4 {
+  font: 800 12px var(--display);
+  text-transform: uppercase;
+  margin: 0 0 8px 0;
+  color: var(--ink);
+}
+.login-box p {
+  font-size: 11px;
+  color: #64748b;
+  margin: 0 0 12px 0;
+}
+.login-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--line);
+  font-size: 12px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+.login-btn {
+  width: 100%;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  padding: 10px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.social-login {
+  display: flex;
+  gap: 8px;
+}
+.social-login button {
+  flex: 1;
+  padding: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.sidebar-links-group {
+  margin-bottom: 20px;
+}
+.sidebar-links-group b {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 10px;
+}
+.sidebar-links-group ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sidebar-links-group a {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--ink);
+  display: block;
+  padding: 4px 0;
+}
+.sidebar-links-group a:hover { color: var(--red); }
 
 /* HERO TỐI GIẢN */
 .hero {
@@ -190,48 +361,31 @@ header {
   background: #fff;
 }
 
-/* THANH TICKER: KHÔNG Ô TRẮNG, KHÔNG ICON, CỐT GỌN TRONG 1 KHUNG, CANH GIỮA TRÊN DESKTOP */
-.ticker {
+/* THANH 3 MỤC CỐ ĐỊNH, NẰM IM, CANH GIỮA TRÊN DESKTOP */
+.fixed-nav-bar {
   background: var(--lime);
   width: 100%;
-  max-width: 100vw;
-  overflow-x: auto;
-  white-space: nowrap;
-  padding: 10px 16px;
-  font: 800 12px var(--display);
+  padding: 12px 16px;
+  font: 800 13px var(--display);
   letter-spacing: 1.5px;
-  box-sizing: border-box;
   color: var(--ink);
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 16px;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-.ticker::-webkit-scrollbar { display: none; }
-
-@media (min-width: 769px) {
-  .ticker {
-    justify-content: center;
-  }
+  justify-content: center;
+  gap: 24px;
+  text-transform: uppercase;
 }
 
-.ticker-item {
+.fixed-nav-item {
   cursor: pointer;
-  padding: 2px 4px;
-  background: transparent;
+  padding: 4px 8px;
   transition: .2s;
-  display: inline-flex;
-  align-items: center;
 }
-
-.ticker-item:hover {
+.fixed-nav-item:hover {
   color: var(--white);
 }
-
-.ticker-sep {
-  opacity: 0.6;
+.fixed-nav-sep {
+  opacity: 0.5;
 }
 
 .wrap {
@@ -267,7 +421,7 @@ header {
 
 .catalog { background: #f4f4ee; }
 
-/* BỘ LỌC 1 DANH MỤC TRUNG TÂM + MŨI TÊN ĐIỀU HƯỚNG (LUÔN CANH GIỮA) */
+/* BỘ LỌC 1 DANH MỤC TRUNG TÂM + MŨI TÊN ĐIỀU HƯỚNG */
 .filters-wrapper {
   margin-bottom: 20px;
   display: flex;
@@ -355,7 +509,7 @@ header {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* LƯỚI SẢN PHẨM 2 CỘT CÂN ĐỐI */
+/* LƯỚI SẢN PHẨM */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -421,71 +575,38 @@ header {
   color: #080D16;
 }
 
-/* PHẦN GIÁ TRỊ & HỖ TRỢ UY TÍN */
-.feature {
+/* CAM KẾT UY TÍN SECTION */
+.support-section {
   background: var(--ink);
   color: white;
-  padding: 50px 16px;
+  padding: 60px 16px;
+}
+
+.support-grid {
+  max-width: 1200px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 30px;
-  align-items: center;
 }
 
-.feature h2 {
-  font: 900 clamp(32px, 5vw, 60px)/.9 var(--display);
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  margin: 12px 0;
-}
-
-.feature p {
-  color: #b9bbb2;
-  font-size: 13px;
-  line-height: 1.7;
-  max-width: 420px;
-}
-
-.lesson-card {
-  border: 1px solid #ffffff33;
+.support-card {
+  border: 1px solid #ffffff22;
   padding: 24px;
-  background: rgba(255,255,255,.03);
   border-radius: 8px;
+  background: rgba(255,255,255,0.02);
 }
-
-.lesson-card strong {
-  font: 900 36px var(--display);
+.support-card b {
+  font: 900 18px var(--display);
+  text-transform: uppercase;
   color: var(--lime);
   display: block;
-  margin: 6px 0;
+  margin-bottom: 8px;
 }
-
-.values {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  background: #fff;
-}
-
-.value {
-  padding: 25px 20px;
-  border-right: 1px solid var(--line);
-}
-
-.value:last-child { border: 0; }
-
-.value b {
-  font: 900 20px var(--display);
-  text-transform: uppercase;
-  display: block;
-  margin-bottom: 6px;
-}
-
-.value p {
-  font-size: 11px;
+.support-card p {
+  font-size: 12px;
+  color: #aeb0a6;
   line-height: 1.6;
-  color: #686b62;
   margin: 0;
 }
 
@@ -493,6 +614,7 @@ header {
   background: var(--ink);
   color: white;
   padding: 45px 0 20px;
+  border-top: 1px solid #ffffff22;
 }
 
 .footer-top {
@@ -542,10 +664,11 @@ header {
   letter-spacing: 1px;
 }
 
+/* CART DRAWER */
 .cart-panel {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 100;
   pointer-events: none;
 }
 .cart-panel.open { pointer-events: auto; }
@@ -605,6 +728,7 @@ header {
   text-transform: uppercase;
   color: var(--ink);
 }
+
 .toast {
   position: fixed;
   bottom: 20px;
@@ -621,7 +745,7 @@ header {
 }
 .toast.show { opacity: 1; transform: translate(-50%,0); }
 
-/* MODAL CHI TIẾT SẢN PHẨM */
+/* PRODUCT MODAL */
 .product-modal {
   display: none;
   position: fixed;
@@ -707,7 +831,7 @@ header {
 @media (max-width: 768px) {
   .nav { height: 56px; padding: 0 16px; }
   .navlinks { display: none; }
-  .brand-logo-text { width: 120px; height: 44px; }
+  .brand-logo-text { width: 100px; height: 35px; }
   
   .hero { padding: 32px 16px; }
   .hero h1 { font-size: 38px; }
@@ -724,9 +848,7 @@ header {
   .product-name { font-size: 11px !important; }
   .price { font-size: 11px !important; }
 
-  .feature { grid-template-columns: 1fr; padding: 40px 16px; }
-  .values { grid-template-columns: 1fr; }
-  .value { border-right: 0; border-bottom: 1px solid var(--line); padding: 20px 16px; }
+  .support-grid { grid-template-columns: 1fr; gap: 15px; }
 
   .product-modal { padding: 0; align-items: flex-end; }
   .modal-content-wrap { max-height: 90vh; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
@@ -745,13 +867,15 @@ header {
 
 <header>
 <nav class="nav">
-  <a class="brand-logo-text" href="#" aria-label="SkateShop">
-    <img src="./logo.png" alt="graffiti logo" width="1435" height="596" loading="eager" decoding="async">
-  </a>
+  <div class="nav-left">
+    <button class="menu-toggle-btn" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+    <a class="brand-logo-text" href="#" aria-label="SkateShop">
+      <img src="./logo.png" alt="graffiti logo" width="1435" height="596" loading="eager" decoding="async">
+    </a>
+  </div>
 
   <div class="navlinks">
     <a href="#shop">Shop</a>
-    <a href="#story">About</a>
     <a href="#support">Support</a>
   </div>
 
@@ -763,6 +887,51 @@ header {
   </div>
 </nav>
 </header>
+
+<!-- SIDEBAR MENU BÊN TRÁI (ĐĂNG NHẬP, LIÊN KẾT, DANH MỤC) -->
+<div class="sidebar-panel" id="sidebar-panel">
+  <div class="sidebar-shade" onclick="toggleSidebar()"></div>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-head">
+      <h3>MENU SK82ND</h3>
+      <button class="close" onclick="toggleSidebar()">×</button>
+    </div>
+
+    <!-- KHU VỰC ĐĂNG NHẬP NHẬN ƯU ĐÃI -->
+    <div class="login-box">
+      <h4>Nhận ưu đãi thành viên</h4>
+      <p>Đăng nhập để nhận mã giảm giá và theo dõi đơn hàng dễ dàng.</p>
+      <input type="text" class="login-input" placeholder="Nhập số điện thoại hoặc Email...">
+      <button class="login-btn" onclick="alert('Đã gửi mã xác nhận hoặc đăng nhập thành công!')">Đăng nhập / Đăng ký</button>
+      <div class="social-login">
+        <button onclick="alert('Đăng nhập Google thành công!')">Google</button>
+        <button onclick="alert('Đăng nhập Facebook thành công!')">Facebook</button>
+      </div>
+    </div>
+
+    <!-- DANH MỤC SẢN PHẨM -->
+    <div class="sidebar-links-group">
+      <b>Danh mục sản phẩm</b>
+      <ul>
+        <li><a href="#shop" onclick="filterByTicker('new'); toggleSidebar();">⚡ New Setups</a></li>
+        <li><a href="#shop" onclick="filterByTicker('2hand'); toggleSidebar();">🛹 2hand & Custom</a></li>
+        <li><a href="#shop" onclick="selectCategoryDirect('Deck'); toggleSidebar();">🪵 Decks (Mặt ván)</a></li>
+        <li><a href="#shop" onclick="selectCategoryDirect('Trucks'); toggleSidebar();">⚙️ Trucks (Trục ván)</a></li>
+        <li><a href="#shop" onclick="selectCategoryDirect('Wheels'); toggleSidebar();">⚪ Wheels (Bánh xe)</a></li>
+      </ul>
+    </div>
+
+    <!-- LIÊN KẾT MẠNG XÃ HỘI & HOTLINE -->
+    <div class="sidebar-links-group">
+      <b>Kết nối với Shop</b>
+      <ul>
+        <li><a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a></li>
+        <li><a href="https://www.facebook.com/sk82nd.shop" target="_blank">Facebook ↗</a></li>
+        <li><a href="tel:0333501537">Hotline / Zalo: 0333 501 537</a></li>
+      </ul>
+    </div>
+  </aside>
+</div>
 
 <main>
 
@@ -776,15 +945,13 @@ header {
   </div>
 </section>
 
-<!-- THANH TICKER GỌN TRONG 1 KHUNG, KHÔNG ICON, KHÔNG VIỀN TRẮNG, GỘP 2HAND & CUSTOM -->
-<div class="ticker">
-  <div class="ticker-item" onclick="filterByTicker('new')">NEW SETUPS</div>
-  <span class="ticker-sep">•</span>
-  <div class="ticker-item" onclick="filterByTicker('2hand')">2HAND & CUSTOM</div>
-  <span class="ticker-sep">•</span>
-  <div class="ticker-item" onclick="scrollToSection('story')">VỀ SK82ND SHOP</div>
-  <span class="ticker-sep">•</span>
-  <div class="ticker-item" onclick="scrollToSection('support')">CAM KẾT UY TÍN</div>
+<!-- THANH 3 MỤC CỐ ĐỊNH, NẰM IM, KHÔNG TRƯỢT -->
+<div class="fixed-nav-bar">
+  <div class="fixed-nav-item" onclick="filterByTicker('new')">NEW SETUPS</div>
+  <span class="fixed-nav-sep">•</span>
+  <div class="fixed-nav-item" onclick="filterByTicker('2hand')">2HAND & CUSTOM</div>
+  <span class="fixed-nav-sep">•</span>
+  <div class="fixed-nav-item" onclick="scrollToSection('support')">CAM KẾT UY TÍN</div>
 </div>
 
 <!-- KHU VỰC CỬA HÀNG -->
@@ -818,38 +985,31 @@ header {
 </div>
 </section>
 
-<!-- GIÁ TRỊ CỐT LÕI VÀ UY TÍN CỦA SHOP -->
-<section class="feature" id="story">
-  <div>
-    <div class="kicker" style="color:var(--lime)">More than a board</div>
-    <h2>First push.<br>Zero pressure.</h2>
-    <p>Mua ván tại SK82ND không chỉ là nhận hàng. Bọn mình đồng hành cùng bạn trong buổi hướng dẫn nhập môn miễn phí — làm quen với ván, tư thế đứng và những cú đẩy đầu tiên an toàn nhất.</p>
-  </div>
-
-  <div>
-    <div class="lesson-card">
-      <div class="kicker" style="color:var(--lime)">SK82ND beginner program</div>
-      <strong>01 FREE SESSION</strong>
-      <p>Tặng kèm 01 buổi hướng dẫn trượt cơ bản cho khách mua ván bất kỳ tại shop. Nhắn Instagram để hẹn lịch!</p>
-    </div>
-  </div>
-</section>
-
-<section class="wrap" style="padding: 0;" id="support">
-  <div class="values">
-    <div class="value">
-      <b>01 / Ván 2hand chất lượng</b>
-      <p>Tuyển chọn kỹ càng, thông số rõ ràng, tiết kiệm chi phí tối đa cho anh em.</p>
+<!-- CAM KẾT UY TÍN SECTION -->
+<section class="support-section" id="support">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom: 40px;">
+      <div>
+        <div class="kicker" style="color: var(--lime);">Why ride with us</div>
+        <h2 class="section-title" style="color: #fff;">Real skate. <span style="color:#92958a;">Real support.</span></h2>
+      </div>
     </div>
 
-    <div class="value">
-      <b>02 / Tư vấn thực tế</b>
-      <p>Hỗ trợ chọn size ván, độ cứng bánh và truck chuẩn theo thể trạng từng người.</p>
-    </div>
+    <div class="support-grid">
+      <div class="support-card">
+        <b>01 / Ván 2hand & Custom chất lượng</b>
+        <p>Tuyển chọn kỹ càng, thông số rõ ràng, tiết kiệm chi phí tối đa cho anh em chơi lâu dài.</p>
+      </div>
 
-    <div class="value">
-      <b>03 / Keep the scene alive</b>
-      <p>Xây dựng cộng đồng trượt ván thực thụ, hỗ trợ kỹ thuật lâu dài sau khi mua.</p>
+      <div class="support-card">
+        <b>02 / Tư vấn thực tế 1-1</b>
+        <p>Hỗ trợ chọn size ván, độ cứng bánh và truck chuẩn theo chiều cao và thể trạng từng người.</p>
+      </div>
+
+      <div class="support-card">
+        <b>03 / Keep the scene alive</b>
+        <p>Xây dựng cộng đồng trượt ván thực thụ, hỗ trợ kỹ thuật lâu dài sau khi mua sắm tại shop.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -870,14 +1030,14 @@ header {
       <div>
         <b>EXPLORE</b>
         <a href="#shop">Shop all</a>
-        <a href="#story">About shop</a>
+        <a href="#support">Cam kết uy tín</a>
       </div>
 
       <div>
         <b>CONNECT</b>
         <a href="https://www.instagram.com/sk82nd.shop/" target="_blank">Instagram ↗</a>
         <a href="https://www.facebook.com/sk82nd.shop" target="_blank">Facebook ↗</a>
-        <a href="tel:0333 501 537">0333 501 537</a>
+        <a href="tel:0333501537">0333 501 537 (Zalo)</a>
       </div>
     </div>
   </div>
@@ -953,6 +1113,10 @@ function escapeHTML(value) {
     '"': "&quot;",
     "'": "&#39;"
   }[char]));
+}
+
+function toggleSidebar() {
+  document.getElementById("sidebar-panel").classList.toggle("open");
 }
 
 function changeCategoryStep(step) {
