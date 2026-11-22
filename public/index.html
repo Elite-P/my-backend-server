@@ -1,3 +1,8 @@
+
+
+
+Biểu tượng HTML
+index
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -157,31 +162,41 @@ header {
   }
 }
 
-/* LOGO THU NHỎ VỪA KHUNG */
+/* LOGO CHỮ XANH (Logo1.png) Ở ĐẦU TRANG CHỦ */
 .brand-logo-text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 110px;
-    height: 40px;
-    flex-shrink: 0;
-    overflow: hidden;
-    background: url('assets/logo.png') no-repeat center / contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
 }
-.brand-logo-text img { display: none; }
+.brand-logo-text:hover {
+  transform: scale(1.04);
+}
+.brand-logo-text img {
+  height: 100%;
+  width: auto;
+  max-width: 150px;
+  object-fit: contain;
+  display: block;
+}
 
 /* FOOTER LOGO ĐỒNG BỘ */
 .footer-logo-text {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 140px;
-    height: 45px;
-    overflow: hidden;
-    text-decoration: none;
-    background: url('assets/logo.png') no-repeat center / contain;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 48px;
+  margin-bottom: 10px;
+  text-decoration: none;
 }
-.footer-logo-text img { display: none; }
+.footer-logo-text img {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
 
 /* FLOATING MENU BUTTON (LUÔN ĐI THEO KHI CUỘN TRANG) */
 .floating-menu-btn {
@@ -352,12 +367,24 @@ header {
   overflow: hidden;
 }
 
+/* LOGO CHÌM NHẸ TRONG HERO */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('logo.png') no-repeat center / min(560px, 85%);
+  opacity: 0.06;
+  pointer-events: none;
+}
+
 .hero-inner {
   max-width: 700px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
 .hero .eyebrow {
@@ -467,7 +494,31 @@ header {
   color: #777;
 }
 
-.catalog { background: #f4f4ee; }
+/* KHU VỰC SẢN PHẨM + WATERMARK LOGO CHÌM DƯỚI BACKGROUND */
+.catalog {
+  background: #f4f4ee;
+  position: relative;
+  overflow: hidden;
+}
+
+.catalog-watermark {
+  position: fixed;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  width: min(760px, 88vw);
+  height: auto;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.065;
+  filter: invert(1);
+  user-select: none;
+}
+
+.catalog .wrap {
+  position: relative;
+  z-index: 1;
+}
 
 /* BỘ LỌC 1 DANH MỤC TRUNG TÂM + MŨI TÊN ĐIỀU HƯỚNG */
 .filters-wrapper {
@@ -565,7 +616,8 @@ header {
 }
 
 .product {
-  background: var(--paper);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(4px);
   position: relative;
   cursor: pointer;
   transition: transform .2s ease, box-shadow .2s ease;
@@ -628,6 +680,8 @@ header {
   background: var(--ink);
   color: white;
   padding: 60px 16px;
+  position: relative;
+  z-index: 2;
 }
 
 .support-grid {
@@ -663,6 +717,8 @@ header {
   color: white;
   padding: 45px 0 20px;
   border-top: 1px solid #ffffff22;
+  position: relative;
+  z-index: 2;
 }
 
 .footer-top {
@@ -879,7 +935,8 @@ header {
 @media (max-width: 768px) {
   .nav { height: 52px; padding: 0 10px; }
   .navlinks { display: none; }
-  .brand-logo-text { width: 95px; height: 35px; }
+  .brand-logo-text { height: 34px; }
+  .brand-logo-text img { max-width: 110px; }
   
   .hero { padding: 32px 16px; }
   .hero h1 { font-size: 38px; }
@@ -919,8 +976,8 @@ header {
     <button class="menu-toggle-btn" onclick="toggleSidebar()">
       ☰ MENU / ĐĂNG NHẬP
     </button>
-    <a class="brand-logo-text" href="#" aria-label="SkateShop">
-      <img src="./logo.png" alt="graffiti logo" width="1435" height="596" loading="eager" decoding="async">
+    <a class="brand-logo-text" href="#" aria-label="SK82ND SkateShop">
+      <img src="Logo1.png" alt="SK82ND Chrome Blue Logo" loading="eager" decoding="async">
     </a>
   </div>
 
@@ -1011,6 +1068,9 @@ header {
 
 <!-- KHU VỰC CỬA HÀNG -->
 <section class="section catalog" id="shop">
+  <!-- LOGO CHÌM DƯỚI NỀN SẢN PHẨM (SỬ DỤNG LOGO TRẮNG + INVERT) -->
+  <img src="logo.png" alt="" aria-hidden="true" class="catalog-watermark">
+
 <div class="wrap">
 
   <div class="section-head">
@@ -1075,7 +1135,9 @@ header {
 <div class="wrap">
   <div class="footer-top">
     <div>
-      <a class="footer-logo-text" href="#" aria-label="SK82ND SkateShop"></a>
+      <a class="footer-logo-text" href="#" aria-label="SK82ND SkateShop">
+        <img src="logo.png" alt="SK82ND White Logo" loading="lazy">
+      </a>
       <p>An independent skate shop for people who want to find their own line. New & secondhand skateboards, parts and accessories.</p>
     </div>
 
@@ -1397,7 +1459,11 @@ function checkout() {
     return `${p.name} x${qty} - ${money(p.price * qty)}`;
   });
   const total = entries.reduce((sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty, 0);
-  const message = "Chào SK82ND! Mình muốn đặt hàng:\n" + lines.join("\n") + "\nTổng: " + money(total) + "\nNhờ shop xác nhận.";
+  const message = "Chào SK82ND! Mình muốn đặt hàng:
+" + lines.join("
+") + "
+Tổng: " + money(total) + "
+Nhờ shop xác nhận.";
   window.open("https://www.instagram.com/sk82nd.shop/", "_blank");
   navigator.clipboard?.writeText(message);
 }
@@ -1409,3 +1475,4 @@ setInterval(loadProducts, 60000);
 
 </body>
 </html>
+Đã xử lý và phân tích bằng mã
