@@ -42,6 +42,11 @@ const TIKTOK_WEBHOOK_LINK = process.env.TIKTOK_WEBHOOK_URL?.trim() || "";
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID?.trim() || "1062826409213-9b31p1jf4klcfa21hgvlkq39t1u84cr5.apps.googleusercontent.com";
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID?.trim() || "1677171924069694";
 const PAYMENT_WEBHOOK_SECRET = process.env.PAYMENT_WEBHOOK_SECRET?.trim() || "";
+
+// Thông tin tài khoản nhận thanh toán (kiểm tra và điền tên ngân hàng vào PAYMENT_BANK_NAME / env)
+const PAYMENT_BANK_NAME = process.env.PAYMENT_BANK_NAME?.trim() || ""; // TODO: Điền tên ngân hàng của STK 686240799999
+const PAYMENT_ACCOUNT_NO = process.env.PAYMENT_ACCOUNT_NO?.trim() || "686240799999";
+const PAYMENT_ACCOUNT_NAME = process.env.PAYMENT_ACCOUNT_NAME?.trim() || "NGO TIEN THONG";
 // ==========================================
 
 const PROP = {
@@ -452,7 +457,6 @@ app.post("/webhook/tiktok", async (req, res) => {
   }
 });
 
-
 // ==========================================
 // LƯU TRỮ TÀI KHOẢN KHÁCH HÀNG TRÊN BACKEND & ĐỒNG BỘ NOTION CRM
 // ==========================================
@@ -652,6 +656,15 @@ app.post("/api/auth/oauth", async (req, res) => {
 // ==========================================
 // QUẢN LÝ ĐƠN HÀNG & TRẠNG THÁI QR THANH TOÁN
 // ==========================================
+app.get("/api/payment/config", (req, res) => {
+  res.json({
+    success: true,
+    bankName: PAYMENT_BANK_NAME,
+    accountNo: PAYMENT_ACCOUNT_NO,
+    accountName: PAYMENT_ACCOUNT_NAME
+  });
+});
+
 app.post("/api/orders", (req, res) => {
   try {
     const { orderCode, option, amountToPay, subtotal, entries, customer } = req.body || {};
