@@ -1482,8 +1482,8 @@ const categoryDisplayNames = {
   "Wheels": "Wheels"
 };
 
-let currentCategoryIndex = 0; 
-let currentSubFilter = "new";     
+let currentCategoryIndex = 0;
+let currentSubFilter = "new";
 
 const grid = document.getElementById("product-grid");
 const money = value => new Intl.NumberFormat("vi-VN").format(value) + " ₫";
@@ -1505,7 +1505,220 @@ function toggleSidebar() {
 
 function changeCategoryStep(step) {
   currentCategoryIndex = (currentCategoryIndex + step + categoriesList.length) % categoriesList.length;
-  
+  updateCategoryDisplay();
+}
+
+function selectCategoryDirect(catName) {
+  const index = categoriesList.indexOf(catName);
+  if (index !== -1) {
+    currentCategoryIndex = index;
+    updateCategoryDisplay();
+    document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+function filterByTicker(subType) {
+  currentCategoryIndex = 0;
+  currentSubFilter = subType;
+  updateCategoryDisplay();
+  document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
+}
+
+function scrollToSection(sectionId) {
+  document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+}
+
+function updateCategoryDisplay() {
+  const catKey = categoriesList[currentCategoryIndex];
+  document.getElementById("currentCategoryTitle").textContent = categoryDisplayNames[catKey];
+
+  const subFiltersEl = document.getElementById("completeSubFilters");
+  if (catKey === "Complete") {
+    subFiltersEl.classList.add("show");
+    const subBtns = subFiltersEl.querySelectorAll(".sub-filter");
+    subBtns.forEach(b => {
+      if (b.textContent.toLowerCase().includes(currentSubFilter)) {
+        b.classList.add("active");
+      } else {
+        b.classList.remove("active");
+      }
+    });
+  } else {
+    subFiltersEl.classList.remove("show");
+  }
+
+  render();
+}
+
+async function loadProducts() {
+  grid.innerHTML = `<p style="padding:40px;color:#64748b;grid-column: span 4;text-align:center;">Loading SK82ND inventory...</p>`;
+
+  try {
+    const response = await fetch("/api/products", { cache: "no-store" });
+    if (!response.ok) throw new Error("API error: " + response.status);
+
+    const data = await response.json();
+    if (!data.success) throw new Error(data.error || "Cannot load products");
+
+    products = data.products || [];
+    window.allLoadedProducts = products;
+
+    for (const id of Object.keys(cart)) {
+      if (!products.some(p => p.id === id)) delete cart[id];
+    }
+
+    render();
+    updateCart();
+  } catch (error) {
+    console.error("SK82ND:", error);
+    grid.innerHTML = `<p style="padding:40px;color:#0284C7;grid-column: span 4;text-align:center;">Không thể tải kho hàng. Vui lòng thử lại sau.</p>`;
+  }
+}
+
+function render() {
+  const catKey = categoriesList[currentCategoryIndex];
+
+  const items = products.filter(p => {
+    const cat = fnNormalize(p.category);
+    const cond = fnNormalize(p.condition);
+
+    if (catKey === "Complete") {
+      if (cat !== "complete") return false;
+      if (currentSubFilter === "new") return cond === "new";
+      if (currentSubFilter === "2hand") return cond.includes("2hand") || cond.includes("used") || cond.includes("custom");
+      return cond === "new";
+    }
+
+    if (catKey === "Deck") return cat === "deck";
+    if (catKey === "Trucks") return cat === "trucks" || cat === "truck";
+    if (catKey === "Wheels") return cat === "wheels" || cat === "wheel";
+
+    return true;
+  });
+
+  document.getElementById("result-count").textContent =
+    items.length + " products · AVAILABLE NOW";
+
+  if (!items.length) {
+    grid.innerHTML = `<p style="padding:40px;color:#64748b;grid-column: span 4;text-align:center;">Hiện chưa có sản phẩm trong danh mục này.</p>`;
+    return;
+  }
+
+  grid.innerHTML = items.map(p => {
+    const id = escapeHTML(p.id);
+    const image = p.image
+      ? `<img class="product-photo" src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}" loading="lazy">`
+      : `<div style="display:grid;place-items:center;height:100%;color:#aaa;font-size:11px;">NO IMAGE</div>`;
+
+    return `
+      <article class="product" onclick="openProductModal('${id}')">
+        <div class="product-visual">${image}</div>
+        <div class="product-info">
+          <h3 class="product-name">${escapeHTML(p.name)}</h3>
+          <div class="price">${money(p.price)}</div>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function setSubFilter(subType, btn) {
+  currentSubFilter = subType;
+  document.querySelectorAll(".sub-filter").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  render();
+}
+
+function openProductModal(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+
+  const gallery = document.getElementById('modalGallery');
+  const images = (product.images && product.images.length > 0)
+    ? product.images
+    : [product.image || 'https://via.placeholder.com/600x600?text=No+Image'];
+
+  gallery.className = images.length === 1 ? 'modal-gallery single-img' : 'modal-gallery';
+  gallery.innerHTML = images.map(imgUrl => `<img src="${escapeHTML(imgUrl)}" alt="${escapeHTML(product.name)}">`).join('');
+
+  document.getElementById('modalBadge').innerText = `${product.category} • ${product.condition} (Tồn: ${product.stock})`;
+  document.getElementById('modalTitle').innerText = product.name;
+  document.getElementById('modalPrice').innerText = money(product.price);
+  document.getElementById('modalSpecs').innerText = product.info || 'Đang cập nhật thông số...';
+
+  const giftsEl = document.getElementById('modalGifts');
+  if (product.gifts && product.gifts.trim() !== '') {
+    giftsEl.style.display = 'block';
+    giftsEl.innerText = `🎁 Tặng kèm: ${product.gifts}`;
+  } else {
+    giftsEl.style.display = 'none';
+  }
+
+  const buyBtn = document.getElementById('modalAddToBag');
+  buyBtn.onclick = () => { addToCart(product.id); closeProductModal(); };
+
+  document.getElementById('productModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeProductModal() {
+  document.getElementById('productModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  if (!product) return;
+  const quantity = cart[id] || 0;
+  if (quantity >= product.stock) { alert("Số lượng trong kho không đủ!"); return; }
+  cart[id] = quantity + 1;
+  updateCart();
+  const toast = document.getElementById("toast");
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 1500);
+}
+
+function updateCart() {
+  const entries = Object.entries(cart).filter(([id, qty]) => qty > 0 && products.some(p => p.id === id));
+  const count = entries.reduce((sum, [, qty]) => sum + qty, 0);
+  document.getElementById("cart-count").textContent = count;
+
+  document.getElementById("cart-items").innerHTML = entries.length
+    ? entries.map(([id, qty]) => {
+        const p = products.find(x => x.id === id);
+        return `
+          <div class="cart-row">
+            <div>
+              <b>${escapeHTML(p.name)}</b>
+              <small>${money(p.price)}</small>
+              <div class="qty">
+                <button onclick="changeQty('${id}',-1)">−</button>
+                <span>${qty}</span>
+                <button onclick="changeQty('${id}',1)">+</button>
+              </div>
+            </div>
+            <strong>${money(p.price * qty)}</strong>
+          </div>
+        `;
+      }).join("")
+    : `<p style="color:#64748b;font-size:13px;">Giỏ hàng trống.</p>`;
+
+  const total = entries.reduce((sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty, 0);
+  document.getElementById("cart-total").textContent = money(total);
+}
+
+function changeQty(id, amount) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  cart[id] = (cart[id] || 0) + amount;
+  if (cart[id] <= 0) delete cart[id];
+  if (cart[id] > p.stock) { cart[id] = p.stock; alert("Tồn kho không đủ!"); }
+  updateCart();
+}
+
+function openCart() { document.getElementById("cart-panel").classList.add("open"); }
+function closeCart() { document.getElementById("cart-panel").classList.remove("open"); }
+
 const ACCOUNTS_STORAGE_KEY = "sk82nd_registered_accounts_v1";
 const SESSION_STORAGE_KEY = "sk82nd_current_session_v1";
 const SHIPPING_DEPOSIT_FEE = 35000;
@@ -1691,7 +1904,6 @@ function selectPaymentOption(optionKey) {
     ? `${activeOrderState.orderCode} BANK FULL`
     : `${activeOrderState.orderCode} COC SHIP`;
 
-  // VietQR mẫu (thay thông tin tài khoản ngân hàng thực tế nếu cần)
   const qrUrl = `https://img.vietqr.io/image/MB-0333501537-compact2.png?amount=${encodeURIComponent(amountToPay)}&addInfo=${encodeURIComponent(transferNote)}&accountName=${encodeURIComponent("SK82ND SHOP")}`;
 
   document.getElementById("checkoutStepOption").style.display = "none";
@@ -1755,239 +1967,6 @@ function markPaymentReceived() {
 }
 
 renderAccountSession();
-
-updateCategoryDisplay();
-}
-
-function selectCategoryDirect(catName) {
-  const index = categoriesList.indexOf(catName);
-  if (index !== -1) {
-    currentCategoryIndex = index;
-    updateCategoryDisplay();
-    document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
-  }
-}
-
-function filterByTicker(subType) {
-  currentCategoryIndex = 0; // Complete
-  currentSubFilter = subType;
-  updateCategoryDisplay();
-  document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
-}
-
-function scrollToSection(sectionId) {
-  document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
-}
-
-function updateCategoryDisplay() {
-  const catKey = categoriesList[currentCategoryIndex];
-  document.getElementById("currentCategoryTitle").textContent = categoryDisplayNames[catKey];
-  
-  const subFiltersEl = document.getElementById("completeSubFilters");
-  if (catKey === "Complete") {
-    subFiltersEl.classList.add("show");
-    const subBtns = subFiltersEl.querySelectorAll(".sub-filter");
-    subBtns.forEach(b => {
-      if (b.textContent.toLowerCase().includes(currentSubFilter)) {
-        b.classList.add("active");
-      } else {
-        b.classList.remove("active");
-      }
-    });
-  } else {
-    subFiltersEl.classList.remove("show");
-  }
-
-  render();
-}
-
-async function loadProducts() {
-  grid.innerHTML = `<p style="padding:40px;color:#64748b;grid-column: span 4;text-align:center;">Loading SK82ND inventory...</p>`;
-
-  try {
-    const response = await fetch("/api/products", { cache: "no-store" });
-    if (!response.ok) throw new Error("API error: " + response.status);
-
-    const data = await response.json();
-    if (!data.success) throw new Error(data.error || "Cannot load products");
-
-    products = data.products || [];
-    window.allLoadedProducts = products;
-
-    for (const id of Object.keys(cart)) {
-      if (!products.some(p => p.id === id)) delete cart[id];
-    }
-
-    render();
-    updateCart();
-
-  } catch (error) {
-    console.error("SK82ND:", error);
-    grid.innerHTML = `<p style="padding:40px;color:#0284C7;grid-column: span 4;text-align:center;">Không thể tải kho hàng. Vui lòng thử lại sau.</p>`;
-  }
-}
-
-function render() {
-  const catKey = categoriesList[currentCategoryIndex];
-  
-  const items = products.filter(p => {
-    const cat = fnNormalize(p.category);
-    const cond = fnNormalize(p.condition);
-
-    if (catKey === "Complete") {
-      if (cat !== "complete") return false;
-      if (currentSubFilter === "new") return cond === "new";
-      if (currentSubFilter === "2hand") return cond.includes("2hand") || cond.includes("used") || cond.includes("custom");
-      return cond === "new";
-    }
-
-    if (catKey === "Deck") return cat === "deck";
-    if (catKey === "Trucks") return cat === "trucks" || cat === "truck";
-    if (catKey === "Wheels") return cat === "wheels" || cat === "wheel";
-
-    return true;
-  });
-
-  document.getElementById("result-count").textContent =
-    items.length + " products · AVAILABLE NOW";
-
-  if (!items.length) {
-    grid.innerHTML = `<p style="padding:40px;color:#64748b;grid-column: span 4;text-align:center;">Hiện chưa có sản phẩm trong danh mục này.</p>`;
-    return;
-  }
-
-  grid.innerHTML = items.map(p => {
-    const id = escapeHTML(p.id);
-    const image = p.image
-      ? `<img class="product-photo" src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}" loading="lazy">`
-      : `<div style="display:grid;place-items:center;height:100%;color:#aaa;font-size:11px;">NO IMAGE</div>`;
-
-    return `
-      <article class="product" onclick="openProductModal('${id}')">
-        <div class="product-visual">${image}</div>
-        <div class="product-info">
-          <h3 class="product-name">${escapeHTML(p.name)}</h3>
-          <div class="price">${money(p.price)}</div>
-        </div>
-      </article>
-    `;
-  }).join("");
-}
-
-function setSubFilter(subType, btn) {
-  currentSubFilter = subType;
-  document.querySelectorAll(".sub-filter").forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-  render();
-}
-
-function openProductModal(productId) {
-  const product = products.find(p => p.id === productId);
-  if (!product) return;
-
-  const gallery = document.getElementById('modalGallery');
-  const images = (product.images && product.images.length > 0)
-    ? product.images
-    : [product.image || 'https://via.placeholder.com/600x600?text=No+Image'];
-
-  gallery.className = images.length === 1 ? 'modal-gallery single-img' : 'modal-gallery';
-  gallery.innerHTML = images.map(imgUrl => `<img src="${escapeHTML(imgUrl)}" alt="${escapeHTML(product.name)}">`).join('');
-
-  document.getElementById('modalBadge').innerText = `${product.category} • ${product.condition} (Tồn: ${product.stock})`;
-  document.getElementById('modalTitle').innerText = product.name;
-  document.getElementById('modalPrice').innerText = money(product.price);
-  document.getElementById('modalSpecs').innerText = product.info || 'Đang cập nhật thông số...';
-
-  const giftsEl = document.getElementById('modalGifts');
-  if (product.gifts && product.gifts.trim() !== '') {
-    giftsEl.style.display = 'block';
-    giftsEl.innerText = `🎁 Tặng kèm: ${product.gifts}`;
-  } else {
-    giftsEl.style.display = 'none';
-  }
-
-  const buyBtn = document.getElementById('modalAddToBag');
-  buyBtn.onclick = () => { addToCart(product.id); closeProductModal(); };
-
-  document.getElementById('productModal').classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeProductModal() {
-  document.getElementById('productModal').classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-function addToCart(id) {
-  const product = products.find(p => p.id === id);
-  if (!product) return;
-  const quantity = cart[id] || 0;
-  if (quantity >= product.stock) { alert("Số lượng trong kho không đủ!"); return; }
-  cart[id] = quantity + 1;
-  updateCart();
-  const toast = document.getElementById("toast");
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 1500);
-}
-
-function updateCart() {
-  const entries = Object.entries(cart).filter(([id, qty]) => qty > 0 && products.some(p => p.id === id));
-  const count = entries.reduce((sum, [, qty]) => sum + qty, 0);
-  document.getElementById("cart-count").textContent = count;
-
-  document.getElementById("cart-items").innerHTML = entries.length
-    ? entries.map(([id, qty]) => {
-        const p = products.find(x => x.id === id);
-        return `
-          <div class="cart-row">
-            <div>
-              <b>${escapeHTML(p.name)}</b>
-              <small>${money(p.price)}</small>
-              <div class="qty">
-                <button onclick="changeQty('${id}',-1)">−</button>
-                <span>${qty}</span>
-                <button onclick="changeQty('${id}',1)">+</button>
-              </div>
-            </div>
-            <strong>${money(p.price * qty)}</strong>
-          </div>
-        `;
-      }).join("")
-    : `<p style="color:#64748b;font-size:13px;">Giỏ hàng trống.</p>`;
-
-  const total = entries.reduce((sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty, 0);
-  document.getElementById("cart-total").textContent = money(total);
-}
-
-function changeQty(id, amount) {
-  const p = products.find(x => x.id === id);
-  if (!p) return;
-  cart[id] = (cart[id] || 0) + amount;
-  if (cart[id] <= 0) delete cart[id];
-  if (cart[id] > p.stock) { cart[id] = p.stock; alert("Tồn kho không đủ!"); }
-  updateCart();
-}
-
-function openCart() { document.getElementById("cart-panel").classList.add("open"); }
-function closeCart() { document.getElementById("cart-panel").classList.remove("open"); }
-
-function checkout() {
-  const entries = Object.entries(cart);
-  if (!entries.length) { alert("Giỏ hàng trống."); return; }
-  const lines = entries.map(([id, qty]) => {
-    const p = products.find(x => x.id === id);
-    return `${p.name} x${qty} - ${money(p.price * qty)}`;
-  });
-  const total = entries.reduce((sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty, 0);
-  const message = "Chào SK82ND! Mình muốn đặt hàng:
-" + lines.join("
-") + "
-Tổng: " + money(total) + "
-Nhờ shop xác nhận.";
-  window.open("https://www.instagram.com/sk82nd.shop/", "_blank");
-  navigator.clipboard?.writeText(message);
-}
-
 updateCategoryDisplay();
 loadProducts();
 setInterval(loadProducts, 60000);
@@ -1995,4 +1974,3 @@ setInterval(loadProducts, 60000);
 
 </body>
 </html>
-Đang phân tích
