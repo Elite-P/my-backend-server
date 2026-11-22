@@ -1,4 +1,3 @@
-
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
@@ -39,9 +38,9 @@ const META_PAGE_ID = process.env.META_PAGE_ID?.trim() || "142427568957877";
 // TODO: Nếu có link endpoint/webhook TikTok riêng cần gọi hoặc đối chiếu, điền vào đây hoặc qua env TIKTOK_WEBHOOK_URL
 const TIKTOK_WEBHOOK_LINK = process.env.TIKTOK_WEBHOOK_URL?.trim() || "";
 
-// OAuth Client ID / App ID (có thể điền vào .env trên Render hoặc trực tiếp ở đây)
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID?.trim() || "";
-const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID?.trim() || "";
+// OAuth Client ID / App ID (đã điền sẵn ID lấy được, có thể ghi đè bằng biến môi trường trên Render)
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID?.trim() || "1062826409213-9b31p1jf4klcfa21hgvlkq39t1u84cr5.apps.googleusercontent.com";
+const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID?.trim() || "1677171924069694";
 const PAYMENT_WEBHOOK_SECRET = process.env.PAYMENT_WEBHOOK_SECRET?.trim() || "";
 // ==========================================
 
@@ -732,6 +731,42 @@ app.post("/api/payment-webhook", (req, res) => {
     console.error("PAYMENT WEBHOOK ERROR:", err);
     return res.status(500).json({ success: false, error: err.message });
   }
+});
+
+// ==========================================
+// TRANG CHÍNH SÁCH QUYỀN RIÊNG TƯ & XÓA DỮ LIỆU (CHO META APP)
+// ==========================================
+app.get("/privacy-policy", (req, res) => {
+  res.type("html").send(`<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chính sách quyền riêng tư — SK82ND SkateShop</title>
+</head>
+<body style="font-family: Arial, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 16px; line-height: 1.6; color: #0f172a;">
+  <h1>Chính sách quyền riêng tư — SK82ND SkateShop</h1>
+  <p>SK82ND SkateShop thu thập họ tên, email hoặc thông tin tài khoản đăng nhập (Google, Facebook hoặc tài khoản web) và mã đơn hàng nhằm hỗ trợ đặt hàng, thanh toán và chăm sóc khách hàng.</p>
+  <p>Chúng tôi không bán hoặc chia sẻ thông tin cá nhân của bạn cho bên thứ ba vì mục đích quảng cáo trái phép.</p>
+  <p>Liên hệ hỗ trợ: <a href="mailto:phamphuc2901@gmail.com">phamphuc2901@gmail.com</a> hoặc Zalo / SĐT: 0333 501 537.</p>
+</body>
+</html>`);
+});
+
+app.get("/data-deletion", (req, res) => {
+  res.type("html").send(`<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hướng dẫn xóa dữ liệu người dùng — SK82ND SkateShop</title>
+</head>
+<body style="font-family: Arial, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 16px; line-height: 1.6; color: #0f172a;">
+  <h1>Hướng dẫn xóa dữ liệu người dùng — SK82ND SkateShop</h1>
+  <p>Để yêu cầu xóa dữ liệu tài khoản hoặc thông tin khách hàng gắn với SK82ND SkateShop, vui lòng gửi email tới <a href="mailto:phamphuc2901@gmail.com">phamphuc2901@gmail.com</a> hoặc nhắn trực tiếp qua Facebook / Zalo 0333 501 537 với nội dung <strong>"Yêu cầu xóa dữ liệu - SK82ND"</strong> kèm email hoặc thông tin tài khoản đã đăng ký.</p>
+  <p>Chúng tôi sẽ tiếp nhận và xử lý yêu cầu xóa dữ liệu trong thời gian sớm nhất sau khi xác minh.</p>
+</body>
+</html>`);
 });
 
 // ==========================================
