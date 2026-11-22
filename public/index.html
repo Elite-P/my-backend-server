@@ -1127,7 +1127,121 @@ header {
   margin-top: 8px;
 }
 
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.auth-tab-btn {
+  padding: 7px 8px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--muted);
+}
+.auth-tab-btn.active {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+.social-login-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.oauth-btn {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  transition: .18s;
+}
+.oauth-btn:hover {
+  background: #f1f5f9;
+  border-color: var(--ink);
+}
+.oauth-btn.fb-btn {
+  background: #1877F2;
+  border-color: #1877F2;
+  color: #fff;
+}
+.oauth-btn.fb-btn:hover {
+  background: #1565D8;
+}
+.oauth-note {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.45;
+  margin-top: 8px;
+}
+.logout-link-btn {
+  margin-top: 8px;
+  background: transparent;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.logout-link-btn:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+
 </style>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+window.__SK82ND_AUTH_CONFIG__ = {
+  GOOGLE_CLIENT_ID: "",
+  FACEBOOK_APP_ID: ""
+};
+window.fbAsyncInit = function() {
+  if (typeof FB !== "undefined" && window.__SK82ND_AUTH_CONFIG__.FACEBOOK_APP_ID) {
+    FB.init({
+      appId: window.__SK82ND_AUTH_CONFIG__.FACEBOOK_APP_ID,
+      cookie: true,
+      xfbml: false,
+      version: "v21.0"
+    });
+  }
+};
+</script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js"></script>
+
 </head>
 
 <body>
@@ -1175,17 +1289,47 @@ header {
       <button class="close" onclick="toggleSidebar()">×</button>
     </div>
 
-    <!-- KHU VỰC TẠO TÀI KHOẢN / ĐĂNG NHẬP THẬT -->
+    <!-- KHU VỰC ĐĂNG KÝ / ĐĂNG NHẬP TÀI KHOẢN & OAUTH GOOGLE / FACEBOOK -->
     <div class="login-box" id="member-account-box">
-      <h4>Tạo tài khoản & Ưu đãi</h4>
-      <p>Tạo tài khoản hoặc đăng nhập để lưu thông tin và theo dõi đơn hàng.</p>
-      <input type="text" id="account-identifier" class="login-input" placeholder="Nhập số điện thoại hoặc Email...">
-      <input type="password" id="account-password" class="login-input" placeholder="Mật khẩu (tối thiểu 6 ký tự)...">
-      <button class="login-btn" id="create-account-btn" onclick="handleCreateAccount()">Tạo tài khoản / Đăng nhập</button>
-      <div class="social-login">
-        <button type="button" onclick="handleSocialLogin('Google')">Google</button>
-        <button type="button" onclick="handleSocialLogin('Facebook')">Facebook</button>
+      <h4>Tài khoản SK82ND</h4>
+      <p id="auth-subtitle">Đăng ký tài khoản mới hoặc đăng nhập để lưu thông tin và theo dõi đơn hàng.</p>
+
+      <div class="auth-tabs" role="tablist">
+        <button type="button" id="tab-register" class="auth-tab-btn active" onclick="switchAuthMode('register')">Đăng ký</button>
+        <button type="button" id="tab-login" class="auth-tab-btn" onclick="switchAuthMode('login')">Đăng nhập</button>
       </div>
+
+      <div id="auth-form-fields">
+        <input type="text" id="account-name" class="login-input" placeholder="Họ và tên (VD: Phạm Phúc)...">
+        <input type="text" id="account-identifier" class="login-input" placeholder="Email hoặc Số điện thoại...">
+        <input type="password" id="account-password" class="login-input" placeholder="Mật khẩu (tối thiểu 6 ký tự)...">
+        <input type="password" id="account-password-confirm" class="login-input" placeholder="Nhập lại mật khẩu...">
+        <button type="button" class="login-btn" id="create-account-btn" onclick="handleAuthSubmit()">Đăng ký tài khoản</button>
+      </div>
+
+      <div class="auth-divider"><span>Hoặc tiếp tục với</span></div>
+
+      <div class="social-login-stack">
+        <button type="button" class="oauth-btn" id="google-login-btn" onclick="triggerGoogleSignIn()">
+          <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M23.49 12.27c0-.78-.07-1.54-.2-2.27H12v4.51h6.47c-.28 1.5-1.12 2.77-2.38 3.62v3h3.85c2.25-2.07 3.55-5.13 3.55-8.86z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.94-2.91l-3.85-3c-1.07.72-2.44 1.15-4.09 1.15-3.14 0-5.8-2.12-6.75-4.97H1.26v3.1C3.24 21.3 7.31 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.25 14.27A7.2 7.2 0 0 1 4.87 12c0-.79.14-1.56.38-2.27V6.63H1.26A11.98 11.98 0 0 0 0 12c0 1.93.46 3.76 1.26 5.37l3.99-3.1z"/>
+            <path fill="#EA4335" d="M12 4.75c1.76 0 3.34.61 4.59 1.8l3.44-3.44C17.94 1.19 15.23 0 12 0 7.31 0 3.24 2.7 1.26 6.63l3.99 3.1c.95-2.85 3.61-4.98 6.75-4.98z"/>
+          </svg>
+          <span>Tiếp tục với Google</span>
+        </button>
+
+        <button type="button" class="oauth-btn fb-btn" id="facebook-login-btn" onclick="triggerFacebookSignIn()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.5 22v-8.2h2.8l.4-3.2h-3.2V8.5c0-.9.3-1.6 1.6-1.6h1.7V4.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.1 1.5-4.1 4.3v2.3H7.5v3.2h2.7V22h3.3z"/>
+          </svg>
+          <span>Tiếp tục với Facebook</span>
+        </button>
+      </div>
+
+      <div id="google-gis-render-slot" style="margin-top:8px;"></div>
+      <div class="oauth-note" id="oauth-config-hint"></div>
       <div id="account-status" class="account-badge" style="display:none;"></div>
     </div>
 
@@ -1719,23 +1863,80 @@ function changeQty(id, amount) {
 function openCart() { document.getElementById("cart-panel").classList.add("open"); }
 function closeCart() { document.getElementById("cart-panel").classList.remove("open"); }
 
-const ACCOUNTS_STORAGE_KEY = "sk82nd_registered_accounts_v1";
 const SESSION_STORAGE_KEY = "sk82nd_current_session_v1";
 const SHIPPING_DEPOSIT_FEE = 35000;
 
+let currentAuthMode = "register";
 let activeOrderState = null;
 let paymentPollTimer = null;
 
-function getStoredAccounts() {
+async function loadAuthConfigFromBackend() {
   try {
-    return JSON.parse(localStorage.getItem(ACCOUNTS_STORAGE_KEY) || "[]");
+    const res = await fetch("/api/auth/config", { cache: "no-store" });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data && data.success) {
+      window.__SK82ND_AUTH_CONFIG__ = {
+        GOOGLE_CLIENT_ID: data.googleClientId || window.__SK82ND_AUTH_CONFIG__.GOOGLE_CLIENT_ID || "",
+        FACEBOOK_APP_ID: data.facebookAppId || window.__SK82ND_AUTH_CONFIG__.FACEBOOK_APP_ID || ""
+      };
+      if (typeof FB !== "undefined" && window.__SK82ND_AUTH_CONFIG__.FACEBOOK_APP_ID) {
+        FB.init({
+          appId: window.__SK82ND_AUTH_CONFIG__.FACEBOOK_APP_ID,
+          cookie: true,
+          xfbml: false,
+          version: "v21.0"
+        });
+      }
+      initGoogleSignIn();
+      switchAuthMode('register');
+renderAccountSession();
+window.addEventListener('load', () => { initGoogleSignIn(); loadAuthConfigFromBackend(); });
+    }
+  } catch (_) {}
+}
+
+function decodeJwtPayload(token) {
+  try {
+    const base64Url = token.split(".")[1];
+    if (!base64Url) return null;
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map(c => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    return JSON.parse(jsonPayload);
   } catch (e) {
-    return [];
+    return null;
   }
 }
 
-function saveStoredAccounts(list) {
-  localStorage.setItem(ACCOUNTS_STORAGE_KEY, JSON.stringify(list));
+function switchAuthMode(mode) {
+  currentAuthMode = mode === "login" ? "login" : "register";
+  const regTab = document.getElementById("tab-register");
+  const logTab = document.getElementById("tab-login");
+  const nameInput = document.getElementById("account-name");
+  const confirmInput = document.getElementById("account-password-confirm");
+  const submitBtn = document.getElementById("create-account-btn");
+  const subtitle = document.getElementById("auth-subtitle");
+
+  if (currentAuthMode === "register") {
+    regTab?.classList.add("active");
+    logTab?.classList.remove("active");
+    if (nameInput) nameInput.style.display = "block";
+    if (confirmInput) confirmInput.style.display = "block";
+    if (submitBtn) submitBtn.textContent = "Đăng ký tài khoản";
+    if (subtitle) subtitle.textContent = "Tạo tài khoản SK82ND mới và lưu trực tiếp lên hệ thống.";
+  } else {
+    logTab?.classList.add("active");
+    regTab?.classList.remove("active");
+    if (nameInput) nameInput.style.display = "none";
+    if (confirmInput) confirmInput.style.display = "none";
+    if (submitBtn) submitBtn.textContent = "Đăng nhập";
+    if (subtitle) subtitle.textContent = "Đăng nhập bằng tài khoản đã đăng ký hoặc Google / Facebook.";
+  }
 }
 
 function setCurrentSession(account) {
@@ -1743,15 +1944,42 @@ function setCurrentSession(account) {
   renderAccountSession();
 }
 
+function handleLogout() {
+  localStorage.removeItem(SESSION_STORAGE_KEY);
+  if (window.google?.accounts?.id) {
+    window.google.accounts.id.disableAutoSelect();
+  }
+  renderAccountSession();
+}
+
 function renderAccountSession() {
   const statusEl = document.getElementById("account-status");
+  const formFields = document.getElementById("auth-form-fields");
+  const hintEl = document.getElementById("oauth-config-hint");
   if (!statusEl) return;
+
+  const cfg = window.__SK82ND_AUTH_CONFIG__ || {};
+  const missing = [];
+  if (!cfg.GOOGLE_CLIENT_ID) missing.push("GOOGLE_CLIENT_ID");
+  if (!cfg.FACEBOOK_APP_ID) missing.push("FACEBOOK_APP_ID");
+  if (hintEl) {
+    hintEl.innerHTML = missing.length
+      ? `Chưa cấu hình OAuth App ID trên server: <b>${escapeHTML(missing.join(", "))}</b>. Đăng ký/Đăng nhập bằng Email hoặc SĐT đã đồng bộ thẳng lên backend & Notion CRM.`
+      : "";
+  }
+
   try {
     const session = JSON.parse(localStorage.getItem(SESSION_STORAGE_KEY) || "null");
     if (session && session.identifier) {
+      if (formFields) formFields.style.display = "none";
       statusEl.style.display = "block";
-      statusEl.innerHTML = `✅ Tài khoản: <b>${escapeHTML(session.identifier)}</b> (${escapeHTML(session.provider || "Thành viên")})`;
+      statusEl.innerHTML = `
+        ✅ Đã đăng nhập: <b>${escapeHTML(session.name || session.identifier)}</b><br>
+        <small>${escapeHTML(session.identifier)} • ${escapeHTML(session.provider || "Thành viên")}</small><br>
+        <button type="button" class="logout-link-btn" onclick="handleLogout()">Đăng xuất</button>
+      `;
     } else {
+      if (formFields) formFields.style.display = "block";
       statusEl.style.display = "none";
       statusEl.innerHTML = "";
     }
@@ -1760,68 +1988,168 @@ function renderAccountSession() {
   }
 }
 
-function handleCreateAccount() {
+async function handleAuthSubmit() {
+  const nameInput = document.getElementById("account-name");
   const idInput = document.getElementById("account-identifier");
   const pwInput = document.getElementById("account-password");
+  const confirmInput = document.getElementById("account-password-confirm");
+  const submitBtn = document.getElementById("create-account-btn");
+
+  const fullName = (nameInput?.value || "").trim();
   const identifier = (idInput?.value || "").trim();
   const password = (pwInput?.value || "").trim();
+  const confirmPassword = (confirmInput?.value || "").trim();
 
   if (!identifier) {
-    alert("Vui lòng nhập số điện thoại hoặc Email để tạo tài khoản.");
+    alert("Vui lòng nhập Email hoặc Số điện thoại.");
     return;
   }
   if (password.length < 6) {
-    alert("Vui lòng nhập mật khẩu ít nhất 6 ký tự.");
+    alert("Mật khẩu phải có tối thiểu 6 ký tự.");
+    return;
+  }
+  if (currentAuthMode === "register" && password !== confirmPassword) {
+    alert("Mật khẩu nhập lại chưa khớp.");
     return;
   }
 
-  const accounts = getStoredAccounts();
-  const existing = accounts.find(a => a.identifier.toLowerCase() === identifier.toLowerCase());
+  const endpoint = currentAuthMode === "register" ? "/api/auth/register" : "/api/auth/login";
+  const prevText = submitBtn ? submitBtn.textContent : "";
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Đang xử lý...";
+  }
 
-  if (existing) {
-    if (existing.password !== password) {
-      alert("Tài khoản đã tồn tại nhưng mật khẩu chưa đúng.");
+  try {
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: fullName, identifier, password })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      alert(data.error || "Không thể xử lý tài khoản.");
       return;
     }
-    setCurrentSession({ identifier: existing.identifier, provider: "Tài khoản SK82ND" });
-    alert("Đăng nhập tài khoản thành công!");
-  } else {
-    const newAccount = {
-      id: "ACC-" + Date.now(),
-      identifier,
-      password,
-      createdAt: new Date().toISOString()
-    };
-    accounts.push(newAccount);
-    saveStoredAccounts(accounts);
-    setCurrentSession({ identifier: newAccount.identifier, provider: "Tài khoản mới" });
-    alert("Tạo tài khoản thành công!");
-  }
 
-  if (pwInput) pwInput.value = "";
+    setCurrentSession(data.user);
+    if (nameInput) nameInput.value = "";
+    if (pwInput) pwInput.value = "";
+    if (confirmInput) confirmInput.value = "";
+    alert(currentAuthMode === "register" ? "Đăng ký và lưu tài khoản lên hệ thống thành công!" : "Đăng nhập thành công!");
+  } catch (err) {
+    alert("Lỗi kết nối máy chủ. Vui lòng thử lại.");
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = prevText;
+    }
+  }
 }
 
-function handleSocialLogin(provider) {
-  const idInput = document.getElementById("account-identifier");
-  const typed = (idInput?.value || "").trim();
-  const identifier = typed || `${provider.toLowerCase()}_member@sk82nd.shop`;
-
-  const accounts = getStoredAccounts();
-  let existing = accounts.find(a => a.identifier.toLowerCase() === identifier.toLowerCase());
-  if (!existing) {
-    existing = {
-      id: "ACC-" + Date.now(),
-      identifier,
-      password: "",
-      provider,
-      createdAt: new Date().toISOString()
-    };
-    accounts.push(existing);
-    saveStoredAccounts(accounts);
+async function handleGoogleCredentialResponse(response) {
+  const payload = decodeJwtPayload(response?.credential || "");
+  if (!payload || !payload.email) {
+    alert("Không đọc được thông tin tài khoản Google.");
+    return;
   }
 
-  setCurrentSession({ identifier: existing.identifier, provider });
-  alert(`Đã liên kết và đăng nhập bằng ${provider}: ${identifier}`);
+  try {
+    const res = await fetch("/api/auth/oauth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        provider: "Google",
+        providerId: payload.sub || "",
+        identifier: payload.email,
+        name: payload.name || payload.email.split("@")[0],
+        picture: payload.picture || ""
+      })
+    });
+    const data = await res.json();
+    if (res.ok && data.success && data.user) {
+      setCurrentSession(data.user);
+      alert(`Đăng nhập Google thành công: ${data.user.name} (${data.user.identifier})`);
+    }
+  } catch (err) {
+    alert("Lỗi đồng bộ tài khoản Google lên máy chủ.");
+  }
+}
+
+function initGoogleSignIn() {
+  const clientId = (window.__SK82ND_AUTH_CONFIG__?.GOOGLE_CLIENT_ID || "").trim();
+  const renderSlot = document.getElementById("google-gis-render-slot");
+  if (!clientId || !window.google?.accounts?.id || !renderSlot) return;
+
+  window.google.accounts.id.initialize({
+    client_id: clientId,
+    callback: handleGoogleCredentialResponse
+  });
+  renderSlot.innerHTML = "";
+  window.google.accounts.id.renderButton(renderSlot, {
+    theme: "outline",
+    size: "medium",
+    text: "continue_with",
+    width: 270
+  });
+}
+
+function triggerGoogleSignIn() {
+  const clientId = (window.__SK82ND_AUTH_CONFIG__?.GOOGLE_CLIENT_ID || "").trim();
+  if (!clientId) {
+    alert("Chưa cấu hình GOOGLE_CLIENT_ID trên server (biến môi trường GOOGLE_CLIENT_ID).");
+    return;
+  }
+  initGoogleSignIn();
+  if (window.google?.accounts?.id) {
+    window.google.accounts.id.prompt();
+  }
+}
+
+function triggerFacebookSignIn() {
+  const appId = (window.__SK82ND_AUTH_CONFIG__?.FACEBOOK_APP_ID || "").trim();
+  if (!appId) {
+    alert("Chưa cấu hình FACEBOOK_APP_ID trên server (biến môi trường FACEBOOK_APP_ID).");
+    return;
+  }
+  if (typeof FB === "undefined") {
+    alert("SDK Facebook chưa tải xong, vui lòng thử lại sau vài giây.");
+    return;
+  }
+
+  FB.login(
+    function(loginResponse) {
+      if (!loginResponse.authResponse) {
+        alert("Bạn đã hủy đăng nhập Facebook.");
+        return;
+      }
+      FB.api("/me", { fields: "id,name,email" }, async function(profile) {
+        const identifier = profile?.email || `fb_${profile?.id || Date.now()}@facebook.sk82nd.shop`;
+        const name = profile?.name || "Thành viên Facebook";
+
+        try {
+          const res = await fetch("/api/auth/oauth", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              provider: "Facebook",
+              providerId: profile?.id || "",
+              identifier,
+              name
+            })
+          });
+          const data = await res.json();
+          if (res.ok && data.success && data.user) {
+            setCurrentSession(data.user);
+            alert(`Đăng nhập Facebook thành công: ${data.user.name}`);
+          }
+        } catch (err) {
+          alert("Lỗi đồng bộ tài khoản Facebook lên máy chủ.");
+        }
+      });
+    },
+    { scope: "public_profile,email" }
+  );
 }
 
 function consultShop() {
@@ -1906,6 +2234,24 @@ function selectPaymentOption(optionKey) {
 
   const qrUrl = `https://img.vietqr.io/image/MB-0333501537-compact2.png?amount=${encodeURIComponent(amountToPay)}&addInfo=${encodeURIComponent(transferNote)}&accountName=${encodeURIComponent("SK82ND SHOP")}`;
 
+  let currentCustomer = null;
+  try {
+    currentCustomer = JSON.parse(localStorage.getItem(SESSION_STORAGE_KEY) || "null");
+  } catch (_) {}
+
+  fetch("/api/orders", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      orderCode: activeOrderState.orderCode,
+      option: optionKey,
+      amountToPay,
+      subtotal: activeOrderState.subtotal,
+      entries: activeOrderState.entries,
+      customer: currentCustomer
+    })
+  }).catch(() => {});
+
   document.getElementById("checkoutStepOption").style.display = "none";
   document.getElementById("checkoutStepQR").style.display = "block";
 
@@ -1974,3 +2320,4 @@ setInterval(loadProducts, 60000);
 
 </body>
 </html>
+Đã xử lý và phân tích bằng mã
