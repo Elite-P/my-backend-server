@@ -1459,11 +1459,7 @@ function checkout() {
     return `${p.name} x${qty} - ${money(p.price * qty)}`;
   });
   const total = entries.reduce((sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty, 0);
-  const message = "Chào SK82ND! Mình muốn đặt hàng:
-" + lines.join("
-") + "
-Tổng: " + money(total) + "
-Nhờ shop xác nhận.";
+ const message = "Chào SK82ND! Mình muốn đặt hàng:\n" + lines.join("\n") + "\nTổng: " + money(total) + "\nNhờ shop xác nhận.";
   window.open("https://www.instagram.com/sk82nd.shop/", "_blank");
   navigator.clipboard?.writeText(message);
 }
