@@ -1,5 +1,8 @@
+
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
+import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { Client } from '@notionhq/client';
@@ -28,13 +31,18 @@ const CLIENT_DB_ID = process.env.NOTION_CUSTOMER_DB_ID?.trim() || "415f5c2fde598
 // ==========================================
 // CHỖ TRỐNG CẤU HÌNH API & LINK (ĐIỀN KHI CÓ)
 // ==========================================
-const META_PAGE_TOKEN = process.env.META_PAGE_TOKEN?.trim() || "EAAXSkhs2Y9gBTHVS4Hu8PuQOIf4npVlfvxks8ihJ4i14V20762tdeQw5fSTH97k3VygZBClQBa6TAYmZCVmpqbZBoIkS795F7CVjX8Vt73bGk8Lexo8Y8onedjet8GCZCJfKN1OuBVR5caOZA1l6tDiB6FsWP4vwZCoKaxlZBXM5hGV9N5I6pV0leBO7sFLKZBYjhM5whgNIg0OesPTq5TW9KVZCtDSWFx9wO9AHgzCnkMwZDZD"; // TODO: Điền META_PAGE_TOKEN vào env hoặc thay chuỗi rỗng
-const META_VERIFY_TOKEN = process.env.META_VERIFY_TOKEN?.trim() || "sk82nd_verify_2026"; // TODO: Điền META_VERIFY_TOKEN tự đặt vào env
+const META_PAGE_TOKEN = process.env.META_PAGE_TOKEN?.trim() || ""; // TODO: Điền META_PAGE_TOKEN vào env hoặc thay chuỗi rỗng
+const META_VERIFY_TOKEN = process.env.META_VERIFY_TOKEN?.trim() || ""; // TODO: Điền META_VERIFY_TOKEN tự đặt vào env
 const META_BUSINESS_ID = process.env.META_BUSINESS_ID?.trim() || "1398185040729817";
 const META_PAGE_ID = process.env.META_PAGE_ID?.trim() || "142427568957877";
 
 // TODO: Nếu có link endpoint/webhook TikTok riêng cần gọi hoặc đối chiếu, điền vào đây hoặc qua env TIKTOK_WEBHOOK_URL
 const TIKTOK_WEBHOOK_LINK = process.env.TIKTOK_WEBHOOK_URL?.trim() || "";
+
+// OAuth Client ID / App ID (có thể điền vào .env trên Render hoặc trực tiếp ở đây)
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID?.trim() || "";
+const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID?.trim() || "";
+const PAYMENT_WEBHOOK_SECRET = process.env.PAYMENT_WEBHOOK_SECRET?.trim() || "";
 // ==========================================
 
 const PROP = {
@@ -442,6 +450,287 @@ app.post("/webhook/tiktok", async (req, res) => {
     });
   } catch (err) {
     console.error("TIKTOK WEBHOOK ERROR:", err);
+  }
+});
+
+
+// ==========================================
+// LƯU TRỮ TÀI KHOẢN KHÁCH HÀNG TRÊN BACKEND & ĐỒNG BỘ NOTION CRM
+// ==========================================
+const DATA_DIR = path.join(__dirname, "data");
+const ACCOUNTS_FILE = path.join(DATA_DIR, "accounts.json");
+const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
+
+function ensureDataFile(filePath, defaultContent = "[]") {
+  try {
+    if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+    if (!fs.existsSync(filePath)) fs.writeFileSync(filePath, defaultContent, "utf8");
+  } catch (err) {
+    console.error("DATA FILE INIT ERROR:", err.message);
+  }
+}
+
+function readJsonFile(filePath, fallback) {
+  try {
+    ensureDataFile(filePath, JSON.stringify(fallback));
+    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+  } catch (err) {
+    return fallback;
+  }
+}
+
+function writeJsonFile(filePath, data) {
+  ensureDataFile(filePath);
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf8");
+}
+
+function hashPassword(password, salt = crypto.randomBytes(16).toString("hex")) {
+  const hash = crypto.scryptSync(String(password), salt, 64).toString("hex");
+  return `${salt}:${hash}`;
+}
+
+function verifyPassword(password, storedHash) {
+  if (!storedHash || !storedHash.includes(":")) return false;
+  const [salt, originalHash] = storedHash.split(":");
+  const hash = crypto.scryptSync(String(password), salt, 64).toString("hex");
+  return crypto.timingSafeEqual(Buffer.from(hash, "hex"), Buffer.from(originalHash, "hex"));
+}
+
+async function syncWebAccountToNotionCRM(account) {
+  try {
+    if (!process.env.NOTION_TOKEN || !CLIENT_DB_ID) return;
+    const providerPrefix = account.provider === "Google" ? "gg" : account.provider === "Facebook" ? "fb_web" : "web";
+    const prefixedUserId = `${providerPrefix}:${account.identifier}`;
+    const dateISO = getVietnamDateISO(Date.now());
+    const duplicated = await isDuplicateClientInDay(prefixedUserId, dateISO);
+    if (duplicated) return;
+
+    await createClientRow({
+      name: `${account.name} (${account.provider})`,
+      link: account.identifier.includes("@") ? `mailto:${account.identifier}` : account.identifier,
+      dateISO,
+      prefixedUserId
+    });
+  } catch (err) {
+    console.error("SYNC WEB ACCOUNT TO NOTION ERROR:", err.message);
+  }
+}
+
+app.get("/api/auth/config", (req, res) => {
+  res.json({
+    success: true,
+    googleClientId: GOOGLE_CLIENT_ID,
+    facebookAppId: FACEBOOK_APP_ID
+  });
+});
+
+app.post("/api/auth/register", async (req, res) => {
+  try {
+    const name = String(req.body?.name || "").trim();
+    const identifier = String(req.body?.identifier || "").trim();
+    const password = String(req.body?.password || "");
+
+    if (!identifier) {
+      return res.status(400).json({ success: false, error: "Vui lòng nhập Email hoặc Số điện thoại." });
+    }
+    if (password.length < 6) {
+      return res.status(400).json({ success: false, error: "Mật khẩu phải có tối thiểu 6 ký tự." });
+    }
+
+    const accounts = readJsonFile(ACCOUNTS_FILE, []);
+    const exists = accounts.some(a => a.identifier.toLowerCase() === identifier.toLowerCase());
+    if (exists) {
+      return res.status(409).json({ success: false, error: "Email hoặc số điện thoại này đã được đăng ký." });
+    }
+
+    const newAccount = {
+      id: "ACC-" + Date.now(),
+      name: name || identifier.split("@")[0],
+      identifier,
+      passwordHash: hashPassword(password),
+      provider: "Tài khoản SK82ND",
+      createdAt: new Date().toISOString()
+    };
+
+    accounts.push(newAccount);
+    writeJsonFile(ACCOUNTS_FILE, accounts);
+    syncWebAccountToNotionCRM(newAccount);
+
+    return res.json({
+      success: true,
+      user: {
+        id: newAccount.id,
+        name: newAccount.name,
+        identifier: newAccount.identifier,
+        provider: newAccount.provider
+      }
+    });
+  } catch (err) {
+    console.error("REGISTER ERROR:", err);
+    return res.status(500).json({ success: false, error: "Lỗi máy chủ khi đăng ký tài khoản." });
+  }
+});
+
+app.post("/api/auth/login", (req, res) => {
+  try {
+    const identifier = String(req.body?.identifier || "").trim();
+    const password = String(req.body?.password || "");
+
+    if (!identifier || !password) {
+      return res.status(400).json({ success: false, error: "Vui lòng nhập đầy đủ thông tin đăng nhập." });
+    }
+
+    const accounts = readJsonFile(ACCOUNTS_FILE, []);
+    const account = accounts.find(a => a.identifier.toLowerCase() === identifier.toLowerCase());
+    if (!account || !verifyPassword(password, account.passwordHash)) {
+      return res.status(401).json({ success: false, error: "Tài khoản hoặc mật khẩu không chính xác." });
+    }
+
+    return res.json({
+      success: true,
+      user: {
+        id: account.id,
+        name: account.name,
+        identifier: account.identifier,
+        provider: account.provider || "Tài khoản SK82ND"
+      }
+    });
+  } catch (err) {
+    console.error("LOGIN ERROR:", err);
+    return res.status(500).json({ success: false, error: "Lỗi máy chủ khi đăng nhập." });
+  }
+});
+
+app.post("/api/auth/oauth", async (req, res) => {
+  try {
+    const provider = String(req.body?.provider || "").trim();
+    const providerId = String(req.body?.providerId || "").trim();
+    const identifier = String(req.body?.identifier || "").trim();
+    const name = String(req.body?.name || "").trim();
+    const picture = String(req.body?.picture || "").trim();
+
+    if (!provider || !identifier) {
+      return res.status(400).json({ success: false, error: "Thiếu thông tin xác thực OAuth." });
+    }
+
+    const accounts = readJsonFile(ACCOUNTS_FILE, []);
+    let account = accounts.find(a => a.identifier.toLowerCase() === identifier.toLowerCase());
+
+    if (!account) {
+      account = {
+        id: `${provider.toUpperCase()}-${providerId || Date.now()}`,
+        name: name || identifier.split("@")[0],
+        identifier,
+        passwordHash: "",
+        provider,
+        picture,
+        createdAt: new Date().toISOString()
+      };
+      accounts.push(account);
+      writeJsonFile(ACCOUNTS_FILE, accounts);
+      syncWebAccountToNotionCRM(account);
+    } else {
+      account.lastLoginAt = new Date().toISOString();
+      if (name) account.name = name;
+      writeJsonFile(ACCOUNTS_FILE, accounts);
+    }
+
+    return res.json({
+      success: true,
+      user: {
+        id: account.id,
+        name: account.name,
+        identifier: account.identifier,
+        provider: account.provider
+      }
+    });
+  } catch (err) {
+    console.error("OAUTH SYNC ERROR:", err);
+    return res.status(500).json({ success: false, error: "Lỗi đồng bộ tài khoản OAuth." });
+  }
+});
+
+// ==========================================
+// QUẢN LÝ ĐƠN HÀNG & TRẠNG THÁI QR THANH TOÁN
+// ==========================================
+app.post("/api/orders", (req, res) => {
+  try {
+    const { orderCode, option, amountToPay, subtotal, entries, customer } = req.body || {};
+    if (!orderCode) return res.status(400).json({ success: false, error: "Thiếu mã đơn hàng." });
+
+    const orders = readJsonFile(ORDERS_FILE, {});
+    orders[orderCode] = {
+      orderCode,
+      option: option || "",
+      amountToPay: Number(amountToPay || 0),
+      subtotal: Number(subtotal || 0),
+      entries: Array.isArray(entries) ? entries : [],
+      customer: customer || null,
+      status: orders[orderCode]?.status || "pending",
+      paid: orders[orderCode]?.paid || false,
+      updatedAt: new Date().toISOString()
+    };
+    writeJsonFile(ORDERS_FILE, orders);
+    return res.json({ success: true, order: orders[orderCode] });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.get("/api/payment-status", (req, res) => {
+  const orderCode = String(req.query.orderCode || "").trim();
+  if (!orderCode) return res.status(400).json({ success: false, error: "Thiếu orderCode" });
+
+  const orders = readJsonFile(ORDERS_FILE, {});
+  const order = orders[orderCode];
+  if (!order) {
+    return res.json({ success: true, orderCode, paid: false, status: "pending" });
+  }
+  return res.json({
+    success: true,
+    orderCode,
+    paid: Boolean(order.paid || order.status === "paid"),
+    status: order.status || "pending"
+  });
+});
+
+app.post("/api/payment-webhook", (req, res) => {
+  try {
+    if (PAYMENT_WEBHOOK_SECRET) {
+      const incomingSecret = req.headers["x-webhook-secret"] || req.query.secret || req.body?.secret;
+      if (incomingSecret !== PAYMENT_WEBHOOK_SECRET) {
+        return res.sendStatus(403);
+      }
+    }
+
+    const content = String(
+      req.body?.content ||
+      req.body?.description ||
+      req.body?.addInfo ||
+      req.body?.orderCode ||
+      ""
+    ).toUpperCase();
+
+    const match = content.match(/SK82-\d{4,8}/);
+    if (!match) {
+      return res.status(200).json({ success: true, matched: false });
+    }
+
+    const orderCode = match[0];
+    const orders = readJsonFile(ORDERS_FILE, {});
+    orders[orderCode] = {
+      ...(orders[orderCode] || { orderCode }),
+      status: "paid",
+      paid: true,
+      paidAt: new Date().toISOString(),
+      rawPayload: req.body
+    };
+    writeJsonFile(ORDERS_FILE, orders);
+    console.log(`[PAYMENT RECEIVED] ${orderCode}`);
+    return res.json({ success: true, matched: true, orderCode });
+  } catch (err) {
+    console.error("PAYMENT WEBHOOK ERROR:", err);
+    return res.status(500).json({ success: false, error: err.message });
   }
 });
 
