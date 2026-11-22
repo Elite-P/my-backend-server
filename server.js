@@ -28,8 +28,8 @@ const CLIENT_DB_ID = process.env.NOTION_CUSTOMER_DB_ID?.trim() || "415f5c2fde598
 // ==========================================
 // CHỖ TRỐNG CẤU HÌNH API & LINK (ĐIỀN KHI CÓ)
 // ==========================================
-const META_PAGE_TOKEN = process.env.META_PAGE_TOKEN?.trim() || ""; // TODO: Điền META_PAGE_TOKEN vào env hoặc thay chuỗi rỗng
-const META_VERIFY_TOKEN = process.env.META_VERIFY_TOKEN?.trim() || ""; // TODO: Điền META_VERIFY_TOKEN tự đặt vào env
+const META_PAGE_TOKEN = process.env.META_PAGE_TOKEN?.trim() || "EAAXSkhs2Y9gBTHVS4Hu8PuQOIf4npVlfvxks8ihJ4i14V20762tdeQw5fSTH97k3VygZBClQBa6TAYmZCVmpqbZBoIkS795F7CVjX8Vt73bGk8Lexo8Y8onedjet8GCZCJfKN1OuBVR5caOZA1l6tDiB6FsWP4vwZCoKaxlZBXM5hGV9N5I6pV0leBO7sFLKZBYjhM5whgNIg0OesPTq5TW9KVZCtDSWFx9wO9AHgzCnkMwZDZD"; // TODO: Điền META_PAGE_TOKEN vào env hoặc thay chuỗi rỗng
+const META_VERIFY_TOKEN = process.env.META_VERIFY_TOKEN?.trim() || "sk82nd_verify_2026"; // TODO: Điền META_VERIFY_TOKEN tự đặt vào env
 const META_BUSINESS_ID = process.env.META_BUSINESS_ID?.trim() || "1398185040729817";
 const META_PAGE_ID = process.env.META_PAGE_ID?.trim() || "142427568957877";
 
