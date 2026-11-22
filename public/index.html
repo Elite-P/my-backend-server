@@ -1,8 +1,4 @@
 
-
-
-Biểu tượng HTML
-index
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -162,13 +158,16 @@ header {
   }
 }
 
-/* LOGO CHỮ XANH (Logo1.png) Ở ĐẦU TRANG CHỦ */
+/* LOGO CHỮ XANH (Logo1.png) Ở ĐẦU TRANG CHỦ - CHÌM NỀN ĐEN VÀO HEADER TRẮNG */
 .brand-logo-text {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   height: 44px;
   flex-shrink: 0;
+  background: transparent;
+  border-radius: 6px;
+  overflow: hidden;
   transition: transform 0.2s ease;
 }
 .brand-logo-text:hover {
@@ -180,6 +179,7 @@ header {
   max-width: 150px;
   object-fit: contain;
   display: block;
+  mix-blend-mode: lighten;
 }
 
 /* FOOTER LOGO ĐỒNG BỘ */
@@ -503,15 +503,16 @@ header {
 
 .catalog-watermark {
   position: fixed;
-  top: 52%;
+  top: 54%;
   left: 50%;
-  transform: translate(-50%, -50%) rotate(-8deg);
-  width: min(760px, 88vw);
+  transform: translate(-50%, -50%) scale(1.18);
+  width: min(980px, 94vw);
   height: auto;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.065;
-  filter: invert(1);
+  opacity: 0.14;
+  filter: invert(1) contrast(1.15);
+  mix-blend-mode: multiply;
   user-select: none;
 }
 
@@ -1459,7 +1460,11 @@ function checkout() {
     return `${p.name} x${qty} - ${money(p.price * qty)}`;
   });
   const total = entries.reduce((sum, [id, qty]) => sum + products.find(x => x.id === id).price * qty, 0);
- const message = "Chào SK82ND! Mình muốn đặt hàng:\n" + lines.join("\n") + "\nTổng: " + money(total) + "\nNhờ shop xác nhận.";
+  const message = "Chào SK82ND! Mình muốn đặt hàng:
+" + lines.join("
+") + "
+Tổng: " + money(total) + "
+Nhờ shop xác nhận.";
   window.open("https://www.instagram.com/sk82nd.shop/", "_blank");
   navigator.clipboard?.writeText(message);
 }
@@ -1471,4 +1476,4 @@ setInterval(loadProducts, 60000);
 
 </body>
 </html>
-Đã xử lý và phân tích bằng mã
+Đang phân tích
